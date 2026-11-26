@@ -4,7 +4,7 @@ Landing page for Squeez: *Where loyalty, access and experiences come together.*
 
 - `index.html` is the whole page (plain HTML, CSS and JS, no build step).
 - `assets/img/` holds the Squeez logo (`wordmark-coral.svg`, the original shape recoloured; `wordmark-white.svg` is the untouched original) and just two photographs (`golf.webp`, `dining.webp`). Everything else is animated SVG/CSS: the hero golf scene (the ball is struck when the sample member uses points and drops in as "You're in." lands), the three "Who it's for" scenes, and the closing scene.
-- `assets/mascot/` is Squizzle, the lemon guide. A reusable module: see `assets/mascot/README.md`.
+- `assets/mascot/` is Squizzle, the on-page guide (the Squeez logo on a badge). A reusable module: see `assets/mascot/README.md`.
 
 ## Branches
 
@@ -42,7 +42,7 @@ Copy, links and imagery come from the public site (trysqueez.com). The "sample r
 
 ## Squizzle: logo character and the model behind it
 
-- The character is the Squeez logo (`logo:` option in `Mascot.init`); remove that option to get the lemon back.
+- The character is the Squeez logo (`logo:` option in `Mascot.init`); without it the badge shows the first letter of the name.
 - Open-ended questions go to `api/chat.js` (Vercel serverless, calls Claude). Built-in rules and the demo flows still answer first.
 - To switch it on: Vercel project > Settings > Environment Variables > add `ANTHROPIC_API_KEY` (optionally `SQUIZZLE_MODEL`), then redeploy.
   Without the key the endpoint answers 503 and the chat uses its built-in answers.

@@ -1,12 +1,12 @@
 # Mascot
 
-A lemon with eyes that opens a chat. The chat pours out of the lemon on a spring and is sucked back in on close.
+A branded badge that opens a chat. The chat pours out of the badge on a spring and is sucked back in on close.
 `mascot.js` and `mascot.css` know nothing about any page. All page knowledge lives in a skills file (`skills/squeez.js`).
 
 ```
 assets/mascot/
   mascot.css          look and feel, every class prefixed mx-, themed with --mx-* tokens
-  mascot.js           lemon, spring morph, chat engine, plug-in points   (window.Mascot)
+  mascot.js           badge, spring morph, chat engine, plug-in points   (window.Mascot)
   skills/squeez.js    everything Squeez-specific: tools, skills, answers
 ```
 
@@ -31,7 +31,7 @@ Change `name` in `Mascot.init`. The header, greeting, labels and the "who are yo
 |---|---|
 | `name`, `tagline`, `greeting`, `placeholder`, `fallback` | Copy. `{name}` works inside `greeting`. |
 | `chips` | Quick-reply buttons shown after replies. |
-| `tips`, `tipDelay`, `tipEvery` | Nudges above the lemon while the chat is closed. |
+| `tips`, `tipDelay`, `tipEvery` | Nudges above the badge while the chat is closed. |
 | `side` | `'right'` (default) or `'left'`. |
 | `motion` | `{ isOn(), set(on) }` shows a Pause motion button and lets skills pause the page. |
 | `brain` | Async function used when no skill matches. See below. |
@@ -87,4 +87,4 @@ Keep the model's API key on the server. Never put it in the page.
 
 ## Accessibility
 
-Real buttons and a labelled dialog, focus moves into the chat on open and back to the lemon on close (Esc closes), live region for replies, and `prefers-reduced-motion` turns the spring and animations off.
+Real buttons and a labelled dialog, focus moves into the chat on open and back to the badge on close (Esc closes), live region for replies, and `prefers-reduced-motion` turns the spring and animations off.

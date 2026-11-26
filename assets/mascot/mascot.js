@@ -1,5 +1,5 @@
 /*! Mascot v1.0
- *  A lemon with eyes that opens a chat. Host-agnostic: it knows nothing about the page it lives on.
+ *  A branded guide that opens a chat. Host-agnostic: it knows nothing about the page it lives on.
  *
  *    Mascot.init({ name, tagline, greeting, chips, tips, side, motion, brain, onEvent })   build it
  *    Mascot.tool(name, fn)        something the mascot can DO on the page          fn(args, ctx) -> any
@@ -22,7 +22,7 @@
     placeholder: 'Ask me anything',
     fallback: 'I did not catch that. Try one of these.',
     chips: [],                // quick-reply buttons shown after a reply
-    tips: [],                 // short nudges shown above the lemon while the chat is closed
+    tips: [],                 // short nudges shown above the guide while the chat is closed
     tipDelay: 3500, tipEvery: 28000,
     side: 'right',            // 'right' | 'left'
     motion: null,             // { isOn(): boolean, set(on: boolean) }  -> shows a "Pause motion" button
@@ -30,7 +30,7 @@
     cancelRe: /^(cancel|stop|never ?mind|exit|quit)/,
     radius: 20,               // chat corner radius in px
     notice: '',               // small print under the input, e.g. to say open questions go to an AI service
-    logo: null,               // URL of a logo (SVG/PNG, about 2:1). When set it replaces the lemon as the character
+    logo: null,               // URL of a logo (SVG/PNG, about 2:1) shown on the badge. Without it the badge shows the first letter of the name
     host: null,               // anything you want skills to reach through ctx.host
     onEvent: null             // (name, data) => void, for analytics: open, close, message, skill, tool, fallback
   };
@@ -57,40 +57,17 @@
   function calmNow(){ var m = S && S.cfg.motion; return reduce || (m ? !m.isOn() : false); }
 
   /* ---------------------------------------------------------------- markup */
-  var LEMON =
-    '<svg class="mx-lemon" data-mood="idle" viewBox="0 0 120 120" aria-hidden="true">' +
-      '<ellipse class="mx-ground" cx="60" cy="113" rx="30" ry="5"/>' +
-      '<g class="mx-body">' +
-        '<path class="mx-body-fill mx-ink-stroke" stroke-width="4" stroke-linejoin="round" d="M5 60 Q11 52 17 48 C28 28 44 20 62 20 C80 20 96 28 105 46 Q110 52 116 60 Q110 68 105 74 C96 94 80 102 62 102 C44 102 28 94 17 72 Q11 68 5 60Z"/>' +
-        '<path class="mx-hi" fill="none" stroke-width="5" stroke-linecap="round" d="M24 46 C30 36 40 29 52 26"/>' +
-        '<path class="mx-shade" fill="none" stroke-width="4" stroke-linecap="round" opacity=".7" d="M32 88 C46 98 68 98 86 90"/>' +
-        '<path class="mx-leaf-fill mx-ink-stroke" stroke-width="3" stroke-linejoin="round" d="M62 20 C60 8 72 1 88 5 C88 18 75 25 62 20Z"/>' +
-        '<path class="mx-ink-stroke" fill="none" stroke-width="2" stroke-linecap="round" d="M64 19 C70 14 77 10 84 8"/>' +
-        '<circle class="mx-cheek-fill" cx="30" cy="72" r="6.5"/><circle class="mx-cheek-fill" cx="94" cy="72" r="6.5"/>' +
-        '<g><circle class="mx-white mx-ink-stroke" cx="46" cy="56" r="12.5" stroke-width="3.5"/>' +
-          '<g class="mx-look"><circle class="mx-ink-fill" cx="46" cy="56" r="5.8"/><circle class="mx-white" cx="48.2" cy="53.4" r="1.9"/></g>' +
-          '<ellipse class="mx-lid mx-ink-stroke" cx="46" cy="56" rx="14" ry="14" stroke-width="3"/></g>' +
-        '<g><circle class="mx-white mx-ink-stroke" cx="78" cy="56" r="12.5" stroke-width="3.5"/>' +
-          '<g class="mx-look"><circle class="mx-ink-fill" cx="78" cy="56" r="5.8"/><circle class="mx-white" cx="80.2" cy="53.4" r="1.9"/></g>' +
-          '<ellipse class="mx-lid mx-ink-stroke" cx="78" cy="56" rx="14" ry="14" stroke-width="3"/></g>' +
-        '<path class="mx-brow mx-b1 mx-ink-stroke" fill="none" stroke-width="3.5" stroke-linecap="round" d="M35 38 Q46 33 57 38"/>' +
-        '<path class="mx-brow mx-b2 mx-ink-stroke" fill="none" stroke-width="3.5" stroke-linecap="round" d="M67 38 Q78 33 89 38"/>' +
-        '<path class="mx-m mx-m-smile mx-ink-stroke" fill="none" stroke-width="4" stroke-linecap="round" d="M48 78 Q62 91 76 78"/>' +
-        '<g class="mx-m mx-m-happy"><path class="mx-ink-fill mx-ink-stroke" stroke-width="3" stroke-linejoin="round" d="M43 75 Q62 104 81 75Z"/><path class="mx-tongue-fill" d="M53 90 Q62 83 71 90 Q62 98 53 90Z"/></g>' +
-        '<ellipse class="mx-m mx-m-talk mx-ink-fill" cx="62" cy="82" rx="8.5" ry="6.5"/>' +
-        '<circle class="mx-m mx-m-think mx-ink-stroke" fill="none" stroke-width="3.5" cx="68" cy="82" r="4.2"/>' +
-        '<ellipse class="mx-m mx-m-wow mx-ink-fill" cx="62" cy="83" rx="6" ry="8"/>' +
-      '</g></svg>';
-
-  function logoMark(url){
-    var u = String(url).replace(/["<>&]/g, '');
-    return '<svg class="mx-lemon mx-logo" data-mood="idle" viewBox="0 0 120 120" aria-hidden="true">' +
+  function logoMark(cfg){
+    var u = String(cfg.logo || '').replace(/["<>&]/g, ''), ini = String(cfg.name || '?').charAt(0).toUpperCase().replace(/[<>&"]/g, '');
+    var face = u ? '<image class="mx-mark" href="' + u + '" x="21" y="40" width="78" height="36"/>'
+                 : '<text class="mx-initial" x="60" y="76" text-anchor="middle">' + ini + '</text>';
+    return '<svg class="mx-char mx-logo" data-mood="idle" viewBox="0 0 120 120" aria-hidden="true">' +
       '<ellipse class="mx-ground" cx="60" cy="113" rx="30" ry="5"/>' +
       '<g class="mx-body"><circle class="mx-badge" cx="60" cy="58" r="54"/>' +
         '<circle class="mx-ring" cx="60" cy="58" r="49" fill="none" pathLength="100"/>' +
-        '<image class="mx-mark" href="' + u + '" x="21" y="40" width="78" height="36"/></g></svg>';
+        face + '</g></svg>';
   }
-  function SKELETON(cfg){ return SKEL_HEAD + (cfg.logo ? logoMark(cfg.logo) : LEMON) + SKEL_TAIL; }
+  function SKELETON(cfg){ return SKEL_HEAD + logoMark(cfg) + SKEL_TAIL; }
   var SKEL_HEAD =
     '<div class="mx">' +
       '<button class="mx-bubble" type="button" tabindex="-1" aria-hidden="true"></button>' +
@@ -109,33 +86,20 @@
       '<button class="mx-fab" type="button" aria-expanded="false"><span class="mx-dot" aria-hidden="true"></span>';
   var SKEL_TAIL = '</button></div>';
 
-  /* ---------------------------------------------------------------- the lemon's life */
-  function mood(m){ S.r.lemon.setAttribute('data-mood', m); }
-  function look(x, y){ S.r.pupils.forEach(function (p) { p.style.transform = 'translate(' + x + 'px,' + y + 'px)'; }); }
-  function applyLook(){ var o = S.override || S.tracking; look(o.x, o.y); }
-  function blink(){ var l = S.r.lemon; l.classList.add('mx-blink'); setTimeout(function () { l.classList.remove('mx-blink'); }, 220); }
+  /* ---------------------------------------------------------------- the guide's life */
+  function mood(m){ S.r.char.setAttribute('data-mood', m); }
+  function blink(){ var l = S.r.char; l.classList.add('mx-blink'); setTimeout(function () { l.classList.remove('mx-blink'); }, 220); }
 
   function startLife(){
-    var pend = false, lastE = null;
-    S.onMove = function (e) {
-      lastE = e; if (pend) return; pend = true;
-      requestAnimationFrame(function () {
-        pend = false; var r = S.r.lemon.getBoundingClientRect();
-        var dx = lastE.clientX - (r.left + r.width / 2), dy = lastE.clientY - (r.top + r.height / 2);
-        var d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 260);
-        S.tracking = { x: dx / d * 5 * k, y: dy / d * 5 * k }; if (!S.override) applyLook();
-      });
-    };
-    global.addEventListener('pointermove', S.onMove, { passive: true });
     (function loop(){ S.t.blink = setTimeout(function () { if (!S) return; if (!calmNow()){ blink(); if (Math.random() < .25) setTimeout(blink, 340); } loop(); }, 2400 + Math.random() * 3200); })();
     (function wig(){ S.t.wig = setTimeout(function () {
       if (!S) return;
-      if (!S.open && !calmNow()){ S.r.lemon.classList.add('mx-wiggle'); setTimeout(function () { S && S.r.lemon.classList.remove('mx-wiggle'); }, 850); }
+      if (!S.open && !calmNow()){ S.r.char.classList.add('mx-wiggle'); setTimeout(function () { S && S.r.char.classList.remove('mx-wiggle'); }, 850); }
       wig();
     }, 8000 + Math.random() * 5000); })();
   }
 
-  /* ---------------------------------------------------------------- spring morph: the chat pours out of the lemon */
+  /* ---------------------------------------------------------------- spring morph: the chat pours out of the badge */
   function Spring(k, c){ this.x = 0; this.v = 0; this.t = 0; this.k = k; this.c = c; }
   Spring.prototype.step = function (dt){ var a = -this.k * (this.x - this.t) - this.c * this.v; this.v += a * dt; this.x += this.v * dt; };
 
@@ -144,7 +108,7 @@
   function render(){
     var r = S.r, m = S.m, left = S.cfg.side === 'left', R0 = m.R0, bw = m.bw, tail = 6;
     var W = r.morph.clientWidth, H = r.morph.clientHeight, fw = r.fab.offsetWidth, fh = r.fab.offsetHeight, size = Math.min(fw, fh) * .5;
-    var cx = left ? fw / 2 : W - fw / 2, cy = H + 14 + fh / 2;                 /* the lemon's centre, in the morph's own space */
+    var cx = left ? fw / 2 : W - fw / 2, cy = H + 14 + fh / 2;                 /* the badge's centre, in the morph's own space */
     var L = lerp(cx - size / 2, 0, m.sx.x), Rt = lerp(cx + size / 2, W, m.sx.x), T = lerp(cy - size / 2, 0, m.sy.x), B = lerp(cy + size / 2, H, m.sy.x);
     var p = (m.sx.x + m.sy.x) / 2, pr = c01(p), bs = r.blob.style;
     var big = lerp(size / 2, R0, pr), small = lerp(size / 2, tail, pr);
@@ -164,7 +128,7 @@
     if (rest){ m.sx.x = m.sy.x = m.goal; m.sx.v = m.sy.v = 0; render(); m.raf = 0; if (!m.goal) S.r.morph.style.visibility = 'hidden'; return; }
     render(); m.raf = requestAnimationFrame(tick);
   }
-  /* opening is a touch jelly (width leads, height lags and overshoots); closing is firmer and never rebounds past the lemon */
+  /* opening is a touch jelly (width leads, height lags and overshoots); closing is firmer and never rebounds past the badge */
   function springTo(g){
     var m = S.m, closing = g === 0; m.goal = g;
     m.sx.k = closing ? 260 : 210; m.sx.c = closing ? 31 : 21; m.sy.k = closing ? 240 : 170; m.sy.c = closing ? 29 : 16; m.sx.t = m.sy.t = g;
@@ -187,7 +151,7 @@
     }
   }
   function react(cls){
-    var l = S.r.lemon; l.classList.remove('mx-pour', 'mx-suck'); void l.getBoundingClientRect(); l.classList.add(cls);
+    var l = S.r.char; l.classList.remove('mx-pour', 'mx-suck'); void l.getBoundingClientRect(); l.classList.add(cls);
     setTimeout(function () { S && l.classList.remove(cls); }, 1000);
   }
 
@@ -207,9 +171,9 @@
     o = o || {}; var priv = !!S.flow || !!S.privTurn;                  /* decided when the reply is asked for, not when it finishes typing */
     var typing = el('div', 'mx-msg mx-bot mx-typing');
     for (var q = 0; q < 3; q++) typing.appendChild(document.createElement('span'));
-    S.r.msgs.appendChild(typing); scrollMsgs(); mood('think'); S.override = { x: 3, y: -3.5 }; applyLook();
+    S.r.msgs.appendChild(typing); scrollMsgs(); mood('think');
     await sleep(o.fast ? 250 : 550 + Math.min(text.length * 3, 500));
-    typing.remove(); S.override = null; applyLook();
+    typing.remove();
     var m = el('div', 'mx-msg mx-bot'); S.r.msgs.appendChild(m); mood('talk');
     var words = text.split(' '), step = Math.max(16, Math.min(42, 1100 / words.length));
     for (var i = 0; i < words.length; i++){ m.textContent += (i ? ' ' : '') + words[i]; scrollMsgs(); await sleep(step); }
@@ -218,7 +182,7 @@
       m.appendChild(document.createElement('br')); m.appendChild(a);
     }
     remember('bot', text, priv); mood(o.mood || 'idle');
-    if (o.mood) setTimeout(function () { if (S && S.r.lemon.getAttribute('data-mood') === o.mood) mood('idle'); }, 2600);
+    if (o.mood) setTimeout(function () { if (S && S.r.char.getAttribute('data-mood') === o.mood) mood('idle'); }, 2600);
     scrollMsgs();
   }
 
@@ -281,7 +245,7 @@
     r.morph.setAttribute('aria-hidden', String(!v)); if (v) r.morph.removeAttribute('inert'); else r.morph.setAttribute('inert', '');
     r.fab.setAttribute('aria-expanded', String(v)); r.bubble.classList.remove('mx-show'); r.dot.hidden = true;
     react(v ? 'mx-pour' : 'mx-suck'); drops(!v); mood(v ? 'wow' : 'happy');
-    setTimeout(function () { if (S && /wow|happy/.test(r.lemon.getAttribute('data-mood'))) mood('idle'); }, 900);
+    setTimeout(function () { if (S && /wow|happy/.test(r.char.getAttribute('data-mood'))) mood('idle'); }, 900);
     springTo(v ? 1 : 0); emit(v ? 'open' : 'close');
     if (v){
       if (!S.greeted){
@@ -304,8 +268,7 @@
       var root = parseTpl(SKELETON(cfg)); if (cfg.side === 'left') root.classList.add('mx--left');
       var q = function (sel) { return root.querySelector(sel); };
       var r = { root: root, bubble: q('.mx-bubble'), morph: q('.mx-morph'), blob: q('.mx-blob'), panel: q('.mx-panel'), msgs: q('.mx-msgs'), chips: q('.mx-chips'),
-                form: q('.mx-form'), input: q('.mx-input'), fab: q('.mx-fab'), dot: q('.mx-dot'), lemon: q('.mx-lemon'), motionBtn: q('.mx-motion'), closeBtn: q('.mx-close') };
-      r.pupils = [].slice.call(r.lemon.querySelectorAll('.mx-look'));
+                form: q('.mx-form'), input: q('.mx-input'), fab: q('.mx-fab'), dot: q('.mx-dot'), char: q('.mx-char'), motionBtn: q('.mx-motion'), closeBtn: q('.mx-close') };
       var uid = 'mx' + Math.random().toString(36).slice(2, 7);
       q('.mx-title').textContent = cfg.name; q('.mx-title').id = uid + '-t'; r.panel.setAttribute('aria-labelledby', uid + '-t');
       q('.mx-tag').textContent = cfg.tagline;
@@ -316,7 +279,7 @@
 
       var cs = getComputedStyle(root), num = function (n, d) { var v = parseFloat(cs.getPropertyValue(n)); return isNaN(v) ? d : v; };
       var shCol = colorOf(root, '--mx-shadow', [16, 48, 42]), shadowCss = 'rgba(' + shCol.join(',') + ',' + num('--mx-sh-alpha', 1) + ')';
-      S = { cfg: cfg, root: root, r: r, open: false, turn: 0, flow: null, queue: Promise.resolve(), override: null, tracking: { x: 0, y: 0 }, greeted: false,
+      S = { cfg: cfg, root: root, r: r, open: false, turn: 0, flow: null, queue: Promise.resolve(), greeted: false,
             history: [], skills: pending.skills.slice(), tools: Object.assign({}, pending.tools), t: {}, off: [],
             m: { sx: new Spring(210, 21), sy: new Spring(170, 16), raf: 0, last: 0, goal: 0,
                  from: colorOf(root, '--mx-body', [244, 196, 48]), to: colorOf(root, '--mx-paper', [236, 239, 233]),
@@ -333,15 +296,14 @@
 
       var on = function (t, ev, fn, o) { t.addEventListener(ev, fn, o); S.off.push(function () { t.removeEventListener(ev, fn, o); }); };
       on(r.fab, 'click', function () { setOpen(!S.open); });
-      on(r.fab, 'pointerenter', function () { if (r.lemon.getAttribute('data-mood') === 'idle') mood('happy'); });
-      on(r.fab, 'pointerleave', function () { if (r.lemon.getAttribute('data-mood') === 'happy') mood('idle'); });
+      on(r.fab, 'pointerenter', function () { if (r.char.getAttribute('data-mood') === 'idle') mood('happy'); });
+      on(r.fab, 'pointerleave', function () { if (r.char.getAttribute('data-mood') === 'happy') mood('idle'); });
       on(r.closeBtn, 'click', function () { setOpen(false); });
       on(r.bubble, 'click', function () { setOpen(true); });
       on(global, 'keydown', function (e) { if (e.key === 'Escape' && S.open) setOpen(false); });
       on(global, 'resize', function () { if (S.m.goal) render(); });
-      on(r.form, 'submit', function (e) { e.preventDefault(); var v = r.input.value; r.input.value = ''; S.override = null; applyLook(); send(v); });
-      on(r.input, 'input', function () { S.override = r.input.value ? { x: -4, y: 4 } : null; applyLook(); });
-      on(r.input, 'blur', function () { S.override = null; applyLook(); });
+      on(r.form, 'submit', function (e) { e.preventDefault(); var v = r.input.value; r.input.value = ''; send(v); });
+            on(r.input, 'blur', function () { });
       if (cfg.motion){ r.motionBtn.hidden = false; on(r.motionBtn, 'click', function () { cfg.motion.set(!cfg.motion.isOn()); syncMotion(); }); syncMotion(); }
 
       render(); startLife();
@@ -381,7 +343,7 @@
     scrollTo: function (node, opts) { node.scrollIntoView(Object.assign({ behavior: calmNow() ? 'auto' : 'smooth', block: 'start' }, opts || {})); },
     destroy: function () {
       if (!S) return;
-      S.off.forEach(function (f) { f(); }); global.removeEventListener('pointermove', S.onMove);
+      S.off.forEach(function (f) { f(); });
       Object.keys(S.t).forEach(function (k) { clearTimeout(S.t[k]); clearInterval(S.t[k]); });
       cancelAnimationFrame(S.m.raf); S.root.remove(); S = null;
     },

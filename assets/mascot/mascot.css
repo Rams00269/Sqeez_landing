@@ -1,10 +1,9 @@
-/* Mascot: a lemon with eyes that opens a chat. Every class is prefixed mx- so it cannot collide with a host page.
+/* Mascot: a branded guide badge that opens a chat. Every class is prefixed mx- so it cannot collide with a host page.
    Theme it by overriding the --mx-* tokens on .mx (or on :root). Size it with --mx-size, --mx-w and --mx-h. */
 
 .mx{
   --mx-size:clamp(80px,6.8vw,100px); --mx-w:340px; --mx-h:470px; --mx-gap:12px;
-  --mx-body:#F4C430; --mx-body-shade:#D9A400; --mx-body-hi:#FFF3B0; --mx-leaf:#3F8F5A; --mx-ink:#17211E;
-  --mx-cheek:#F29C8A; --mx-tongue:#E86A5A;
+  --mx-body:#10302A; --mx-ink:#17211E;
   --mx-paper:#ECEFE9; --mx-card:#fff; --mx-muted:#4F5E58;
   --mx-head:#10302A; --mx-head-2:#1A433B; --mx-head-text:#E6EDE8; --mx-head-muted:#A9BDB5;
   --mx-accent:#2E57D9; --mx-accent-text:#fff; --mx-shadow:#10302A; --mx-chip-hover:#F4C430;
@@ -18,7 +17,7 @@
 .mx button{font:inherit}
 .mx-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* ----- the lemon (floating button) ----- */
+/* ----- the guide (floating button) ----- */
 .mx-fab{position:relative;z-index:2;display:block;width:var(--mx-size);aspect-ratio:1;border:0;background:none;padding:0;margin-left:auto;cursor:pointer;transition:transform .45s var(--mx-ease)}
 .mx--left .mx-fab{margin-left:0}
 .mx-fab:hover{transform:scale(1.09) rotate(-4deg)}
@@ -26,35 +25,19 @@
 .mx-fab:focus-visible{outline:3px solid var(--mx-accent);outline-offset:4px;border-radius:50%}
 .mx-dot{position:absolute;top:4px;right:4px;width:16px;height:16px;border-radius:50%;background:var(--mx-accent);border:3px solid #fff;z-index:2;animation:mx-pulse 1.4s ease-in-out infinite}
 .mx-dot[hidden]{display:none}
-.mx-lemon{width:100%;height:100%;overflow:visible;display:block}
-.mx-body-fill{fill:var(--mx-body)} .mx-shade{stroke:var(--mx-body-shade)} .mx-hi{stroke:var(--mx-body-hi)} .mx-leaf-fill{fill:var(--mx-leaf)}
-.mx-ink-stroke{stroke:var(--mx-ink)} .mx-ink-fill{fill:var(--mx-ink)} .mx-cheek-fill{fill:var(--mx-cheek)} .mx-tongue-fill{fill:var(--mx-tongue)}
-.mx-white{fill:#fff} .mx-ground{fill:var(--mx-shadow);opacity:.3}
-.mx-lemon .mx-body{transform-box:fill-box;transform-origin:50% 100%;animation:mx-bob 3.4s ease-in-out infinite alternate}
-.mx-lemon .mx-ground{transform-box:fill-box;transform-origin:center;animation:mx-ground 3.4s ease-in-out infinite alternate}
+.mx-char{width:100%;height:100%;overflow:visible;display:block}
+.mx-ground{fill:var(--mx-shadow);opacity:.3}
+.mx-char .mx-body{transform-box:fill-box;transform-origin:50% 100%;animation:mx-bob 3.4s ease-in-out infinite alternate}
+.mx-char .mx-ground{transform-box:fill-box;transform-origin:center;animation:mx-ground 3.4s ease-in-out infinite alternate}
 @keyframes mx-bob{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-7px) rotate(3deg)}}
 @keyframes mx-ground{from{transform:scale(1)}to{transform:scale(.78)}}
 @keyframes mx-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:.35}}
-.mx-lemon.mx-wiggle .mx-body{animation:mx-wig .8s ease-in-out}
+.mx-char.mx-wiggle .mx-body{animation:mx-wig .8s ease-in-out}
 @keyframes mx-wig{0%,100%{transform:rotate(0)}15%{transform:rotate(-12deg)}35%{transform:rotate(10deg)}55%{transform:rotate(-7deg)}75%{transform:rotate(4deg)}}
-.mx-lemon.mx-pour .mx-body{animation:mx-pour .95s cubic-bezier(.2,.9,.3,1)}
+.mx-char.mx-pour .mx-body{animation:mx-pour .95s cubic-bezier(.2,.9,.3,1)}
 @keyframes mx-pour{0%{transform:scale(1)}16%{transform:scale(1.22,.72)}42%{transform:scale(.84,1.26)}68%{transform:scale(1.06,.96)}100%{transform:scale(1)}}
-.mx-lemon.mx-suck .mx-body{animation:mx-suck .8s cubic-bezier(.2,.9,.3,1)}
+.mx-char.mx-suck .mx-body{animation:mx-suck .8s cubic-bezier(.2,.9,.3,1)}
 @keyframes mx-suck{0%{transform:scale(1)}22%{transform:scale(.8,1.22)}52%{transform:scale(1.14,.84)}78%{transform:scale(.97,1.04)}100%{transform:scale(1)}}
-.mx-look{transition:transform .14s ease-out}
-.mx-lid{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0);fill:var(--mx-body)}
-.mx-lemon.mx-blink .mx-lid{animation:mx-blink .2s ease-in-out}
-@keyframes mx-blink{0%,100%{transform:scaleY(0)}50%{transform:scaleY(1)}}
-.mx-lemon .mx-m{display:none}
-.mx-lemon[data-mood=idle] .mx-m-smile,.mx-lemon[data-mood=think] .mx-m-think,.mx-lemon[data-mood=talk] .mx-m-talk,
-.mx-lemon[data-mood=happy] .mx-m-happy,.mx-lemon[data-mood=wow] .mx-m-wow{display:block}
-.mx-m-talk{transform-box:fill-box;transform-origin:center;animation:mx-talk .26s ease-in-out infinite alternate}
-@keyframes mx-talk{from{transform:scaleY(.3)}to{transform:scaleY(1.1)}}
-.mx-cheek-fill{opacity:.3;transition:opacity .3s}
-.mx-lemon[data-mood=happy] .mx-cheek-fill{opacity:.8}
-.mx-brow{transform-box:fill-box;transform-origin:center;transition:transform .3s var(--mx-ease)}
-.mx-lemon[data-mood=think] .mx-b2{transform:translateY(-4px) rotate(-12deg)}
-.mx-lemon[data-mood=wow] .mx-brow,.mx-lemon[data-mood=happy] .mx-brow{transform:translateY(-3px)}
 .mx-drop{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--mx-drop,var(--mx-body));border:2.5px solid var(--mx-drop-edge,var(--mx-ink));pointer-events:none;z-index:1}
 
 /* ----- speech bubble nudge ----- */
@@ -62,7 +45,7 @@
 .mx--left .mx-bubble{right:auto;left:8px;border-radius:16px 16px 16px 4px;transform-origin:0 100%}
 .mx-bubble.mx-show{opacity:1;transform:none;pointer-events:auto}
 
-/* ----- the chat: a blob that pours out of the lemon (shape and clip are driven by a spring in mascot.js) ----- */
+/* ----- the chat: a blob that pours out of the badge (shape and clip are driven by a spring in mascot.js) ----- */
 .mx-morph{position:absolute;right:0;bottom:calc(100% + var(--mx-gap));width:min(var(--mx-w),calc(100vw - 24px));height:min(var(--mx-h),calc(100vh - var(--mx-size) - 56px));height:min(var(--mx-h),calc(100dvh - var(--mx-size) - 56px));visibility:hidden;z-index:1}
 .mx--left .mx-morph{right:auto;left:0}
 .mx-blob{position:absolute;border:var(--mx-bw) solid var(--mx-ink);background:var(--mx-body);opacity:0;will-change:left,top,width,height}
@@ -109,7 +92,7 @@
 
 @media (prefers-reduced-motion:reduce){.mx *,.mx *::before,.mx *::after{animation:none!important;transition:none!important}}
 
-/* logo character: a badge carrying the brand mark, same life as the lemon (bob, squash on open/close, mood) */
+/* logo character: a badge carrying the brand mark, bobs, squashes on open and close, and shows mood */
 .mx-logo .mx-badge{fill:var(--mx-body);stroke:var(--mx-ring-c,var(--mx-ink));stroke-width:3}
 .mx-logo .mx-ring{stroke:var(--mx-ring-c,var(--mx-ink));stroke-width:1.4;stroke-linecap:round;stroke-dasharray:0 100;opacity:.9}
 .mx-logo.mx-blink .mx-ring{animation:mx-sweep .9s cubic-bezier(.4,0,.2,1)}
@@ -124,3 +107,5 @@
 
 .mx-note{margin:0;padding:6px 14px 10px;font-size:.72rem;line-height:1.35;color:var(--mx-muted);background:var(--mx-paper)}
 .mx-note[hidden]{display:none}
+
+.mx-initial{font:700 52px/1 var(--mx-display,serif);fill:var(--mx-ring-c,#fff)}
