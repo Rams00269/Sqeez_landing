@@ -121,3 +121,6 @@
 @keyframes mx-talk{to{transform:translateY(-1.5px) scale(1.03)}}
 .mx-logo .mx-mark{transform-box:fill-box;transform-origin:center}
 .mx-logo[data-mood=happy] .mx-badge,.mx-logo[data-mood=wow] .mx-badge{filter:brightness(1.18)}
+
+.mx-note{margin:0;padding:6px 14px 10px;font-size:.72rem;line-height:1.35;color:var(--mx-muted);background:var(--mx-paper)}
+.mx-note[hidden]{display:none}

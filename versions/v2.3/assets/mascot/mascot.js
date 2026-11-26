@@ -29,6 +29,7 @@
     brain: null,              // async (ctx) => { reply, chips?, actions?: [{tool, args}] } | null   (used when no skill matches)
     cancelRe: /^(cancel|stop|never ?mind|exit|quit)/,
     radius: 20,               // chat corner radius in px
+    notice: '',               // small print under the input, e.g. to say open questions go to an AI service
     logo: null,               // URL of a logo (SVG/PNG, about 2:1). When set it replaces the lemon as the character
     host: null,               // anything you want skills to reach through ctx.host
     onEvent: null             // (name, data) => void, for analytics: open, close, message, skill, tool, fallback
@@ -51,6 +52,7 @@
     if ((m = v.match(/rgba?\((\d+)[ ,]+(\d+)[ ,]+(\d+)/))) return [+m[1], +m[2], +m[3]];
     return fallback;
   }
+  function scrub(t){ return String(t).replace(/[^\s@]+@[^\s@]+\.[^\s@]+/g, '[email]').replace(/\+?\d[\d\s().-]{7,}\d/g, '[number]'); }
   function emit(name, data){ try { if (S && S.cfg.onEvent) S.cfg.onEvent(name, data || {}); } catch (e) {} }
   function calmNow(){ var m = S && S.cfg.motion; return reduce || (m ? !m.isOn() : false); }
 
@@ -101,6 +103,7 @@
           '<div class="mx-msgs" aria-live="polite"></div>' +
           '<div class="mx-chips"></div>' +
           '<form class="mx-form"><label class="mx-sr"></label><input class="mx-input" autocomplete="off"><button type="submit">Send</button></form>' +
+          '<p class="mx-note" hidden></p>' +
         '</div>' +
       '</div>' +
       '<button class="mx-fab" type="button" aria-expanded="false"><span class="mx-dot" aria-hidden="true"></span>';
@@ -190,8 +193,8 @@
 
   /* ---------------------------------------------------------------- chat plumbing */
   function scrollMsgs(){ S.r.msgs.scrollTop = S.r.msgs.scrollHeight; }
-  function remember(role, text){ S.history.push({ role: role, text: text }); if (S.history.length > 24) S.history.shift(); }
-  function userMsg(t){ S.r.msgs.appendChild(el('div', 'mx-msg mx-user', t)); scrollMsgs(); remember('user', t); }
+  function remember(role, text, priv){ S.history.push({ role: role, text: text, priv: priv != null ? priv : (!!S.flow || !!S.privTurn) });   /* priv: said inside a flow (names, emails), never sent to a brain */ if (S.history.length > 24) S.history.shift(); }
+  function userMsg(t){ S.privTurn = !!S.flow; S.r.msgs.appendChild(el('div', 'mx-msg mx-user', t)); scrollMsgs(); remember('user', t); }   /* a turn that answers a flow stays private, including the reply to it */
   function act(t){
     var a = el('div', 'mx-msg mx-act'); a.appendChild(el('i', 'mx-act-dia')); a.appendChild(document.createTextNode(t));
     S.r.msgs.appendChild(a); scrollMsgs();
@@ -201,7 +204,7 @@
     (list || []).forEach(function (c) { var b = el('button', 'mx-chip', c); b.type = 'button'; b.addEventListener('click', function () { send(c); }); box.appendChild(b); });
   }
   async function say(text, o){
-    o = o || {};
+    o = o || {}; var priv = !!S.flow || !!S.privTurn;                  /* decided when the reply is asked for, not when it finishes typing */
     var typing = el('div', 'mx-msg mx-bot mx-typing');
     for (var q = 0; q < 3; q++) typing.appendChild(document.createElement('span'));
     S.r.msgs.appendChild(typing); scrollMsgs(); mood('think'); S.override = { x: 3, y: -3.5 }; applyLook();
@@ -214,7 +217,7 @@
       var a = el('a', 'mx-link', o.link.label); a.href = o.link.href; a.target = '_blank'; a.rel = 'noopener';
       m.appendChild(document.createElement('br')); m.appendChild(a);
     }
-    remember('bot', text); mood(o.mood || 'idle');
+    remember('bot', text, priv); mood(o.mood || 'idle');
     if (o.mood) setTimeout(function () { if (S && S.r.lemon.getAttribute('data-mood') === o.mood) mood('idle'); }, 2600);
     scrollMsgs();
   }
@@ -305,7 +308,7 @@
       q('.mx-title').textContent = cfg.name; q('.mx-title').id = uid + '-t'; r.panel.setAttribute('aria-labelledby', uid + '-t');
       q('.mx-tag').textContent = cfg.tagline;
       var lab = q('.mx-form label'); lab.textContent = 'Message ' + cfg.name; lab.htmlFor = r.input.id = uid + '-i';
-      r.input.placeholder = cfg.placeholder; r.fab.setAttribute('aria-label', 'Chat with ' + cfg.name);
+      r.input.placeholder = cfg.placeholder; var nt = root.querySelector('.mx-note'); if (cfg.notice){ nt.textContent = cfg.notice; nt.hidden = false; } r.fab.setAttribute('aria-label', 'Chat with ' + cfg.name);
       r.fab.setAttribute('aria-controls', uid + '-p'); r.panel.id = uid + '-p';
       document.body.appendChild(root);
 
@@ -381,6 +384,7 @@
       cancelAnimationFrame(S.m.raf); S.root.remove(); S = null;
     },
     brains: {
+      /* Nothing said inside a flow, and no email address or phone number, leaves the browser. */
       /* POST { message, history, tools, page } to your server. Reply with { reply, chips?, actions?: [{ tool, args }] }. */
       http: function (url, opts) {
         opts = opts || {};
@@ -388,7 +392,7 @@
           var ctl = new AbortController(), t = setTimeout(function () { ctl.abort(); }, opts.timeout || 12000);
           try {
             var res = await fetch(url, { method: 'POST', signal: ctl.signal, headers: Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {}),
-              body: JSON.stringify({ message: ctx.text, history: ctx.history.slice(-10), tools: Object.keys(S.tools), page: global.location.pathname }) });
+              body: JSON.stringify({ message: scrub(ctx.text), history: ctx.history.filter(function (h) { return !h.priv; }).slice(-10).map(function (h) { return { role: h.role, text: scrub(h.text) }; }), tools: Object.keys(S.tools), page: global.location.pathname }) });
             return res.ok ? await res.json() : null;
           } catch (e) { return null; } finally { clearTimeout(t); }
         };
