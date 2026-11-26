@@ -359,7 +359,8 @@ footer ul a:hover{color:var(--coral);text-decoration:underline;text-underline-of
 
 /* mascot, dressed for this palette */
 .mx{
-  --mx-body:#F2D06B; --mx-body-shade:#E3A92B; --mx-body-hi:#FFF0B8; --mx-leaf:#3E4590; --mx-ink:#121744; --mx-cheek:#F0DDA8;
+  --mx-body:#121744; --mx-body-shade:#E3A92B; --mx-body-hi:#FFF0B8; --mx-leaf:#3E4590; --mx-ink:#121744; --mx-cheek:#F0DDA8;
+  --mx-ring-c:#D6B46E; --mx-drop:#D6B46E; --mx-drop-edge:#121744; --mx-pressed:#D6B46E;
   --mx-paper:#FBF9F4; --mx-card:#FFFFFF; --mx-muted:#423C63;
   --mx-head:#121744; --mx-head-2:#1C2260; --mx-head-text:#FBF9F4; --mx-head-muted:#B9BCD9;
   --mx-accent:#1C2260; --mx-accent-text:#FBF9F4; --mx-chip-hover:#F2D06B; --mx-shadow:#121744;
@@ -946,6 +947,8 @@ footer ul a:hover{color:var(--coral);text-decoration:underline;text-underline-of
 <script src="assets/mascot/skills/squeez.js"></script>
 <script>
   Mascot.init({
+    logo: 'assets/img/wordmark-gold.svg',
+    brain: Mascot.brains.http('/api/chat', { timeout: 15000 }),   /* open questions go to the model (server-side key); rules and demos stay local */
     name: 'Squizzle',
     tagline: 'Your Squeez guide.',
     greeting: 'Hi, I am {name}. I can show you how a member gets in, explain who Squeez is for, take you on a tour, or start a partnership conversation. Where would you like to begin?',

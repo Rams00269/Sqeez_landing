@@ -29,6 +29,7 @@
     brain: null,              // async (ctx) => { reply, chips?, actions?: [{tool, args}] } | null   (used when no skill matches)
     cancelRe: /^(cancel|stop|never ?mind|exit|quit)/,
     radius: 20,               // chat corner radius in px
+    logo: null,               // URL of a logo (SVG/PNG, about 2:1). When set it replaces the lemon as the character
     host: null,               // anything you want skills to reach through ctx.host
     onEvent: null             // (name, data) => void, for analytics: open, close, message, skill, tool, fallback
   };
@@ -79,7 +80,16 @@
         '<ellipse class="mx-m mx-m-wow mx-ink-fill" cx="62" cy="83" rx="6" ry="8"/>' +
       '</g></svg>';
 
-  var SKELETON =
+  function logoMark(url){
+    var u = String(url).replace(/["<>&]/g, '');
+    return '<svg class="mx-lemon mx-logo" data-mood="idle" viewBox="0 0 120 120" aria-hidden="true">' +
+      '<ellipse class="mx-ground" cx="60" cy="113" rx="30" ry="5"/>' +
+      '<g class="mx-body"><circle class="mx-badge" cx="60" cy="58" r="54"/>' +
+        '<circle class="mx-ring" cx="60" cy="58" r="49" fill="none" pathLength="100"/>' +
+        '<image class="mx-mark" href="' + u + '" x="21" y="40" width="78" height="36"/></g></svg>';
+  }
+  function SKELETON(cfg){ return SKEL_HEAD + (cfg.logo ? logoMark(cfg.logo) : LEMON) + SKEL_TAIL; }
+  var SKEL_HEAD =
     '<div class="mx">' +
       '<button class="mx-bubble" type="button" tabindex="-1" aria-hidden="true"></button>' +
       '<div class="mx-morph" aria-hidden="true" inert>' +
@@ -93,8 +103,8 @@
           '<form class="mx-form"><label class="mx-sr"></label><input class="mx-input" autocomplete="off"><button type="submit">Send</button></form>' +
         '</div>' +
       '</div>' +
-      '<button class="mx-fab" type="button" aria-expanded="false"><span class="mx-dot" aria-hidden="true"></span>' + LEMON + '</button>' +
-    '</div>';
+      '<button class="mx-fab" type="button" aria-expanded="false"><span class="mx-dot" aria-hidden="true"></span>';
+  var SKEL_TAIL = '</button></div>';
 
   /* ---------------------------------------------------------------- the lemon's life */
   function mood(m){ S.r.lemon.setAttribute('data-mood', m); }
@@ -286,7 +296,7 @@
     init: function (config) {
       if (S) API.destroy();
       var cfg = Object.assign({}, DEFAULTS, config || {});
-      var root = parseTpl(SKELETON); if (cfg.side === 'left') root.classList.add('mx--left');
+      var root = parseTpl(SKELETON(cfg)); if (cfg.side === 'left') root.classList.add('mx--left');
       var q = function (sel) { return root.querySelector(sel); };
       var r = { root: root, bubble: q('.mx-bubble'), morph: q('.mx-morph'), blob: q('.mx-blob'), panel: q('.mx-panel'), msgs: q('.mx-msgs'), chips: q('.mx-chips'),
                 form: q('.mx-form'), input: q('.mx-input'), fab: q('.mx-fab'), dot: q('.mx-dot'), lemon: q('.mx-lemon'), motionBtn: q('.mx-motion'), closeBtn: q('.mx-close') };

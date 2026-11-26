@@ -39,3 +39,10 @@ Static site. On Vercel, import the repository and keep the defaults (no build co
 ## Content
 
 Copy, links and imagery come from the public site (trysqueez.com). The "sample redemption" card is an illustration and says so on the page.
+
+## Squizzle: logo character and the model behind it
+
+- The character is the Squeez logo (`logo:` option in `Mascot.init`); remove that option to get the lemon back.
+- Open-ended questions go to `api/chat.js` (Vercel serverless, calls Claude). Built-in rules and the demo flows still answer first.
+- To switch it on: Vercel project > Settings > Environment Variables > add `ANTHROPIC_API_KEY` (optionally `SQUIZZLE_MODEL`), then redeploy.
+  Without the key the endpoint answers 503 and the chat uses its built-in answers.
