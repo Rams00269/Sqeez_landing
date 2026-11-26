@@ -46,3 +46,6 @@ Copy, links and imagery come from the public site (trysqueez.com). The "sample r
 - Open-ended questions go to `api/chat.js` (Vercel serverless, calls Claude). Built-in rules and the demo flows still answer first.
 - To switch it on: Vercel project > Settings > Environment Variables > add `ANTHROPIC_API_KEY` (optionally `SQUIZZLE_MODEL`), then redeploy.
   Without the key the endpoint answers 503 and the chat uses its built-in answers.
+
+Abuse protection on `/api/chat`: same-origin only (add other sites via `SQUIZZLE_ORIGINS`, comma separated), 20 requests per IP per 10 minutes (best effort per instance), small payloads, user turns only from the client, 300 token replies.
+Also set a monthly spend limit on the Anthropic key. For a hard rate limit, use Vercel's WAF rate limiting.

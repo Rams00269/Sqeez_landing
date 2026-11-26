@@ -37,9 +37,27 @@ function toMessages(history, message) {
   return out;
 }
 
+const ALLOWED = (process.env.SQUIZZLE_ORIGINS || '').split(',').map(x => x.trim()).filter(Boolean);
+const hits = new Map();                                          /* best effort, per server instance; use Vercel WAF / Upstash for a hard limit */
+function limited(ip) {
+  const now = Date.now(), win = 10 * 60 * 1000, h = (hits.get(ip) || []).filter(t => now - t < win);
+  h.push(now); hits.set(ip, h);
+  if (hits.size > 5000) hits.clear();
+  return h.length > 20;
+}
+function originOk(req) {
+  const o = req.headers.origin || '', host = req.headers.host || '';
+  if (!o) return false;
+  try { const u = new URL(o); return u.host === host || ALLOWED.includes(u.origin); } catch (e) { return false; }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') { res.statusCode = 405; return res.end(); }
+  if (!originOk(req)) { res.statusCode = 403; return res.end(); }
+  const ip = String((req.headers['x-forwarded-for'] || '').split(',')[0] || req.socket?.remoteAddress || 'x').trim();
+  if (limited(ip)) { res.statusCode = 429; return res.end(); }
+  if (Number(req.headers['content-length'] || 0) > 8000) { res.statusCode = 413; return res.end(); }
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) { res.statusCode = 503; return res.end(JSON.stringify({ error: 'no key' })); }
   const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
@@ -49,7 +67,7 @@ module.exports = async function handler(req, res) {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: MODEL, max_tokens: 400, system: SYSTEM, tools: TOOLS, messages: toMessages(body.history, message) })
+      body: JSON.stringify({ model: MODEL, max_tokens: 300, system: SYSTEM, tools: TOOLS, messages: toMessages(body.history, message) })
     });
     if (!r.ok) { res.statusCode = 502; return res.end(JSON.stringify({ error: 'upstream ' + r.status })); }
     const data = await r.json();
