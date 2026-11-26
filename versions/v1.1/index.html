@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F4C430">
+<title>Squeez - fill the tee times you would lose</title>
+<meta name="description" content="Squeez lets guests name a price for tee times, tables and treatments that would otherwise go empty. You approve each one, or your rules do.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --chalk:#ECEFE9; --chalk-2:#E1E6DF;
+  --spruce:#10302A; --spruce-2:#1A433B; --spruce-3:#2A5A50;
+  --blue:#2E57D9; --blue-d:#2347B8;
+  --flag:#F4C430; --flag-ink:#241D00;
+  --ink:#17211E; --muted:#4F5E58;
+  --on-spruce:#E6EDE8; --on-spruce-muted:#A9BDB5;
+  --expo:cubic-bezier(.16,1,.3,1);
+  --h:clamp(3.4rem,11.6vw,10.8rem);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--chalk);color:var(--ink);
+  font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.0625rem;line-height:1.55;
+  font-variation-settings:"wdth" 100;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.num{font-variant-numeric:tabular-nums}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+
+/* scroll progress */
+.progress{position:fixed;inset:0 0 auto 0;height:5px;background:var(--blue);transform-origin:0 50%;transform:scaleX(var(--sp,0));z-index:50}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding-block:22px;position:relative;z-index:5}
+.logo{font-weight:800;font-size:1.8rem;letter-spacing:-.04em;font-variation-settings:"wdth" 75;text-decoration:none}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a:not(.btn){text-decoration:none;font-weight:600;background:linear-gradient(currentColor,currentColor) 0 100%/0 2px no-repeat;transition:background-size .35s var(--expo)}
+.nav-links a:not(.btn):hover{background-size:100% 2px}
+@media(max-width:720px){.nav-links a.hide-sm{display:none}}
+
+.btn{
+  display:inline-block;background:var(--spruce);color:var(--on-spruce);padding:14px 26px;border-radius:999px;
+  font:inherit;font-weight:700;text-decoration:none;border:0;cursor:pointer;
+  transition:background .15s,transform .35s var(--expo);will-change:transform;position:relative;overflow:hidden;
+}
+.btn:hover{background:var(--spruce-2)}
+.btn:active{transform:scale(.95)!important;transition-duration:.08s}
+.btn.blue{background:var(--blue);color:#fff}
+.btn.blue:hover{background:var(--blue-d)}
+.btn.big{padding:20px 38px;font-size:1.25rem}
+.textlink{font-weight:700;text-underline-offset:6px;text-decoration-thickness:2px}
+
+/* ---------- hero ---------- */
+.hero-bg{background:var(--flag);position:relative;overflow:hidden}
+.hero-bg::before{ /* golf-ball dimples, drifts on scroll */
+  content:"";position:absolute;inset:-40px 0 0;
+  background-image:radial-gradient(circle,rgba(16,48,42,.16) 2.4px,transparent 3px);
+  background-size:26px 26px;background-position:0 var(--py,0px);
+  -webkit-mask-image:linear-gradient(180deg,#000 0,transparent 75%);mask-image:linear-gradient(180deg,#000 0,transparent 75%);
+}
+.hero{position:relative;padding-block:clamp(20px,4vw,48px) clamp(56px,7vw,96px);min-height:calc(var(--h) * 2.02 + 580px)}
+h1{
+  font-size:var(--h);line-height:.86;letter-spacing:-.03em;font-weight:800;font-variation-settings:"wdth" 75;color:var(--ink);
+}
+.ln{display:block;overflow:hidden;padding:.06em 0 .16em;margin:-.06em 0 -.16em}
+.ln>span{display:block}
+.roll{display:inline-block;overflow:hidden;height:.86em;vertical-align:top;margin-top:.0em}
+.roll .col{display:flex;flex-direction:column}
+.roll .col span{display:block;height:.86em;line-height:.86}
+.lede{font-size:clamp(1.2rem,1.8vw,1.5rem);max-width:30ch;margin-top:clamp(22px,3vw,34px);color:#3C3400;font-weight:500;line-height:1.35}
+.cta{display:flex;gap:26px;align-items:center;margin-top:30px;flex-wrap:wrap}
+.hero .textlink{color:var(--ink)}
+
+.sheet-wrap{position:absolute;right:0;top:calc(var(--h) * 2.02);width:min(540px,48%);perspective:1100px}
+.sheet{
+  background:var(--spruce);color:var(--on-spruce);border-radius:26px 26px 26px 6px;padding:24px clamp(14px,2.2vw,28px) 26px;
+  transform:rotate(-2deg);transition:transform .45s var(--expo);position:relative;
+  box-shadow:14px 18px 0 rgba(16,48,42,.22);
+}
+.sheet-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px}
+.sheet-head strong{font-weight:700;font-size:1.1rem}
+.sheet-head span{color:var(--on-spruce-muted);font-size:.95rem}
+.rows{display:grid;gap:8px}
+.row{display:grid;grid-template-columns:3.6rem 1fr;gap:0 12px;align-items:stretch}
+.rows>.row:not(.open){margin-bottom:0}
+.row time{padding-top:11px;font-weight:600;color:var(--on-spruce-muted)}
+.bar{background:var(--spruce-2);border-radius:10px;padding:11px 14px;min-height:46px;display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:.98rem}
+.bar small{color:var(--on-spruce-muted);font-size:.9rem}
+.row.open .bar{
+  --p:100%;
+  background:linear-gradient(90deg,var(--flag) 0,var(--flag) calc(var(--p) - 28%),rgba(244,196,48,0) var(--p)),var(--spruce-2);
+  color:var(--flag-ink);font-weight:700;transition:background .4s;
+}
+.row.open .bar small{background:var(--flag-ink);color:var(--flag);padding:2px 10px;border-radius:999px;font-weight:600}
+.row.open.filled .bar{background:var(--blue);color:#fff}
+.row.open.filled .bar small{background:transparent;color:#dbe4ff;padding:0}
+.row.open time{color:var(--flag)}
+.row.open.filled time{color:#fff}
+.row.open .bar{transform-origin:0 50%}
+.row.pop .bar{animation:pop .6s var(--expo)}
+@keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.06,1.18)}100%{transform:scale(1)}}
+.offer{grid-column:2;display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--expo)}
+.offer.show{grid-template-rows:1fr}
+.offer>div{overflow:hidden}
+.offer-in{margin-top:8px;padding:14px;background:var(--chalk);color:var(--ink);border-radius:10px;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;justify-content:space-between}
+.offer-in p{max-width:28ch;line-height:1.35}
+.offer-in b{font-weight:700}
+.approve{background:var(--spruce);color:var(--on-spruce);border:0;border-radius:999px;padding:10px 22px;font:inherit;font-weight:700;cursor:pointer;transition:transform .3s var(--expo),background .15s}
+.approve:hover{background:var(--spruce-2);transform:scale(1.06)}
+.approve:active{transform:scale(.94)}
+.approve[disabled]{background:var(--blue);color:#fff;cursor:default;transform:none}
+.sheet-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;color:var(--on-spruce-muted);font-size:.95rem;min-height:1.5em}
+.replay{background:none;border:0;color:var(--on-spruce);font:inherit;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:4px}
+.live{position:absolute;left:-9999px}
+.bit{position:absolute;width:12px;height:12px;pointer-events:none;border-radius:3px;z-index:3}
+
+@media(max-width:900px){
+  .hero{min-height:0}
+  .sheet-wrap{position:relative;top:auto;right:auto;width:100%;margin-top:44px}
+  .sheet{transform:rotate(-1deg)}
+}
+
+/* ---------- marquee ---------- */
+.marquee{background:var(--spruce);color:var(--on-spruce);overflow:hidden;padding-block:22px;border-block:0}
+.mq-track{display:flex;width:max-content;animation:mq 38s linear infinite}
+.marquee:hover .mq-track{animation-play-state:paused}
+.mq-track span{font-size:clamp(1.6rem,3.2vw,2.6rem);font-weight:760;letter-spacing:-.025em;font-variation-settings:"wdth" 80;white-space:nowrap;padding-inline:26px;display:flex;align-items:center;gap:52px}
+.mq-track span::after{content:"";width:16px;height:16px;background:var(--flag);border-radius:4px;transform:rotate(45deg);flex:none}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(64px,9vw,128px)}
+h2{font-size:clamp(2.4rem,6vw,5rem);line-height:.92;letter-spacing:-.03em;font-weight:780;font-variation-settings:"wdth" 78;max-width:17ch}
+.sec-lede{margin-top:22px;max-width:44ch;color:var(--muted);font-size:1.2rem}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em 0 .16em;margin:-.06em 0 -.16em}
+.w>i{display:inline-block;font-style:normal}
+
+.how{background:var(--chalk-2)}
+.how-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(32px,6vw,100px);align-items:start}
+.how-grid>div:first-child{position:sticky;top:48px}
+.steps{list-style:none;padding:0;display:grid;gap:clamp(44px,6vw,78px);counter-reset:s;position:relative}
+.steps::before{content:"";position:absolute;left:1.55rem;top:1.5rem;bottom:1.5rem;width:4px;background:var(--spruce);transform-origin:top;transform:scaleY(var(--prog,0));border-radius:2px}
+.steps li{display:grid;grid-template-columns:3.3rem 1fr;gap:4px 20px;counter-increment:s;position:relative}
+.steps li::before{
+  content:counter(s);grid-row:span 2;width:3.2rem;height:3.2rem;border-radius:50%;background:var(--spruce);color:var(--flag);
+  display:grid;place-items:center;font-weight:800;font-size:1.3rem;font-variant-numeric:tabular-nums;position:relative;z-index:1;
+}
+.steps h3{font-size:clamp(1.7rem,3vw,2.5rem);line-height:1;font-weight:760;letter-spacing:-.03em;font-variation-settings:"wdth" 82}
+.steps p{color:var(--muted);max-width:44ch;font-size:1.1rem}
+@media(max-width:860px){.how-grid{grid-template-columns:1fr}.how-grid>div:first-child{position:static}}
+
+.control{background:var(--blue);color:#fff}
+.control h2{color:#fff}
+.control-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,100px);align-items:center}
+.dial{background:var(--spruce);color:var(--on-spruce);border-radius:6px 28px 28px 28px;padding:clamp(22px,3.4vw,40px);box-shadow:14px 18px 0 rgba(8,24,20,.32)}
+.track{display:flex;height:66px;border-radius:14px;overflow:hidden;margin-block:4px 26px;font-weight:700;font-size:1rem}
+.track div{display:flex;align-items:center;padding-inline:14px;white-space:nowrap;overflow:hidden;width:0;transition:width .9s var(--expo)}
+.dial.settled .track div{transition:width .12s}
+.t-wait{background:var(--spruce-3)}
+.t-you{background:var(--flag);color:var(--flag-ink)}
+.t-auto{background:var(--blue);color:#fff}
+.field{display:grid;grid-template-columns:1fr auto;gap:4px 12px;margin-bottom:20px}
+.field label{font-weight:600}
+.field output{font-weight:800;font-size:1.2rem}
+.field input{grid-column:1/-1;width:100%;accent-color:var(--flag);height:30px;cursor:grab}
+.field.offer-f input{accent-color:#fff}
+.verdict{margin-top:8px;padding:18px;border-radius:14px;background:var(--chalk);color:var(--ink);font-weight:650;min-height:4.4em;display:flex;align-items:center;transition:background .25s}
+.verdict.v-wait{background:#CFE0D8}
+.verdict.v-you{background:var(--flag)}
+.verdict.v-auto{background:#fff}
+.control-copy ul{margin-top:30px;padding:0;list-style:none;display:grid;gap:16px;font-size:1.15rem}
+.control-copy li{padding-left:28px;position:relative;max-width:40ch}
+.control-copy li::before{content:"";position:absolute;left:0;top:.5em;width:12px;height:12px;background:var(--flag);border-radius:3px;transform:rotate(45deg)}
+@media(max-width:860px){.control-grid{grid-template-columns:1fr}}
+
+.where{background:var(--spruce);color:var(--on-spruce)}
+.where .sec-lede{color:var(--on-spruce-muted)}
+.where dl{margin-top:54px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.where dl>div{position:relative;overflow:hidden;border-radius:18px;padding:26px 24px 30px;background:var(--spruce-2);transition:color .35s var(--expo),transform .5s var(--expo);isolation:isolate}
+.where dl>div::before{content:"";position:absolute;inset:0;background:var(--flag);transform:translateY(101%);transition:transform .55s var(--expo);z-index:-1;border-radius:inherit}
+.where dl>div:hover{color:var(--flag-ink);transform:translateY(-8px)}
+.where dl>div:hover::before{transform:none}
+.where dt{font-weight:780;font-size:clamp(1.4rem,2.2vw,1.9rem);line-height:1.05;letter-spacing:-.025em;font-variation-settings:"wdth" 82;margin-bottom:12px}
+.where dd{color:var(--on-spruce-muted);transition:color .3s}
+.where dl>div:hover dd{color:#3C3400}
+@media(max-width:960px){.where dl{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.where dl{grid-template-columns:1fr}}
+
+.around ul{list-style:none;padding:0;margin-top:48px;display:grid;grid-template-columns:repeat(2,1fr);gap:0 clamp(28px,5vw,80px)}
+.around li{position:relative;overflow:hidden;isolation:isolate;padding:26px 14px;border-top:3px solid var(--ink);display:grid;grid-template-columns:11rem 1fr;gap:16px;transition:color .3s}
+.around li::before{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleY(0);transform-origin:bottom;transition:transform .45s var(--expo);z-index:-1}
+.around li:hover{color:var(--chalk)}
+.around li:hover::before{transform:scaleY(1)}
+.around li b{font-weight:780;font-size:1.3rem;letter-spacing:-.015em;font-variation-settings:"wdth" 85}
+.around li span{color:var(--muted);transition:color .3s}
+.around li:hover span{color:var(--on-spruce-muted)}
+@media(max-width:860px){.around ul{grid-template-columns:1fr}.around li{grid-template-columns:1fr;gap:4px}}
+
+.final{background:var(--flag);color:var(--flag-ink);position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(16,48,42,.16) 2.4px,transparent 3px);background-size:26px 26px;-webkit-mask-image:linear-gradient(0deg,#000 0,transparent 80%);mask-image:linear-gradient(0deg,#000 0,transparent 80%)}
+.final .wrap{position:relative}
+.final h2{font-size:clamp(3.2rem,10.5vw,9.4rem);max-width:12ch;color:var(--flag-ink);line-height:.88}
+.final p{margin-top:26px;max-width:36ch;font-size:1.3rem;font-weight:500}
+.final .btn{margin-top:34px;background:var(--flag-ink);color:var(--flag)}
+.final .btn:hover{background:#3A2F00}
+footer{padding-block:30px;color:var(--muted);font-size:.95rem}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- ongoing motion ---------- */
+.hero-bg::before,.final::before{animation:drift 5s linear infinite}
+@keyframes drift{from{background-position-x:0}to{background-position-x:26px}}
+@keyframes spin{to{rotate:360deg}}
+@keyframes bob{from{translate:0 0;rotate:0deg}to{translate:0 -16px;rotate:8deg}}
+@keyframes sheetBob{from{translate:0 0}to{translate:0 -10px}}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(46,87,217,.55)}70%,100%{box-shadow:0 0 0 20px rgba(46,87,217,0)}}
+@keyframes dotPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:.35}}
+@keyframes boing{0%{scale:1}25%{scale:1.35 .7}55%{scale:.85 1.2}100%{scale:1}}
+@keyframes stepPop{0%{transform:scale(1)}35%{transform:scale(1.4) rotate(-14deg)}100%{transform:scale(1)}}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+.sheet-wrap{animation:sheetBob 5s ease-in-out 2.4s infinite alternate}
+.btn.pulse{animation:ring 2.6s ease-out 2s infinite}
+.sheet-head .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--flag);margin-right:8px;animation:dotPulse 1.6s ease-in-out infinite}
+.fl{position:absolute;z-index:1;pointer-events:none}
+.fl.dia{width:22px;height:22px;background:var(--spruce);transform:rotate(45deg);border-radius:4px;animation:spin 9s linear infinite,bob 4.6s ease-in-out infinite alternate}
+.fl.dia.blu{background:var(--blue)}
+.fl.ball{pointer-events:auto;cursor:pointer;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,#fff 0,#f4f1e6 55%,#d9d5c2 100%);
+  box-shadow:6px 8px 0 rgba(16,48,42,.25);animation:bob 5.2s ease-in-out infinite alternate;transition:scale .3s var(--expo)}
+.fl.ball::after{content:"";position:absolute;inset:0;border-radius:50%;background-image:radial-gradient(circle,rgba(0,0,0,.13) 1.6px,transparent 2.2px);background-size:9px 9px}
+.fl.ball:hover{scale:1.12}
+.fl.ball.boing{animation:boing .7s var(--expo)}
+.fl.b1{right:7%;top:170px;width:84px}
+.fl.b2{right:25%;top:104px;width:46px;animation-duration:6.4s;animation-delay:-2s}
+.fl.d1{right:41%;top:150px}
+.fl.d2{left:41%;bottom:210px;animation-duration:11s,5.6s}
+.final .fl.b3{right:6%;top:18%;width:min(150px,16vw);z-index:0}
+.final .fl.d3{right:26%;bottom:16%}
+.final .fl.d4{left:46%;top:12%;animation-duration:13s,6.2s}
+.mq-track span::after{animation:spin 6s linear infinite}
+.rip{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.42);transform:scale(0)}
+@media(prefers-reduced-motion:no-preference){.rip{animation:rip .75s var(--expo) forwards}}
+.steps li.pop::before{animation:stepPop .7s var(--expo)}
+.steps li{cursor:pointer}
+.bit{position:absolute;width:12px;height:12px;border-radius:3px;pointer-events:none;z-index:3}
+.bit.fx{position:fixed;z-index:80}
+.auto-tag{background:var(--spruce);color:var(--flag);padding:8px 16px;border-radius:999px;font-weight:700;font-size:.92rem}
+.calm *,.calm *::before,.calm *::after{animation-play-state:paused!important}
+
+@media(max-width:900px){.fl{display:none}.final .fl.b3{display:block;width:84px;top:auto;bottom:6%}}
+
+/* ---------- entrance states (motion allowed only) ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .js .ln>span{transform:translateY(112%)}
+  .js .hero.go .ln>span{transform:none;transition:transform 1s var(--expo);transition-delay:calc(var(--i)*110ms)}
+  .roll .col{transition:transform .7s var(--expo)}
+  .roll.tick .col{transform:translateY(-.86em)}
+  .js .hero-fade{opacity:0;transform:translateY(22px)}
+  .js .hero.go .hero-fade{opacity:1;transform:none;transition:opacity .7s ease-out .75s,transform .9s var(--expo) .75s}
+  .js .sheet-wrap{opacity:0;transform:translateY(90px) rotate(5deg)}
+  .js .hero.go .sheet-wrap{opacity:1;transform:none;transition:opacity .6s ease-out .55s,transform 1.1s var(--expo) .55s}
+  .js .w>i{transform:translateY(115%)}
+  .js .in .w>i,.js .w.in>i{transform:none;transition:transform .9s var(--expo);transition-delay:calc(min(var(--i),8)*55ms)}
+  .js .steps li{opacity:0;transform:translateX(-36px)}
+  .js .steps li.in{opacity:1;transform:none;transition:opacity .5s ease-out,transform .9s var(--expo)}
+  .js .where dl>div,.js .around li{opacity:0;transform:translateY(34px)}
+  .js .where dl>div.in,.js .around li.in{opacity:1;transform:none;transition:opacity .5s ease-out calc(var(--i)*70ms),transform .8s var(--expo) calc(var(--i)*70ms),color .35s var(--expo)}
+  .js .where dl>div.in:hover{transform:translateY(-8px)}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .roll .col{transform:translateY(-.86em)}
+  .mq-track{flex-wrap:wrap;width:auto}
+  .mq-track span:nth-child(n+6){display:none}
+  .track div{width:auto}
+}
+
+/* ---------- phones, tablets, touch ---------- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,summary{touch-action:manipulation}
+body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+@media(max-width:900px){
+  :root{--h:clamp(2.9rem,13vw,8rem)}               /* the headline must always fit its line, down to 320px wide */
+  .hero-bg::before,.final::before{animation:none}  /* a full-screen repaint every frame is too heavy for phones */
+  .hero{padding-block:8px 48px}
+  .sheet{box-shadow:8px 10px 0 rgba(16,48,42,.22)}
+  .dial,.where dl>div{box-shadow:none}
+  section{padding-block:clamp(48px,11vw,80px)}
+  .steps::before{left:1.45rem}
+}
+@media(max-width:600px){
+  .btn.big{padding:16px 28px;font-size:1.1rem}
+  .cta{gap:18px}
+  .lede{font-size:1.1rem}
+  .sheet{padding:18px 12px 20px}
+  .row{grid-template-columns:3rem 1fr}
+  .offer-in{padding:12px}
+  .sheet-foot{flex-direction:column;align-items:flex-start;gap:4px}
+  .track{height:56px}
+  .final h2{font-size:clamp(2.6rem,14vw,4.5rem)}
+  .around li{padding:20px 4px}
+}
+@media(max-width:380px){
+  .nav{padding-block:14px}
+  .logo{font-size:1.5rem}
+  .nav-links .btn{padding:10px 16px;font-size:.92rem}
+  .where dl>div{padding:20px 18px 24px}
+}
+/* short landscape phones */
+@media(max-height:480px) and (orientation:landscape){
+  .hero{min-height:0}
+  .sheet-wrap{position:relative;top:auto;right:auto;width:min(540px,100%);margin-top:32px}
+}
+/* touch screens have no hover: never leave a card stuck in its hover state after a tap */
+@media(hover:none){
+  .where dl>div:hover{color:inherit;transform:none}
+  .where dl>div:hover::before{transform:translateY(101%)}
+  .where dl>div:hover dd{color:var(--on-spruce-muted)}
+  .js .where dl>div.in:hover{transform:none}
+  .around li:hover{color:inherit}
+  .around li:hover::before{transform:scaleY(0)}
+  .around li:hover span{color:var(--muted)}
+  .fl.ball:hover{scale:1}
+  .field input[type=range]{height:40px}
+}
+</style>
+<link rel="stylesheet" href="assets/mascot/mascot.css">
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<div class="hero-bg">
+  <span class="fl ball b1" aria-hidden="true"></span>
+  <span class="fl ball b2" aria-hidden="true"></span>
+  <span class="fl dia d1" aria-hidden="true"></span>
+  <span class="fl dia blu d2" aria-hidden="true"></span>
+  <header class="wrap nav">
+    <a class="logo" href="#top">Squeez</a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="hide-sm" href="#how">How it works</a>
+      <a class="hide-sm" href="#control">Your rules</a>
+      <a class="hide-sm" href="#where">Where guests book</a>
+      <a class="btn mag" href="#talk">Book a walkthrough</a>
+    </nav>
+  </header>
+
+  <main id="top">
+  <div class="wrap hero" id="hero">
+    <h1 aria-label="A 4:10 tee time is worth nothing at 4:11.">
+      <span class="ln" aria-hidden="true" style="--i:0"><span>A 4:10 tee time</span></span>
+      <span class="ln" aria-hidden="true" style="--i:1"><span>is worth nothing</span></span>
+      <span class="ln" aria-hidden="true" style="--i:2"><span>at 4:1<span class="roll num" id="roll"><span class="col"><span>0</span><span>1</span></span></span>.</span></span>
+    </h1>
+    <div class="hero-fade">
+      <p class="lede">Squeez lets golfers name a price for the times you would otherwise lose. You say yes, or your rules do.</p>
+      <div class="cta">
+        <a class="btn blue big mag pulse" href="#talk">Book a walkthrough</a>
+        <a class="textlink" href="#how">See how it works</a>
+      </div>
+    </div>
+
+    <div class="sheet-wrap" id="sheetWrap">
+      <div class="sheet" id="sheet" aria-label="Example tee sheet">
+        <div class="sheet-head"><strong>Ridgeview Golf Club</strong><span><i class="dot"></i>Live, Tuesday</span></div>
+        <div class="rows">
+          <div class="row"><time class="num">3:40</time><div class="bar">Hartley party <small>4 players</small></div></div>
+          <div class="row"><time class="num">3:50</time><div class="bar">Okafor party <small>3 players</small></div></div>
+          <div class="row"><time class="num">4:00</time><div class="bar">Lindqvist party <small>4 players</small></div></div>
+          <div class="row open" id="openRow">
+            <time class="num">4:10</time>
+            <div class="bar" id="openBar"><span id="openLabel">Open</span><small id="openSmall" class="num">Plays in 38 min</small></div>
+            <div class="offer" id="offer"><div>
+              <div class="offer-in">
+                <p id="offerP"><b>A guest offers $12 a player</b> on top of the green fee, for 4 players.</p>
+                <button class="approve" id="approve" type="button">Approve</button>
+                <span class="auto-tag" id="autoTag" hidden>Above your auto-approve line</span>
+              </div>
+            </div></div>
+          </div>
+          <div class="row"><time class="num">4:20</time><div class="bar">Marsh party <small>2 players</small></div></div>
+          <div class="row"><time class="num">4:30</time><div class="bar">Duarte party <small>4 players</small></div></div>
+        </div>
+        <div class="sheet-foot">
+          <span id="foot" class="num">Waiting for the next offer.</span>
+        </div>
+        <div class="live" id="live" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+  </main>
+</div>
+
+<div class="marquee" aria-label="Recently filled tee times">
+  <div class="mq-track" id="mq">
+    <span>Tuesday 4:10 is in</span><span>Thursday 11:40 is in</span><span>Saturday 7:20 is in</span><span>Sunday 2:50 is in</span><span>Friday 9:30 is in</span><span>Monday 6:10 is in</span>
+  </div>
+</div>
+
+<section class="how" id="how">
+  <div class="wrap how-grid">
+    <div>
+      <h2 data-split>Guests bid into windows. Not into your tee sheet.</h2>
+      <p class="sec-lede">You set the windows, the price floor and who can ask. Live tee times are never shown to guests.</p>
+    </div>
+    <ol class="steps" id="steps">
+      <li>
+        <h3>A guest names a price</h3>
+        <p>They pick a window you opened and offer an amount on top of the green fee. They can save a card so a no-show costs them, not you.</p>
+      </li>
+      <li>
+        <h3>You say yes, or your rules do</h3>
+        <p>Offers below your floor go to the waitlist. Offers above your auto-approve line are accepted for you. The ones in between wait for you.</p>
+      </li>
+      <li>
+        <h3>They are in</h3>
+        <p>The guest hears straight away. The booking lands in your own system, and you can see where it came from.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="control" id="control">
+  <div class="wrap control-grid">
+    <div class="dial" id="dial" aria-label="Try your own rules">
+      <div class="track" aria-hidden="true">
+        <div class="t-wait" id="tWait">Waitlist</div>
+        <div class="t-you" id="tYou">You decide</div>
+        <div class="t-auto" id="tAuto">Automatic</div>
+      </div>
+      <div class="field"><label for="floor">Your floor</label><output id="floorOut" class="num" for="floor">$8</output><input id="floor" type="range" min="0" max="40" value="8"></div>
+      <div class="field"><label for="auto">Approve automatically from</label><output id="autoOut" class="num" for="auto">$20</output><input id="auto" type="range" min="0" max="40" value="20"></div>
+      <div class="field offer-f"><label for="offerAmt">A guest offers</label><output id="offerOut" class="num" for="offerAmt">$12</output><input id="offerAmt" type="range" min="0" max="40" value="12"></div>
+      <div class="verdict v-you" id="verdict" role="status" aria-live="polite"></div>
+    </div>
+    <div class="control-copy">
+      <h2 data-split>You set the line. Squeez keeps to it.</h2>
+      <ul>
+        <li>Prices are per person, and only on the amount above your green fee.</li>
+        <li>Your auto-approve line is never shown to guests.</li>
+        <li>Some days you want to decide everything. Switch auto-approve off and every offer waits for you.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="where" id="where">
+  <div class="wrap">
+    <h2 data-split>Guests find you where they already are.</h2>
+    <p class="sec-lede">One set of rules. Every place a guest can book follows it.</p>
+    <dl>
+      <div style="--i:0"><dt>Your own booking page</dt><dd>On your domain, with your name on it. Guests pay in dollars.</dd></div>
+      <div style="--i:1"><dt>Loyalty programme sites</dt><dd>Members spend miles or points at your course. The programme never sets your price.</dd></div>
+      <div style="--i:2"><dt>The Squeez apps</dt><dd>Explore on the web, and the mobile app, for guests who browse before they book.</dd></div>
+      <div style="--i:3"><dt>Your hotel concierge</dt><dd>Concierges book for their guests from time you set aside for them.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="around">
+  <div class="wrap">
+    <h2 data-split>The rest of the job, handled.</h2>
+    <ul>
+      <li style="--i:0"><b>Waitlist</b><span>Guests who offer less than your floor are kept, in order, and told the moment a time opens.</span></li>
+      <li style="--i:1"><b>Split the cost</b><span>One person books. Friends pay their share from a link, with no account.</span></li>
+      <li style="--i:2"><b>No-show fees</b><span>Charge the whole party, or only the players who did not turn up.</span></li>
+      <li style="--i:3"><b>Chatbot</b><span>Answers guests from your own website and documents, so fewer questions become phone calls.</span></li>
+      <li style="--i:4"><b>Every transaction, one list</b><span>Bookings from all your sources in one place, with the fees broken out.</span></li>
+      <li style="--i:5"><b>Yield suggestions</b><span>Squeez suggests prices and holds. You approve them, or set limits and let it run.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="final" id="talk">
+  <span class="fl ball b3" aria-hidden="true"></span>
+  <span class="fl dia d3" aria-hidden="true"></span>
+  <span class="fl dia blu d4" aria-hidden="true"></span>
+  <div class="wrap">
+    <h2 data-split>Fill the times you would have lost.</h2>
+    <p>We will walk you through it on your own tee sheet. It takes about half an hour.</p>
+    <a class="btn big mag" href="https://trysqueez.com">Book a walkthrough</a>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>Squeez</span><span>trysqueez.com</span></div></footer>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = matchMedia('(pointer:fine)').matches;
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* marquee: duplicate for a seamless loop */
+  var mq = $('mq'); mq.innerHTML += mq.innerHTML;
+
+  /* split headings into masked words */
+  document.querySelectorAll('[data-split]').forEach(function(h){
+    var words = h.textContent.trim().split(/\s+/); h.setAttribute('aria-label', h.textContent.trim()); h.textContent = '';
+    words.forEach(function(w, i){
+      var s = document.createElement('span'); s.className = 'w'; s.setAttribute('aria-hidden','true'); s.style.setProperty('--i', i);
+      var n = document.createElement('i'); n.textContent = w; s.appendChild(n); h.appendChild(s); h.appendChild(document.createTextNode(' '));
+    });
+  });
+
+  /* scroll reveal */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.25});
+  document.querySelectorAll('[data-split] .w, .steps li, .where dl>div, .around li').forEach(function(el){
+    if (el.classList.contains('w')) { /* observe the heading once, reveal all its words */
+      var h = el.parentNode; if(!h._o){ h._o = 1; io.observe(h); }
+    } else io.observe(el);
+  });
+
+  /* hero entrance + clock roll 4:10 -> 4:11 */
+  var hero = $('hero'), roll = $('roll');
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ hero.classList.add('go'); }); });
+
+  /* scroll: progress bar, dimple drift, timeline draw */
+  var wide = matchMedia('(min-width:901px)'), prog = $('progress'), steps = $('steps'), heroBg = document.querySelector('.hero-bg'), ticking = false;
+  function onScroll(){
+    ticking = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    prog.style.setProperty('--sp', max > 0 ? scrollY / max : 0);
+    if (!reduce && wide.matches) heroBg.style.setProperty('--py', (scrollY * -.25) + 'px');
+    var r = steps.getBoundingClientRect();
+    var p = (innerHeight * .65 - r.top) / r.height;
+    steps.style.setProperty('--prog', Math.max(0, Math.min(1, p)));
+  }
+  addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(onScroll); } }, {passive:true});
+  addEventListener('resize', onScroll); onScroll();
+
+  /* magnetic buttons */
+  if (fine && !reduce) document.querySelectorAll('.mag').forEach(function(b){
+    b.addEventListener('pointermove', function(e){
+      var r = b.getBoundingClientRect(), x = e.clientX - (r.left + r.width/2), y = e.clientY - (r.top + r.height/2);
+      b.style.transform = 'translate('+(x*.22)+'px,'+(y*.3)+'px)';
+    });
+    b.addEventListener('pointerleave', function(){ b.style.transform = ''; });
+  });
+
+  /* sheet tilt follows the pointer */
+  var sheet = $('sheet');
+  if (fine && !reduce) {
+    hero.addEventListener('pointermove', function(e){
+      var r = hero.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      sheet.style.transform = 'rotate(-2deg) rotateY('+(x*10)+'deg) rotateX('+(-y*8)+'deg)';
+    });
+    hero.addEventListener('pointerleave', function(){ sheet.style.transform = ''; });
+  }
+
+  /* ---------- tee sheet: an endless loop of offers ---------- */
+  var row = $('openRow'), bar = $('openBar'), label = $('openLabel'), small = $('openSmall');
+  var offer = $('offer'), offerP = $('offerP'), approve = $('approve'), autoTag = $('autoTag'), foot = $('foot'), live = $('live');
+  var timers = [], raf = 0, done = false, calm = reduce, cyc = 0;
+  var CYCLES = [
+    {amt:12, n:4, path:'manual'},
+    {amt:22, n:3, path:'auto'},
+    {amt:4,  n:2, path:'wait'},
+    {amt:15, n:4, path:'manual'}
+  ];
+  function cur(){ return CYCLES[cyc % CYCLES.length]; }
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function clearAll(){ timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(raf); }
+
+  function popAt(x, y, n){
+    if (reduce) return;
+    var cols = ['#F4C430', '#2E57D9', '#ECEFE9', '#10302A'];
+    for (var i = 0; i < n; i++){
+      var b = document.createElement('i'); b.className = 'bit fx'; b.style.left = x + 'px'; b.style.top = y + 'px';
+      b.style.background = cols[i % 4]; document.body.appendChild(b);
+      var a = Math.random() * Math.PI * 2, d = 70 + Math.random() * 150;
+      b.animate([
+        {transform:'translate(0,0) rotate(0) scale(1)', opacity:1},
+        {transform:'translate(' + Math.cos(a) * d + 'px,' + (Math.sin(a) * d - 30) + 'px) rotate(' + (Math.random() * 540 - 270) + 'deg) scale(.4)', opacity:0}
+      ], {duration:800 + Math.random() * 500, easing:'cubic-bezier(.16,1,.3,1)'}).onfinish = (function(n2){ return function(){ n2.remove(); }; })(b);
+    }
+  }
+  function erode(from, to, ms){
+    var t0 = performance.now();
+    (function step(t){
+      var k = Math.min((t - t0) / ms, 1);
+      bar.style.setProperty('--p', (from + (to - from) * k) + '%');
+      small.textContent = 'Plays in ' + (38 - Math.round(k * 5)) + ' min';
+      if (k < 1 && !done) raf = requestAnimationFrame(step);
+    })(t0);
+  }
+  function countTo(el, n, text){
+    if (reduce){ el.textContent = text(n); return; }
+    var t0 = performance.now();
+    (function s(t){ var k = Math.min((t - t0) / 700, 1), e = 1 - Math.pow(1 - k, 3); el.textContent = text(Math.round(n * e)); if (k < 1) requestAnimationFrame(s); })(t0);
+  }
+  function setOffer(c){
+    var strong = document.createElement('b'); strong.textContent = 'A guest offers $' + c.amt + ' a player';
+    offerP.textContent = ''; offerP.appendChild(strong);
+    offerP.appendChild(document.createTextNode(' on top of the green fee, for ' + c.n + ' players.'));
+    approve.hidden = c.path !== 'manual'; autoTag.hidden = c.path === 'manual';
+    autoTag.textContent = c.path === 'auto' ? 'Above your auto-approve line' : 'Below your floor';
+    approve.disabled = false; approve.textContent = 'Approve';
+  }
+  function reset(){
+    done = false; row.classList.remove('filled', 'pop'); offer.classList.remove('show');
+    label.textContent = 'Open'; small.textContent = 'Plays in 38 min';
+    bar.style.setProperty('--p', '100%'); foot.textContent = 'Waiting for the next offer.';
+  }
+  function next(){ cyc++; if (!calm) runCycle(false); }
+  function fill(c){
+    if (done) return; done = true; clearAll();
+    row.classList.add('filled'); void row.offsetWidth; row.classList.add('pop');
+    label.textContent = 'You’re in'; small.textContent = c.n + ' players';
+    if (c.path === 'manual'){ approve.disabled = true; approve.textContent = 'Approved'; }
+    bar.style.setProperty('--p', '100%');
+    countTo(foot, c.amt * c.n, function(n){ return '$' + n + ' recovered from a time worth $0 at 4:11.'; });
+    live.textContent = 'Offer accepted. The 4:10 tee time is booked for ' + c.n + ' players.';
+    var rr = row.getBoundingClientRect(); popAt(rr.left + rr.width * .55, rr.top + rr.height / 2, 18);
+    later(next, 4600);
+  }
+  function waitlisted(c){
+    done = true; clearAll();
+    small.textContent = 'On the waitlist'; bar.style.setProperty('--p', '100%');
+    foot.textContent = '$' + c.amt + ' is below your floor, so the guest is on the waitlist.';
+    live.textContent = 'Offer below the floor. The guest is on the waitlist.';
+    later(next, 4600);
+  }
+  function runCycle(first){
+    clearAll(); reset(); var c = cur(); setOffer(c);
+    var d = first ? 1300 : 400;
+    later(function(){ erode(100, 62, 5600); }, d);
+    later(function(){ offer.classList.add('show'); foot.textContent = c.path === 'manual' ? 'An offer is waiting for you.' : 'An offer just arrived.'; }, d + 1800);
+    if (c.path === 'manual') later(function(){ fill(c); }, d + 5600);
+    else if (c.path === 'auto') later(function(){ fill(c); }, d + 3600);
+    else later(function(){ waitlisted(c); }, d + 3600);
+  }
+  function showStill(){
+    clearAll(); reset(); cyc = 0; var c = cur(); setOffer(c);
+    offer.classList.add('show'); foot.textContent = 'An offer is waiting for you.';
+  }
+  function applyCalm(on){
+    calm = on; document.documentElement.classList.toggle('calm', on);
+    if (on) showStill(); else runCycle(false);
+  }
+  approve.addEventListener('click', function(){ fill(cur()); });
+  if (reduce){ document.documentElement.classList.add('calm'); showStill(); } else runCycle(true);
+
+  /* the clock in the headline keeps ticking */
+  var tickOn = false;
+  if (!reduce){
+    setTimeout(function(){ if (!calm){ tickOn = true; roll.classList.add('tick'); } }, 1500);
+    setInterval(function(){ if (calm) return; tickOn = !tickOn; roll.classList.toggle('tick', tickOn); }, 4200);
+  }
+
+  /* clicks: ripples, bursts, popping balls, step pops */
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('.btn, .where dl>div, .around li');
+    if (t && !reduce){
+      var r = t.getBoundingClientRect(), s = Math.max(r.width, r.height) * 2.2, d = document.createElement('span');
+      d.className = 'rip';
+      d.style.cssText = 'width:' + s + 'px;height:' + s + 'px;left:' + (e.clientX - r.left - s / 2) + 'px;top:' + (e.clientY - r.top - s / 2) + 'px';
+      t.appendChild(d); setTimeout(function(){ d.remove(); }, 800);
+    }
+    var st = e.target.closest('.steps li');
+    if (st){ st.classList.remove('pop'); void st.offsetWidth; st.classList.add('pop'); popAt(e.clientX, e.clientY, 8); }
+    var ball = e.target.closest('.fl.ball');
+    if (ball){
+      ball.classList.remove('boing'); void ball.offsetWidth; ball.classList.add('boing');
+      var br = ball.getBoundingClientRect(); popAt(br.left + br.width / 2, br.top + br.height / 2, 14);
+    }
+    if (e.target.closest('.hero-bg') && !e.target.closest('a, button, .sheet-wrap, .fl, input')) popAt(e.clientX, e.clientY, 10);
+  });
+
+  /* ---------- rules dial ---------- */
+  var floor = $('floor'), auto = $('auto'), amt = $('offerAmt');
+  var fo = $('floorOut'), ao = $('autoOut'), oo = $('offerOut');
+  var tW = $('tWait'), tY = $('tYou'), tA = $('tAuto'), verdict = $('verdict'), dial = $('dial');
+  var MAX = 40;
+  function paint(src){
+    var f = +floor.value, a = +auto.value, o = +amt.value;
+    if (src === 'floor' && f > a) auto.value = a = f;
+    if (src === 'auto' && a < f) floor.value = f = a;
+    fo.textContent = '$' + f; ao.textContent = '$' + a; oo.textContent = '$' + o;
+    tW.style.width = (f / MAX * 100) + '%'; tY.style.width = ((a - f) / MAX * 100) + '%'; tA.style.width = ((MAX - a) / MAX * 100) + '%';
+    tW.style.paddingInline = f < 8 ? 0 : ''; tY.style.paddingInline = (a - f) < 10 ? 0 : ''; tA.style.paddingInline = (MAX - a) < 8 ? 0 : '';
+    var m, c;
+    if (o < f){ m = 'Below your floor. The guest goes on the waitlist and is told when a time opens.'; c = 'v-wait'; }
+    else if (o >= a){ m = 'At or above your line. Approved automatically, and the guest hears straight away.'; c = 'v-auto'; }
+    else { m = 'Above your floor, below your line. It waits in your queue for a yes.'; c = 'v-you'; }
+    verdict.className = 'verdict ' + c;
+    verdict.textContent = '$' + o + ' a player: ' + m;
+  }
+  floor.addEventListener('input', function(){ paint('floor'); });
+  auto.addEventListener('input', function(){ paint('auto'); });
+  amt.addEventListener('input', function(){ paint('offer'); });
+  /* bands grow in when the dial scrolls into view */
+  if (reduce){ paint(); dial.classList.add('settled'); }
+  else {
+    paint(); tW.style.width = tY.style.width = tA.style.width = '0';
+    var dio = new IntersectionObserver(function(es){
+      if (es[0].isIntersecting){ paint(); setTimeout(function(){ dial.classList.add('settled'); }, 1000); dio.disconnect(); }
+    }, {threshold:.4});
+    dio.observe(dial);
+  }
+
+  /* ---------- hooks the mascot uses (window.SqueezPage) ---------- */
+  function tween(input, to, ms){
+    return new Promise(function(res){
+      var from = +input.value, t0 = performance.now();
+      (function s(t){
+        var k = Math.min((t - t0) / ms, 1), e = 1 - Math.pow(1 - k, 3);
+        input.value = Math.round(from + (to - from) * e); input.dispatchEvent(new Event('input'));
+        if (k < 1) requestAnimationFrame(s); else res();
+      })(t0);
+    });
+  }
+  function setRules(f, a, o){
+    var seq = a >= +auto.value ? [[auto, a], [floor, f], [amt, o]] : [[floor, f], [auto, a], [amt, o]];
+    return seq.reduce(function(p, x){ return p.then(function(){ return tween(x[0], x[1], reduce ? 1 : 480); }); }, Promise.resolve());
+  }
+  window.SqueezPage = {
+    reduce: reduce,
+    restart: function(){ cyc = 0; if (calm) applyCalm(false); else runCycle(false); },
+    approve: function(){
+      if (done) return 'done'; var c = cur();
+      if (!offer.classList.contains('show')) return 'none';
+      if (c.path === 'auto') return 'auto'; if (c.path === 'wait') return 'wait';
+      fill(c); return 'filled';
+    },
+    setCalm: applyCalm, isCalm: function(){ return calm; }, popAt: popAt,
+    rules: function(){ return {f:+floor.value, a:+auto.value, o:+amt.value}; },
+    setRules: setRules, verdict: function(){ return verdict.textContent; }
+  };
+})();
+</script>
+<script src="assets/mascot/mascot.js"></script>
+<script src="assets/mascot/skills/squeez.js"></script>
+<script>
+  /* One place to configure the mascot. Rename it here. */
+  Mascot.init({
+    name: 'Squizzle',
+    tagline: 'Your Squeez guide. I can drive this page.',
+    greeting: 'Hi, I am {name}. I can explain Squeez, run the live demo, set your rules on the dial, give you a tour, or start a walkthrough request. What would you like?',
+    chips: ['Run the demo', 'Try my own rules', 'Give me a tour', 'How does it work?', 'Book a walkthrough', 'Surprise me'],
+    tips: ['Psst. Want me to run the demo for you?', 'Try telling me: set floor to 15.', 'I can give you a tour of this page.', 'Click my face. Go on.'],
+    motion: { isOn: function () { return !SqueezPage.isCalm(); }, set: function (on) { SqueezPage.setCalm(!on); } },
+    host: window.SqueezPage
+  });
+</script>
+</body>
+</html>

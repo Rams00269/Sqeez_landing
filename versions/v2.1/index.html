@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Squeez · Where loyalty, access and experiences come together</title>
+<meta name="description" content="Squeez connects loyalty programs with sought-after experiences, giving members more meaningful ways to use their points while creating new revenue opportunities for experience partners.">
+<meta name="theme-color" content="#F7F4EC">
+<meta property="og:title" content="Squeez · Where loyalty, access and experiences come together">
+<meta property="og:description" content="Two words every loyalty member wants to hear: You’re in.™">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="assets/mascot/mascot.css">
+<style>
+:root{
+  --ink:#0B3B36; --ink-2:#12514A; --mint:#DCEFE6; --mint-2:#C6E4D7; --paper:#F7F4EC; --white:#fff;
+  --coral:#FF6A4D; --coral-d:#D94A31; --sun:#FFD25E; --muted:#3F5E58; --line:rgba(11,59,54,.14);
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1); --out:cubic-bezier(.16,1,.3,1); --spring:cubic-bezier(.34,1.56,.64,1);
+  --header:72px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:96px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:var(--sans);font-size:1.0625rem;line-height:1.65;color:var(--muted);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+a,button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
+.wrap{width:min(1180px,100% - 48px);margin-inline:auto}
+.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-weight:700;z-index:100;transition:top .2s}
+.skip:focus{top:12px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.82rem;font-weight:700;letter-spacing:.02em;color:var(--ink);background:var(--mint);padding:8px 15px 8px 12px;border-radius:999px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--coral)}
+.on-ink .eyebrow{background:rgba(255,255,255,.1);color:var(--mint)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:var(--ink);color:var(--paper);font:inherit;font-weight:700;font-size:.95rem;line-height:1;padding:16px 26px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;transition:background .25s,transform .6s var(--spring),box-shadow .4s;position:relative;overflow:hidden}
+.btn:hover{background:var(--ink-2);transform:translateY(-3px);box-shadow:0 14px 28px rgba(11,59,54,.22)}
+.btn:active{transform:translateY(0) scale(.97);transition-duration:.12s}
+.btn.coral{background:var(--coral);color:var(--ink)}
+.btn.coral:hover{background:#FF8068}
+.btn[disabled]{cursor:default;opacity:.9}
+.rip{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.35);transform:scale(0);animation:rip .8s var(--out) forwards}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+.link{font-weight:700;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid var(--coral);padding-bottom:3px;transition:gap .35s var(--out)}
+.link:hover{gap:14px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--ink);letter-spacing:-.015em}
+h2{font-size:clamp(2.3rem,5.2vw,4.4rem);line-height:1.04;margin-top:18px}
+h2 em,h1 em{font-style:italic;color:var(--coral)}
+.on-ink h2{color:var(--paper)} .on-ink{color:rgba(247,244,236,.82)}
+
+/* ---------- floating navbar ---------- */
+.fnav{position:fixed;top:14px;left:0;right:0;z-index:60;display:flex;justify-content:center;padding-inline:12px;pointer-events:none;transition:transform .8s var(--out)}
+.fnav.is-hidden{transform:translateY(calc(-100% - 28px))}
+.fn-pill{pointer-events:auto;position:relative;display:flex;align-items:center;gap:6px;width:min(1120px,100%);height:62px;padding:0 9px 0 24px;border-radius:999px;background:rgba(247,244,236,.74);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border:1px solid rgba(11,59,54,.12);box-shadow:0 12px 34px rgba(11,59,54,.12),inset 0 1px 0 rgba(255,255,255,.7);transition:width .8s var(--out),height .5s var(--out),background .4s,box-shadow .5s}
+.fnav.is-compact .fn-pill{width:min(940px,100%);height:56px;background:rgba(247,244,236,.9);box-shadow:0 20px 46px rgba(11,59,54,.2),inset 0 1px 0 #fff}
+.logo{display:block;flex:none;margin-right:10px}
+.logo img{width:78px;height:36px;transition:transform .5s var(--out)}
+.logo:hover img{transform:scale(1.06) rotate(-2deg)}
+.fn-nav{position:relative;flex:1;min-width:0;display:flex;justify-content:center;overflow:hidden}
+.fn-list{list-style:none;padding:0;display:flex;gap:2px;position:relative}
+.fn-list li{flex:none}
+.fn-list li.is-over{display:none}
+.fn-list a,.fn-more{position:relative;z-index:1;display:block;padding:10px 15px;border-radius:999px;color:var(--ink);font:inherit;font-weight:600;font-size:.92rem;line-height:1.2;text-decoration:none;white-space:nowrap;background:none;border:0;cursor:pointer;transition:color .35s,background .25s}
+.fn-list a:hover,.fn-more:hover{background:var(--mint)}
+.fn-list a.on{color:var(--paper);background:none}
+.fn-ind{position:absolute;z-index:0;left:0;top:0;height:100%;width:0;border-radius:999px;background:var(--ink);opacity:0;transition:transform .7s var(--out),width .7s var(--out),opacity .4s;pointer-events:none}
+.fn-more-wrap{position:relative;flex:none}
+.fn-more{display:inline-flex;align-items:center;gap:6px}
+.fn-more svg{width:12px;height:12px;transition:transform .5s var(--spring)}
+.fn-more[aria-expanded=true] svg{transform:rotate(180deg)}
+.fn-more.has-active::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--coral)}
+.fn-more[hidden]{display:none}
+.fn-cta{flex:none;padding:13px 20px!important;font-size:.88rem!important;margin-left:4px}
+.fn-burger{display:none;flex:none;width:46px;height:46px;border:0;border-radius:50%;background:var(--mint);cursor:pointer;place-items:center;align-content:center;gap:5px;padding:0}
+.fn-burger span{display:block;width:18px;height:2px;border-radius:2px;background:var(--ink);transition:transform .5s var(--spring)}
+.fn-burger[aria-expanded=true] span:first-child{transform:translateY(3.5px) rotate(45deg)}
+.fn-burger[aria-expanded=true] span:last-child{transform:translateY(-3.5px) rotate(-45deg)}
+.fn-progress{position:absolute;left:34px;right:34px;bottom:-1px;height:2px;border-radius:2px;background:var(--coral);transform-origin:0 50%;transform:scaleX(var(--sp,0));opacity:.9;pointer-events:none}
+.fn-pop,.fn-sheet{position:absolute;top:calc(100% + 12px);background:var(--paper);border:1px solid var(--line);border-radius:26px;box-shadow:0 30px 70px rgba(11,59,54,.24);padding:10px;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.96);transform-origin:top right;transition:opacity .3s var(--ease),transform .6s var(--spring),visibility 0s .6s}
+.fn-pop.open,.fn-sheet.open{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.fn-pop{right:0;min-width:250px}
+.fn-sheet{left:0;right:0}
+.fn-pop,.fn-sheet{max-height:calc(100vh - 110px);max-height:calc(100dvh - 110px);overflow-y:auto;overscroll-behavior:contain}
+.fn-pop ul,.fn-sheet ul{list-style:none;padding:0;display:grid;gap:2px}
+.fn-pop a,.fn-sheet a{display:block;padding:13px 16px;border-radius:18px;color:var(--ink);font-weight:700;font-size:1rem;text-decoration:none;transition:background .25s}
+.fn-pop a:hover,.fn-sheet a:hover{background:var(--mint)}
+.fn-pop a.on,.fn-sheet a.on{background:var(--ink);color:var(--paper)}
+.fn-sheet .btn{width:100%;margin-top:8px}
+@media(max-width:860px){
+  .fn-nav,.fn-more-wrap{display:none}
+  .fn-pill{padding-left:20px}
+  .fn-cta{margin-left:auto}
+  .fn-burger{display:grid}
+}
+@media(max-width:560px){.fn-cta{display:none}.fn-burger{margin-left:auto}.fn-pill{height:58px}}
+@media(prefers-reduced-motion:reduce){.fnav{transition:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding-block:calc(var(--header) + clamp(28px,5vw,64px)) clamp(56px,8vw,110px);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,5vw,80px);align-items:center}
+h1{font-size:clamp(2.7rem,6.3vw,5.6rem);line-height:1.01;margin-top:22px;max-width:11.5em}
+.tm{font-family:var(--sans);font-size:.2em;font-style:normal;font-weight:700;vertical-align:top;position:relative;top:.9em;margin-left:.2em;color:var(--coral)}
+.hero-copy p.lead{max-width:34em;font-size:clamp(1.05rem,1.35vw,1.2rem);margin-top:24px}
+.hero-copy p.lead+p.lead{margin-top:12px}
+.actions{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin-top:34px}
+.hero-visual{position:relative;justify-self:center;width:100%;max-width:520px}
+.blob{position:absolute;width:78%;aspect-ratio:1;right:-12%;top:-8%;border-radius:50%;background:var(--mint);z-index:-1;animation:float 9s ease-in-out infinite alternate}
+.blob.two{width:34%;left:-14%;right:auto;top:auto;bottom:6%;background:var(--sun);opacity:.9;animation-duration:7s}
+@keyframes float{from{transform:translate(0,0)}to{transform:translate(0,-18px)}}
+.arch{position:relative;overflow:hidden;border-radius:999px 999px 30px 30px;aspect-ratio:4/5;background:#0B3B36;box-shadow:0 40px 80px rgba(11,59,54,.28)}
+.scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scene .tb{transform-box:fill-box;transform-origin:center}
+.scene .sun-glow{animation:sunpulse 7s ease-in-out infinite alternate}
+@keyframes sunpulse{from{transform:scale(.94);opacity:.8}to{transform:scale(1.08);opacity:1}}
+.scene .sun-core{animation:sunrise 14s ease-in-out infinite alternate}
+@keyframes sunrise{from{transform:translateY(9px)}to{transform:translateY(-11px)}}
+.scene .cloud{fill:#fff;opacity:.17;animation:cloudmove 48s linear infinite alternate}
+.scene .c2{animation-duration:64s;opacity:.12}
+@keyframes cloudmove{from{transform:translateX(-34px)}to{transform:translateX(48px)}}
+.scene .tw{animation:twinkle 3.2s ease-in-out infinite}.scene .t2{animation-delay:-1.1s}.scene .t3{animation-delay:-2.2s}
+@keyframes twinkle{0%,100%{opacity:.12}50%{opacity:.95}}
+.scene .hills-back{animation:sway 18s ease-in-out infinite alternate}
+@keyframes sway{from{transform:translateX(-9px)}to{transform:translateX(9px)}}
+.scene .flag{transform-box:fill-box;transform-origin:0 50%;animation:wave 2.2s ease-in-out infinite alternate}
+@keyframes wave{from{transform:skewY(-7deg) scaleX(1)}to{transform:skewY(7deg) scaleX(.86)}}
+.scene.cheer .flag{animation-duration:.45s}
+.scene .traj{fill:none;stroke:#fff;stroke-opacity:.42;stroke-width:1.7;stroke-dasharray:3 9;stroke-linecap:round;animation:flowd 2.4s linear infinite}
+@keyframes flowd{to{stroke-dashoffset:-48}}
+.scene .ball-idle{animation:ballbob 2.4s ease-in-out infinite alternate}
+@keyframes ballbob{to{transform:translateY(-3px)}}
+.scene .pt{fill:#FF6A4D;opacity:0;animation:riseup 7s ease-in infinite}
+.scene .p2{animation-delay:-1.8s}.scene .p3{animation-delay:-3.4s}.scene .p4{animation-delay:-5s}.scene .p5{animation-delay:-6.2s}
+@keyframes riseup{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:.9}100%{transform:translateY(-250px) scale(1);opacity:0}}
+.scene .ring{fill:none;stroke:#FFE9A8;stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center}
+.scene.landed .ring{animation:ringout 1.3s var(--out) forwards}
+.scene.landed .r2{animation-delay:.12s}.scene.landed .r3{animation-delay:.24s}
+@keyframes ringout{0%{transform:scale(.4);opacity:.95}100%{transform:scale(9);opacity:0}}
+.scene .sp{opacity:0}
+.scene.landed .sp{animation:spark 1.1s var(--out) forwards}
+@keyframes spark{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+.cta-art .arch::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,59,54,.05),rgba(11,59,54,.5));mix-blend-mode:multiply;pointer-events:none}
+@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.14) translate(-1.5%,-1%)}}
+.chip{position:absolute;display:inline-flex;align-items:center;gap:9px;background:var(--white);color:var(--ink);font-weight:700;font-size:.85rem;padding:10px 16px;border-radius:999px;box-shadow:0 14px 30px rgba(11,59,54,.2);animation:float 6s ease-in-out infinite alternate}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--coral);animation:pulse 1.8s ease-in-out infinite}
+.chip.a{top:9%;left:-6%}
+.chip.b{top:30%;right:-7%;animation-delay:-3s}
+.chip.b i{background:var(--ink);animation:none;opacity:.35}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,106,77,.55)}60%{box-shadow:0 0 0 9px rgba(255,106,77,0)}}
+
+/* the member moment */
+.moment{position:absolute;left:-12%;bottom:-6%;width:min(340px,78%);background:var(--white);border-radius:24px;padding:22px 22px 18px;box-shadow:0 30px 60px rgba(11,59,54,.24);color:var(--muted)}
+.moment .tag{font-size:.78rem;font-weight:700;color:var(--coral-d)}
+.m-title{font-family:var(--serif);font-size:1.7rem;line-height:1.1;color:var(--ink);margin-top:4px}
+.m-meta{font-size:.92rem;margin-top:2px}
+.m-stage{position:relative;min-height:128px;margin-top:14px;border-top:1px solid var(--line)}
+.m-layer{position:absolute;inset:14px 0 0;transition:opacity .6s var(--ease),transform .8s var(--out)}
+.m-done{opacity:0;transform:translateY(10px);pointer-events:none}
+.moment.is-done .m-ask{opacity:0;transform:translateY(-10px);pointer-events:none}
+.moment.is-done .m-done{opacity:1;transform:none;pointer-events:auto}
+.m-points{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;font-size:.92rem}
+.m-points b{font-family:var(--serif);font-weight:400;font-size:1.9rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.m-ask .btn{width:100%;padding:14px 20px}
+.m-bar{position:absolute;left:0;bottom:-2px;height:3px;width:0;background:var(--coral);border-radius:3px}
+.moment.is-working .m-bar{width:100%;transition:width 1.3s linear}
+.m-yes{display:flex;align-items:center;gap:12px}
+.m-check{width:44px;height:44px;flex:none}
+.m-check circle{fill:var(--mint);stroke:none;transform-origin:center;transform:scale(0)}
+.m-check path{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40}
+.moment.is-done .m-check circle{animation:pop .6s var(--spring) forwards}
+.moment.is-done .m-check path{animation:draw .5s var(--ease) .35s forwards}
+@keyframes pop{to{transform:scale(1)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.m-yes strong{font-family:var(--serif);font-style:italic;font-weight:400;font-size:2.3rem;line-height:1;color:var(--coral-d)}
+.m-yes sup{font-family:var(--sans);font-size:.3em;font-style:normal;font-weight:700;vertical-align:top;position:relative;top:.7em}
+.m-done p{margin-top:10px;font-size:.92rem}
+.m-again{margin-top:6px;background:none;border:0;color:var(--ink);font:inherit;font-weight:700;font-size:.88rem;padding:6px 0;cursor:pointer;border-bottom:2px solid var(--coral)}
+.m-note{margin-top:12px;font-size:.74rem;opacity:.7}
+
+/* ---------- what we are: the story ---------- */
+.what{background:var(--ink);padding-block:clamp(72px,10vw,140px);position:relative;overflow:hidden;overflow:clip;isolation:isolate}   /* clip, not hidden: hidden would switch off the sticky ring */
+.what::before{content:"";position:absolute;width:60vw;max-width:760px;aspect-ratio:1;border-radius:50%;right:-18%;top:-22%;background:radial-gradient(circle,rgba(255,106,77,.22),transparent 65%);z-index:-1;animation:float 12s ease-in-out infinite alternate}
+.what h2{max-width:12em;font-size:clamp(2.6rem,6.4vw,5.4rem)}
+.story{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(32px,6vw,96px);margin-top:clamp(48px,7vw,96px)}
+.story-pin{position:sticky;top:calc(var(--header) + 36px);align-self:start;height:min(60vh,440px);display:grid;place-items:center}
+.ring{width:min(100%,380px);height:auto;overflow:visible}
+.ring .track{fill:none;stroke:rgba(255,255,255,.12);stroke-width:2}
+.ring .prog{fill:none;stroke:var(--coral);stroke-width:4;stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .9s var(--out)}
+.ring .spin{fill:none;stroke:rgba(255,255,255,.28);stroke-width:1.5;stroke-dasharray:2 10;transform-origin:center;animation:spinr 40s linear infinite}
+@keyframes spinr{to{transform:rotate(360deg)}}
+.ring text{font-family:var(--serif);fill:var(--paper);text-anchor:middle}
+.ring .num{font-size:92px}
+.ring .of{font-family:var(--sans);font-size:15px;font-weight:700;fill:var(--mint);letter-spacing:.1em}
+.steps{display:grid}
+.step{min-height:62vh;display:flex;flex-direction:column;justify-content:center;opacity:calc(.22 + var(--a,1) * .78);transition:opacity .25s linear}
+.step .n{display:none;font-weight:800;font-size:.85rem;color:var(--coral);margin-bottom:10px}
+.step .k{font-weight:700;font-size:.85rem;color:var(--mint);margin-bottom:12px}
+.step p{font-family:var(--serif);font-size:clamp(1.9rem,3.6vw,3.1rem);line-height:1.12;color:var(--paper);max-width:14em}
+.step p em{color:var(--coral)}
+.step .sub{font-family:var(--sans);font-size:1.05rem;color:rgba(247,244,236,.75);margin-top:14px;max-width:26em}
+
+/* ---------- who it's for: tabs ---------- */
+.who{padding-block:clamp(64px,9vw,128px)}
+.tabs{background:var(--mint);border-radius:40px;padding:clamp(20px,4vw,48px);margin-top:26px}
+.tablist{position:relative;display:inline-flex;max-width:100%;background:var(--white);border-radius:999px;padding:6px;overflow-x:auto;scrollbar-width:none}
+.tablist::-webkit-scrollbar{display:none}
+.tab{position:relative;z-index:1;flex:none;background:none;border:0;font:inherit;font-weight:700;font-size:.95rem;color:var(--ink);padding:13px 22px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:color .3s}
+.tab[aria-selected=true]{color:var(--paper)}
+.tab small{margin-left:8px;font-size:.7rem;background:var(--sun);color:var(--ink);padding:3px 8px;border-radius:999px}
+.ind{position:absolute;z-index:0;top:6px;bottom:6px;left:0;border-radius:999px;background:var(--ink);transition:transform .6s var(--out),width .6s var(--out)}
+.panels{position:relative;margin-top:clamp(24px,4vw,44px)}
+.tp{display:none;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,5vw,64px);align-items:center}
+.tp.on{display:grid;animation:rise .9s var(--out)}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.tp h3{font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.1}
+.tp p{margin-top:14px;max-width:30em;font-size:1.08rem}
+.tp .actions{margin-top:26px}
+.art{justify-self:center;width:min(100%,360px);aspect-ratio:1;position:relative;border-radius:34px;background:var(--ink);overflow:hidden;box-shadow:0 30px 60px rgba(11,59,54,.22)}
+.art svg{position:absolute;inset:0;width:100%;height:100%}
+.ill .halo{fill:none;stroke:rgba(255,255,255,.14);stroke-width:1.6;stroke-dasharray:4 10;transform-origin:200px 200px;animation:spinr 40s linear infinite}
+.ill .orbit{transform-origin:200px 200px;animation:spinr 15s linear infinite}
+.ill .o2{animation-duration:22s;animation-direction:reverse}.ill .o3{animation-duration:28s}
+.ill .coin{fill:#FFD25E}.ill .coin.sun{fill:#FF9A6B}.ill .coin-in{fill:none;stroke:#0B3B36;stroke-width:2;opacity:.45}
+.ill .tilt{transform-origin:200px 200px;animation:tilt 6s ease-in-out infinite alternate}
+@keyframes tilt{from{transform:rotate(-7deg) translateY(5px)}to{transform:rotate(7deg) translateY(-7px)}}
+.ill .flycoin{fill:#FFD25E;opacity:0;animation:coinfly 6s ease-in infinite}
+@keyframes coinfly{0%,38%{transform:translate(0,0) scale(1);opacity:0}42%{opacity:1}58%{transform:translate(96px,86px) scale(.7);opacity:1}62%,100%{transform:translate(104px,92px) scale(.3);opacity:0}}
+.ill .ticket{transform-box:fill-box;transform-origin:center;animation:ticketpop 6s var(--spring) infinite}
+@keyframes ticketpop{0%,50%{transform:scale(0) rotate(-12deg);opacity:0}60%{transform:scale(1.12) rotate(4deg);opacity:1}66%,90%{transform:scale(1) rotate(0);opacity:1}100%{transform:scale(.9);opacity:0}}
+.ill .rw{fill:rgba(255,255,255,.1)}.ill .rw.base{fill:rgba(255,255,255,.1)}
+.ill .rw-sun{fill:#FFD25E;transform-box:fill-box;transform-origin:0 50%;animation:erode 9s ease-in-out infinite}
+@keyframes erode{0%{transform:scaleX(1);opacity:1}46%{transform:scaleX(.5)}56%,92%{transform:scaleX(.5);opacity:1}100%{transform:scaleX(.5);opacity:0}}
+.ill .rw-fill{fill:#FF6A4D;transform-box:fill-box;transform-origin:0 50%;transform:scaleX(0);animation:fillrow 9s var(--ease) infinite}
+@keyframes fillrow{0%,58%{transform:scaleX(0)}68%,92%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+.ill .member{animation:memberin 9s var(--spring) infinite}
+@keyframes memberin{0%,48%{transform:translateX(140px);opacity:0}58%{transform:translateX(0);opacity:1}92%{transform:translateX(0);opacity:1}100%{transform:translateX(0);opacity:0}}
+.ill .tick{fill:none;stroke:#0B3B36;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:44;stroke-dashoffset:44;animation:tickdraw 9s ease infinite}
+@keyframes tickdraw{0%,70%{stroke-dashoffset:44;opacity:1}78%,92%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+.ill .t-open{animation:topen 9s ease infinite}
+@keyframes topen{0%,66%{fill:#0B3B36}72%,92%{fill:#0B3B36}}
+.ill .bar{fill:#FF6A4D;transform-box:fill-box;transform-origin:50% 100%;animation:bargrow 9s ease-in-out infinite}
+.ill .b2{fill:#FFD25E;animation-delay:.25s}.ill .b3{animation-delay:.5s}.ill .b4{fill:#DCEFE6;animation-delay:.75s}
+@keyframes bargrow{0%,55%{transform:scaleY(.25)}72%{transform:scaleY(1)}92%{transform:scaleY(1)}100%{transform:scaleY(.25)}}
+.ill .link{stroke:rgba(255,255,255,.35);stroke-width:1.6;stroke-dasharray:4 7;animation:flowd 2.6s linear infinite}
+.ill .slow{animation-duration:46s}
+.ill .node{fill:#F7F4EC}.ill .node.coral{fill:#FF6A4D}.ill .node.sun{fill:#FFD25E}
+.ill .node.soon{fill:none;stroke:#F7F4EC;stroke-width:2;stroke-dasharray:3 4}
+.ill .pulse{fill:none;stroke:#FFD25E;stroke-width:2;transform-box:fill-box;transform-origin:center;animation:pulsering 2.8s ease-out infinite}
+@keyframes pulsering{0%{transform:scale(.9);opacity:.9}100%{transform:scale(2.3);opacity:0}}
+.ill .trend{fill:none;stroke:#FF6A4D;stroke-width:4;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;animation:draw2 6s ease-in-out infinite}
+@keyframes draw2{0%{stroke-dashoffset:420}60%,90%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:0}}
+.ill .trend-dot{fill:#FFD25E;opacity:0;animation:dotin 6s ease-in-out infinite}
+@keyframes dotin{0%,56%{opacity:0;transform:scale(0)}64%,90%{opacity:1;transform:scale(1)}100%{opacity:0}}
+.ill .trend-dot{transform-box:fill-box;transform-origin:center}
+
+/* ---------- where it's live: expanding panels ---------- */
+.live{padding-block:clamp(40px,6vw,90px) clamp(64px,9vw,128px)}
+.live-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.live-head>p{max-width:20em;font-size:clamp(1.05rem,1.4vw,1.2rem);color:var(--ink);font-weight:600}
+.more::after{content:"…";display:inline-block;animation:dots 2.4s ease-in-out infinite}
+@keyframes dots{0%,100%{opacity:.3}50%{opacity:1}}
+.exp{display:flex;gap:clamp(12px,2vw,20px);height:clamp(420px,62vh,600px);margin-top:clamp(28px,4vw,48px)}
+.xp{position:relative;flex:1 1 0;min-width:0;overflow:hidden;border:0;padding:0;border-radius:32px;background:var(--ink);color:var(--paper);text-align:left;cursor:pointer;font:inherit;transition:flex-grow .9s var(--out)}
+.xp[aria-expanded=true]{flex-grow:2.3}
+.xp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--out),filter .8s;filter:saturate(.85) brightness(.82);transform:scale(1.06);animation:kb 28s ease-in-out infinite alternate}
+.xp[aria-expanded=true] img{filter:none}
+.xp::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,59,54,.9) 0,rgba(11,59,54,.1) 55%,transparent);pointer-events:none}
+.xp-cap{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:clamp(18px,3vw,32px)}
+.xp .tg{display:inline-flex;align-items:center;gap:8px;background:var(--paper);color:var(--ink);font-size:.78rem;font-weight:700;padding:6px 12px;border-radius:999px}
+.xp .tg i{width:8px;height:8px;border-radius:50%;background:var(--coral)}
+.xp.is-live .tg i{animation:pulse 1.8s ease-in-out infinite}
+.xp:not(.is-live) .tg i{background:var(--ink);opacity:.4}
+.xp h3{display:block;font-family:var(--serif);font-size:clamp(2rem,4vw,3.4rem);line-height:1;color:var(--paper);margin-top:14px}
+.xp .d{display:block;max-width:24em;margin-top:10px;font-size:1.02rem;opacity:0;max-height:0;transform:translateY(10px);transition:all .7s var(--out)}
+.xp[aria-expanded=true] .d{opacity:1;max-height:6em;transform:none}
+.xp:focus-visible{outline-offset:-6px;outline-color:var(--sun)}
+
+/* ---------- what we believe ---------- */
+.believe{background:var(--mint);padding-block:clamp(64px,9vw,128px)}
+.beliefs{display:grid;gap:clamp(14px,2.4vw,26px);margin-top:28px}
+.belief{font-family:var(--serif);font-size:clamp(2rem,5.4vw,4.6rem);line-height:1.08;color:var(--ink);letter-spacing:-.02em;opacity:calc(.28 + var(--a,1) * .72);transition:opacity .3s linear;max-width:16em}
+.belief span{background:linear-gradient(transparent 64%,var(--sun) 64%) 0 0/calc(var(--a,1) * 100%) 100% no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .08em}
+
+/* ---------- partner ---------- */
+.cta{background:var(--coral);color:var(--ink);padding-block:clamp(56px,8vw,110px);position:relative;overflow:hidden}
+.cta .eyebrow{background:rgba(11,59,54,.12);color:var(--ink)}
+.cta .eyebrow::before{background:var(--ink)}
+.cta-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,80px);align-items:center}
+.cta h2{color:var(--ink);font-size:clamp(2.6rem,6.2vw,5.2rem)}
+.cta .btn{margin-top:32px}
+.cta p{margin-top:16px;max-width:28em;font-weight:600}
+.cta-art{position:relative;justify-self:center;width:min(100%,430px)}
+.cta-art .arch{aspect-ratio:1;border-radius:999px 999px 30px 30px}
+.badge{position:absolute;right:-8%;bottom:-8%;width:132px;height:132px;border-radius:50%;background:var(--paper);box-shadow:0 14px 30px rgba(11,59,54,.28)}
+.badge svg{width:100%;height:100%;animation:spinr 18s linear infinite}
+.badge text{font-family:var(--sans);font-weight:800;font-size:13.5px;letter-spacing:.16em;fill:var(--ink)}
+.badge .core{position:absolute;inset:0;display:grid;place-items:center}
+.badge .core span{width:56px;height:56px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:1.4rem}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:rgba(247,244,236,.8);padding-block:clamp(40px,6vw,72px) 28px}
+.f-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.f-grid img{width:78px;height:36px}
+.f-tag{margin-top:16px;max-width:22em}
+footer h4{font-size:.82rem;font-weight:800;color:var(--mint);margin-bottom:14px}
+footer ul{list-style:none;padding:0;display:grid;gap:9px}
+footer ul a{text-decoration:none;font-size:.98rem}
+footer ul a:hover{color:var(--coral);text-decoration:underline;text-underline-offset:4px}
+.f-base{margin-top:clamp(32px,5vw,56px);padding-top:22px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.84rem;color:rgba(247,244,236,.6)}
+.f-base p{max-width:62em}
+.f-base a{color:rgba(247,244,236,.85)}
+
+/* ---------- entrance motion ---------- */
+@media(prefers-reduced-motion:no-preference){
+  .js .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.1em .16em .22em;margin:-.1em -.16em -.22em}
+  .js .w>i{display:inline-block;font-style:inherit;transform:translateY(112%) rotate(4deg);transition:transform 1.1s var(--out);transition-delay:calc(min(var(--i),12) * 65ms)}
+  .js .in .w>i{transform:none}
+  .js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform 1.2s var(--out);transition-delay:var(--d,0ms)}
+  .js .rv.in{opacity:1;transform:none}
+  .js .arch.rv{transform:translateY(40px) scale(.96)}
+  .js .arch.rv.in{transform:none}
+  .js .moment.rv{transform:translateY(40px) scale(.94)}
+  .js .moment.rv.in{transform:none}
+}
+.calm *,.calm *::before,.calm *::after{animation-play-state:paused!important}
+
+/* ---------- responsive ---------- */
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-visual{max-width:440px;margin-top:20px}
+  .moment{left:50%;transform:translateX(-50%);bottom:-12%;width:min(340px,92%)}
+  .js .moment.rv.in{transform:translateX(-50%)}
+  .js .moment.rv{transform:translateX(-50%) translateY(40px)}
+  .hero{padding-bottom:140px}
+  .story{grid-template-columns:1fr}
+  .story-pin{display:none}
+  .step{min-height:0;padding-block:28px;border-top:1px solid rgba(255,255,255,.14);opacity:1}
+  .step .n{display:block}
+  .tp{grid-template-columns:1fr}.art{width:min(60%,240px)}
+  .cta-grid{grid-template-columns:1fr}
+  .f-grid{grid-template-columns:1fr 1fr}.f-grid>div:first-child{grid-column:1/-1}
+}
+@media(max-width:700px){
+  .wrap{width:min(1180px,100% - 36px)}
+  .exp{flex-direction:column;height:auto}
+  .xp{flex:none;height:230px;transition:height .9s var(--out)}
+  .xp[aria-expanded=true]{height:400px}
+  .actions .btn,.cta .btn{width:100%}
+  .chip.a{left:-2%}.chip.b{right:-2%}
+  .tabs{border-radius:28px}
+  .f-grid{grid-template-columns:1fr}
+  .blob{right:-20%}
+}
+@media(hover:none){.btn:hover{transform:none;box-shadow:none}}
+@media(max-height:480px) and (orientation:landscape){.hero{padding-bottom:100px}}
+
+/* mascot, dressed for this palette */
+.mx{
+  --mx-body:#FFD25E; --mx-body-shade:#E3A92B; --mx-body-hi:#FFF0B8; --mx-leaf:#2E8B6A; --mx-ink:#0B3B36; --mx-cheek:#FF9A86;
+  --mx-paper:#F7F4EC; --mx-card:#FFFFFF; --mx-muted:#3F5E58;
+  --mx-head:#0B3B36; --mx-head-2:#12514A; --mx-head-text:#F7F4EC; --mx-head-muted:#A9CFC3;
+  --mx-accent:#12514A; --mx-accent-text:#F7F4EC; --mx-chip-hover:#FFD25E; --mx-shadow:#0B3B36;
+  --mx-display:"Instrument Serif",Georgia,serif; --mx-bw:2px; --mx-r:24px; --mx-sh-x:0px; --mx-sh-y:18px; --mx-sh-blur:34px; --mx-sh-alpha:.32;
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="fnav" id="fnav">
+  <div class="fn-pill">
+    <a class="logo" href="https://www.trysqueez.com/" aria-label="Squeez home"><img src="assets/img/wordmark-coral.svg" width="78" height="36" alt="Squeez"></a>
+
+    <!-- The list below is the single source of truth. Add or remove an <li> and everything follows:
+         items that do not fit move into "More", and the mobile sheet is rebuilt from it. Use data-sec to highlight a section. -->
+    <nav class="fn-nav" id="fnNav" aria-label="Main">
+      <ul class="fn-list" id="fnList">
+        <li><a href="#what" data-sec="what">What we are</a></li>
+        <li><a href="#who" data-sec="who">Who it’s for</a></li>
+        <li><a href="#live" data-sec="live">Where it’s live</a></li>
+        <li><a href="#believe" data-sec="believe">What we believe</a></li>
+        <li><a href="https://www.trysqueez.com/loyalty-programs">For loyalty programs</a></li>
+        <li><a href="https://www.trysqueez.com/experience-partners">For experience partners</a></li>
+        <li><a href="https://www.trysqueez.com/press">Press &amp; media</a></li>
+        <li><a href="https://www.trysqueez.com/company">Company</a></li>
+        <li><a href="https://www.trysqueez.com/local-luxury">Local Luxury™</a></li>
+      </ul>
+      <span class="fn-ind" id="fnInd" aria-hidden="true"></span>
+    </nav>
+
+    <div class="fn-more-wrap">
+      <button class="fn-more" id="fnMore" type="button" aria-expanded="false" aria-controls="fnPop" hidden>More <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="fn-pop" id="fnPop"><ul></ul></div>
+    </div>
+
+    <a class="btn coral fn-cta" href="https://www.trysqueez.com/contact">Explore a partnership</a>
+    <button class="fn-burger" id="fnBurger" type="button" aria-expanded="false" aria-controls="fnSheet" aria-label="Menu"><span></span><span></span></button>
+    <div class="fn-sheet" id="fnSheet"><a class="btn coral" href="https://www.trysqueez.com/contact">Explore a partnership</a></div>
+    <div class="fn-progress" id="fnProg" aria-hidden="true"></div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow rv">Squeez</span>
+      <h1 data-split>Two words every loyalty member wants to hear: <em>You’re in.</em><sup class="tm">™</sup></h1>
+      <p class="lead rv" style="--d:450ms">Squeez connects loyalty programs with sought-after experiences, giving members more meaningful ways to use their points while creating new revenue opportunities for experience partners.</p>
+      <p class="lead rv" style="--d:560ms">From golf and dining to what’s next, we’re making loyalty more rewarding and access more attainable.</p>
+      <div class="actions rv" style="--d:700ms">
+        <a class="btn coral" href="https://www.trysqueez.com/contact">Explore a partnership</a>
+        <a class="link" href="#what">See how it works <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <span class="blob" aria-hidden="true"></span><span class="blob two" aria-hidden="true"></span>
+      <div class="arch rv" id="heroScene" style="--d:200ms" aria-hidden="true">
+        <svg class="scene" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B3B36"/><stop offset=".48" stop-color="#1B7466"/><stop offset=".74" stop-color="#F4C877"/><stop offset="1" stop-color="#FF9A6B"/></linearGradient>
+            <radialGradient id="sunG"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".95"/><stop offset="1" stop-color="#FFD25E" stop-opacity="0"/></radialGradient>
+            <pattern id="mow" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(24)"><rect width="15" height="30" fill="#fff" opacity=".055"/></pattern>
+          </defs>
+          <rect width="400" height="500" fill="url(#skyG)"/>
+          <g class="stars" fill="#fff"><circle class="tw" cx="52" cy="64" r="1.6"/><circle class="tw t2" cx="118" cy="34" r="1.2"/><circle class="tw t3" cx="176" cy="88" r="1.5"/><circle class="tw" cx="332" cy="52" r="1.4"/><circle class="tw t2" cx="366" cy="112" r="1.1"/><circle class="tw t3" cx="86" cy="132" r="1.1"/></g>
+          <g class="sun">
+            <circle class="sun-glow tb" cx="262" cy="196" r="128" fill="url(#sunG)"/>
+            <circle class="sun-core tb" cx="262" cy="196" r="44" fill="#FFD25E"/>
+          </g>
+          <g class="cloud c1"><rect x="34" y="132" width="92" height="15" rx="7.5"/><rect x="56" y="120" width="52" height="15" rx="7.5"/></g>
+          <g class="cloud c2"><rect x="244" y="92" width="76" height="13" rx="6.5"/><rect x="262" y="82" width="42" height="13" rx="6.5"/></g>
+          <path class="hills-back" d="M-20 270 C50 236 120 246 190 262 C250 276 320 232 420 252 V520 H-20Z" fill="#2A8A78" opacity=".6"/>
+          <path d="M-10 286 C70 258 150 278 230 272 C300 266 350 262 410 274 V520 H-10Z" fill="#17594F"/>
+          <ellipse cx="322" cy="274" rx="64" ry="12" fill="#3AA68C" opacity=".85"/>
+          <ellipse cx="62" cy="276" rx="54" ry="10" fill="#2A8A78" opacity=".9"/>
+          <ellipse cx="322" cy="274" rx="9" ry="3.4" fill="#06231F"/>
+          <line x1="322" y1="274" x2="322" y2="222" stroke="#F7F4EC" stroke-width="2" stroke-linecap="round"/>
+          <path class="flag" d="M322 222 L354 232 L322 242 Z" fill="#FF6A4D"/>
+          <path d="M-10 302 C90 288 210 294 410 306 V520 H-10Z" fill="#0F4741"/>
+          <path d="M-10 302 C90 288 210 294 410 306 V520 H-10Z" fill="url(#mow)"/>
+          <path class="traj" d="M62 245 Q190 36 318 266"/>
+          <rect x="59" y="254" width="6" height="19" rx="2" fill="#F7F4EC"/>
+          <g id="trail" fill="#fff"><circle r="6"/><circle r="5"/><circle r="4"/><circle r="3.2"/><circle r="2.4"/></g>
+          <g id="ball" transform="translate(62,245)"><g class="ball-idle"><circle r="9.5" fill="#fff"/><circle cx="-3" cy="-2" r="1" fill="#C3D2CD"/><circle cx="2.5" cy="-3.5" r="1" fill="#C3D2CD"/><circle cx="3.5" cy="2" r="1" fill="#C3D2CD"/><circle cx="-2" cy="4" r="1" fill="#C3D2CD"/><circle cx="0" cy="0" r="1" fill="#C3D2CD"/></g></g>
+          <g id="burst" transform="translate(322,270)">
+            <circle class="ring r1" r="8"/><circle class="ring r2" r="8"/><circle class="ring r3" r="8"/>
+            <circle class="sp" r="3.4" fill="#FF6A4D" style="--dx:-64px;--dy:-46px"/><circle class="sp" r="2.8" fill="#FFD25E" style="--dx:-34px;--dy:-78px"/><circle class="sp" r="3.4" fill="#fff" style="--dx:6px;--dy:-90px"/>
+            <circle class="sp" r="2.8" fill="#FF6A4D" style="--dx:44px;--dy:-72px"/><circle class="sp" r="3.4" fill="#FFD25E" style="--dx:70px;--dy:-38px"/><circle class="sp" r="2.6" fill="#fff" style="--dx:-80px;--dy:-14px"/>
+            <circle class="sp" r="2.6" fill="#FFD25E" style="--dx:78px;--dy:-4px"/><circle class="sp" r="3" fill="#fff" style="--dx:-18px;--dy:-58px"/>
+          </g>
+          <g class="pts"><circle class="pt" cx="160" cy="496" r="5"/><circle class="pt p2" cx="230" cy="500" r="3.6"/><circle class="pt p3" cx="300" cy="494" r="4.6"/><circle class="pt p4" cx="90" cy="498" r="3.4"/><circle class="pt p5" cx="360" cy="500" r="3.8"/></g>
+        </svg>
+      </div>
+      <span class="chip a" aria-hidden="true"><i></i>Golf is live</span>
+      <span class="chip b" aria-hidden="true"><i></i>Dining coming soon</span>
+
+      <aside class="moment rv" id="moment" style="--d:900ms" aria-label="A sample redemption">
+        <span class="tag">Sample redemption</span>
+        <p class="m-title">Weekend tee time</p>
+        <p class="m-meta" id="mMeta">Saturday, 8:10 AM, 4 players</p>
+        <div class="m-stage">
+          <div class="m-layer m-ask">
+            <div class="m-points"><span>Pay with points</span><b id="mPts">12,500</b></div>
+            <button class="btn coral" id="mBtn" type="button">Use my points</button>
+            <span class="m-bar" aria-hidden="true"></span>
+          </div>
+          <div class="m-layer m-done" aria-hidden="true">
+            <div class="m-yes">
+              <svg class="m-check" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="21"/><path d="M13 23l6 6 12-13"/></svg>
+              <strong>You’re in.<sup>™</sup></strong>
+            </div>
+            <p id="mDone">Saturday, 8:10 AM, 4 players. Confirmed.</p>
+            <button class="m-again" id="mAgain" type="button">See another</button>
+          </div>
+        </div>
+        <p class="m-note">Illustration. Times and points are samples.</p>
+        <div id="mLive" role="status" aria-live="polite" style="position:absolute;left:-9999px"></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE ARE -->
+<section class="what on-ink" id="what">
+  <div class="wrap">
+    <span class="eyebrow rv">What we are</span>
+    <h2 data-split>A new way in. <em>Where loyalty becomes an experience.</em></h2>
+
+    <div class="story">
+      <div class="steps" id="steps">
+        <div class="step"><span class="n">01 of 04</span><span class="k">What members want</span><p>Loyalty members are looking for access to experiences.</p></div>
+        <div class="step"><span class="n">02 of 04</span><span class="k">What Squeez does</span><p>Squeez helps loyalty brands unlock access to experiences.</p></div>
+        <div class="step"><span class="n">03 of 04</span><span class="k">How it connects</span><p>Squeez connects loyalty points to bookable experiences.</p></div>
+        <div class="step"><span class="n">04 of 04</span><span class="k">The moment</span><p><em>You’re in.</em><sup class="tm" style="color:var(--coral)">™</sup></p><span class="sub">Two words every loyalty member wants to hear.</span></div>
+      </div>
+      <div class="story-pin" aria-hidden="true">
+        <svg class="ring" viewBox="0 0 320 320">
+          <circle class="spin" cx="160" cy="160" r="152"/>
+          <circle class="track" cx="160" cy="160" r="128"/>
+          <circle class="prog" id="sProg" cx="160" cy="160" r="128" stroke-dasharray="804" stroke-dashoffset="603"/>
+          <text class="num" id="sNum" x="160" y="190">01</text>
+          <text class="of" x="160" y="226">OF 04</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="who" id="who">
+  <div class="wrap">
+    <span class="eyebrow rv">Who it’s for</span>
+    <h2 data-split style="max-width:13em">One idea, three ways to <em>belong.</em></h2>
+
+    <div class="tabs rv">
+      <div class="tablist" role="tablist" aria-label="Who Squeez is for" id="tablist">
+        <span class="ind" id="ind" aria-hidden="true"></span>
+        <button class="tab" role="tab" id="t-loyalty" aria-controls="p-loyalty" aria-selected="true" data-k="loyalty">Loyalty programs &amp; brands</button>
+        <button class="tab" role="tab" id="t-experience" aria-controls="p-experience" aria-selected="false" tabindex="-1" data-k="experience">Experience partners</button>
+        <button class="tab" role="tab" id="t-strategic" aria-controls="p-strategic" aria-selected="false" tabindex="-1" data-k="strategic">Strategic partners &amp; investors <small>Coming soon</small></button>
+      </div>
+
+      <div class="panels">
+        <div class="tp on" role="tabpanel" id="p-loyalty" aria-labelledby="t-loyalty" data-k="loyalty">
+          <div>
+            <h3>Brands bring more relevance and value to their members.</h3>
+            <p>Squeez connects loyalty points to bookable experiences.</p>
+            <div class="actions"><a class="btn" href="https://www.trysqueez.com/loyalty-programs">For loyalty programs</a></div>
+          </div>
+          <div class="art" aria-hidden="true"><svg class="ill" viewBox="0 0 400 400" focusable="false">
+            <circle class="halo" cx="200" cy="200" r="150"/>
+            <g class="orbit o1"><circle class="coin" cx="200" cy="52" r="17"/><circle class="coin-in" cx="200" cy="52" r="8"/></g>
+            <g class="orbit o2"><circle class="coin sun" cx="352" cy="200" r="13"/><circle class="coin-in" cx="352" cy="200" r="6"/></g>
+            <g class="orbit o3"><circle class="coin" cx="118" cy="330" r="15"/><circle class="coin-in" cx="118" cy="330" r="7"/></g>
+            <g class="tilt"><rect x="116" y="146" width="168" height="108" rx="18" fill="#FF6A4D"/><rect x="134" y="168" width="34" height="25" rx="6" fill="#FFD25E"/><rect x="134" y="216" width="78" height="9" rx="4.5" fill="#0B3B36" opacity=".35"/><rect x="134" y="232" width="46" height="9" rx="4.5" fill="#0B3B36" opacity=".25"/><circle cx="252" cy="176" r="12" fill="#0B3B36" opacity=".25"/></g>
+            <circle class="flycoin" cx="214" cy="222" r="9"/>
+            <g class="ticket"><path d="M262 292 h82 a8 8 0 0 1 8 8 v18 a9 9 0 0 0 0 18 v18 a8 8 0 0 1 -8 8 h-82 a8 8 0 0 1 -8 -8 v-18 a9 9 0 0 0 0 -18 v-18 a8 8 0 0 1 8 -8z" fill="#F7F4EC"/><line x1="268" y1="338" x2="338" y2="338" stroke="#0B3B36" stroke-width="2" stroke-dasharray="3 5" opacity=".4"/><path d="M296 312 l34 8 -34 8z" fill="#FF6A4D"/><line x1="296" y1="312" x2="296" y2="350" stroke="#0B3B36" stroke-width="2.4" stroke-linecap="round"/></g>
+          </svg></div>
+        </div>
+        <div class="tp" role="tabpanel" id="p-experience" aria-labelledby="t-experience" data-k="experience" hidden>
+          <div>
+            <h3>Operators unlock new reach and revenue.</h3>
+            <p>Squeez connects loyalty points to bookable experiences.</p>
+            <div class="actions"><a class="btn" href="https://www.trysqueez.com/experience-partners">For experience partners</a></div>
+          </div>
+          <div class="art" aria-hidden="true"><svg class="ill" viewBox="0 0 400 400" focusable="false">
+            <g transform="translate(46,52)" font-family="Manrope,sans-serif" font-size="12" font-weight="700">
+              <g><rect class="rw" x="0" y="0" width="308" height="40" rx="20"/><text x="20" y="25" fill="#A9CFC3">3:40</text><rect x="86" y="16" width="120" height="8" rx="4" fill="#fff" opacity=".28"/></g>
+              <g><rect class="rw" x="0" y="58" width="308" height="40" rx="20"/><text x="20" y="83" fill="#A9CFC3">3:50</text><rect x="86" y="74" width="92" height="8" rx="4" fill="#fff" opacity=".28"/></g>
+              <g><rect class="rw base" x="0" y="116" width="308" height="40" rx="20"/><rect class="rw-sun" x="0" y="116" width="308" height="40" rx="20"/><rect class="rw-fill" x="0" y="116" width="308" height="40" rx="20"/><text x="20" y="141" fill="#0B3B36" class="t-open">4:10</text>
+                <g class="member"><rect x="190" y="121" width="108" height="30" rx="15" fill="#fff"/><circle cx="206" cy="136" r="7" fill="#FF6A4D"/><text x="220" y="141" fill="#0B3B36">Member</text></g>
+                <path class="tick" d="M276 136 l8 8 16 -18"/></g>
+              <g><rect class="rw" x="0" y="174" width="308" height="40" rx="20"/><text x="20" y="199" fill="#A9CFC3">4:20</text><rect x="86" y="190" width="104" height="8" rx="4" fill="#fff" opacity=".28"/></g>
+              <g><rect class="rw" x="0" y="232" width="308" height="40" rx="20"/><text x="20" y="257" fill="#A9CFC3">4:30</text><rect x="86" y="248" width="76" height="8" rx="4" fill="#fff" opacity=".28"/></g>
+            </g>
+            <g class="bars"><rect class="bar b1" x="62" y="344" width="22" height="30" rx="5"/><rect class="bar b2" x="96" y="344" width="22" height="30" rx="5"/><rect class="bar b3" x="130" y="344" width="22" height="30" rx="5"/><rect class="bar b4" x="164" y="344" width="22" height="30" rx="5"/></g>
+          </svg></div>
+        </div>
+        <div class="tp" role="tabpanel" id="p-strategic" aria-labelledby="t-strategic" data-k="strategic" hidden>
+          <div>
+            <h3>Strategic partners and investors. Coming soon.</h3>
+            <p>If this is you, we would like to hear from you.</p>
+            <div class="actions"><a class="btn coral" href="https://www.trysqueez.com/contact">Explore a partnership</a></div>
+          </div>
+          <div class="art" aria-hidden="true"><svg class="ill" viewBox="0 0 400 400" focusable="false">
+            <circle class="halo" cx="200" cy="170" r="128"/>
+            <g class="net"><g class="orbit slow">
+              <line class="link" x1="200" y1="170" x2="200" y2="52"/><line class="link l2" x1="200" y1="170" x2="312" y2="134"/><line class="link l3" x1="200" y1="170" x2="290" y2="262"/><line class="link l4" x1="200" y1="170" x2="110" y2="262"/><line class="link l5" x1="200" y1="170" x2="88" y2="134"/>
+              <circle class="node" cx="200" cy="52" r="13"/><circle class="node coral" cx="312" cy="134" r="11"/><circle class="node" cx="290" cy="262" r="13"/><circle class="node soon" cx="110" cy="262" r="12"/><circle class="node sun" cx="88" cy="134" r="10"/>
+            </g></g>
+            <circle class="pulse" cx="200" cy="170" r="30"/><circle cx="200" cy="170" r="28" fill="#FFD25E"/><circle cx="200" cy="170" r="12" fill="#0B3B36" opacity=".18"/>
+            <path class="trend" d="M44 352 C110 346 130 316 180 322 S262 284 304 262 S350 232 364 214"/><circle class="trend-dot" cx="364" cy="214" r="7"/>
+          </svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE IT'S LIVE -->
+<section class="live" id="live">
+  <div class="wrap">
+    <div class="live-head">
+      <div><span class="eyebrow rv">Where it’s live</span><h2 data-split>Where access becomes <em>the experience.</em></h2></div>
+      <p class="rv">Golf first.<br>Dining coming soon.<br>More to follow<span class="more" aria-hidden="true"></span></p>
+    </div>
+    <div class="exp rv" id="exp">
+      <button class="xp is-live" type="button" aria-expanded="true">
+        <img src="assets/img/golf.webp" width="1600" height="1067" loading="lazy" decoding="async" alt="A tee box in morning mist, with a large oak draped in moss and a golf bag standing on the grass.">
+        <span class="xp-cap"><span class="tg"><i></i>Live</span><h3>Golf</h3><span class="d">The weekend tee time, secured with points.</span></span>
+      </button>
+      <button class="xp" type="button" aria-expanded="false">
+        <img src="assets/img/dining.webp" width="1600" height="1067" loading="lazy" decoding="async" alt="A window table set for two, with a candle and two glasses of wine, looking out over a bay at dusk.">
+        <span class="xp-cap"><span class="tg"><i></i>Coming soon</span><h3>Dining</h3><span class="d">The tables that look fully booked online.</span></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE BELIEVE -->
+<section class="believe" id="believe">
+  <div class="wrap">
+    <span class="eyebrow rv">What we believe</span>
+    <div class="beliefs">
+      <h3 class="belief"><span>Loyalty should feel like being known.</span></h3>
+      <h3 class="belief"><span>Belonging should open doors.</span></h3>
+      <h3 class="belief"><span>Every point earned should become a moment worth telling.</span></h3>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER -->
+<section class="cta" id="talk">
+  <div class="wrap cta-grid">
+    <div>
+      <span class="eyebrow rv">Partner with Squeez</span>
+      <h2 data-split>Let’s create something rewarding.</h2>
+      <a class="btn rv" style="--d:300ms" href="https://www.trysqueez.com/contact">Explore a partnership</a>
+    </div>
+    <div class="cta-art rv" style="--d:200ms">
+      <div class="arch" id="ctaScene" aria-hidden="true"></div>
+      <div class="badge" aria-hidden="true">
+        <svg viewBox="0 0 140 140"><defs><path id="circ" d="M70 70 m-52 0 a52 52 0 1 1 104 0 a52 52 0 1 1 -104 0"/></defs><text><textPath href="#circ" textLength="318" lengthAdjust="spacing">PARTNER WITH SQUEEZ</textPath></text></svg>
+        <div class="core"><span>↗</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div><img src="assets/img/wordmark-coral.svg" width="78" height="36" alt="Squeez"><p class="f-tag">Where loyalty, access and experiences come together.</p></div>
+      <div><h4>Explore</h4><ul>
+        <li><a href="https://www.trysqueez.com/">Home</a></li>
+        <li><a href="https://www.trysqueez.com/loyalty-programs">For loyalty programs</a></li>
+        <li><a href="https://www.trysqueez.com/experience-partners">For experience partners</a></li>
+        <li><a href="https://www.trysqueez.com/press">Press &amp; media</a></li>
+        <li><a href="https://www.trysqueez.com/company">Company</a></li>
+        <li><a href="https://www.trysqueez.com/local-luxury">Local Luxury™</a></li>
+        <li><a href="https://www.trysqueez.com/contact">Contact</a></li>
+        <li><a href="https://www.trysqueez.com/contact">Explore a partnership</a></li>
+        <li><a href="https://www.linkedin.com/company/trysqueez/" rel="noopener">LinkedIn</a></li></ul></div>
+      <div><h4>Legal</h4><ul>
+        <li><a href="https://www.trysqueez.com/terms">Terms of Service</a></li>
+        <li><a href="https://www.trysqueez.com/privacy">Privacy Policy</a></li>
+        <li><a href="https://www.trysqueez.com/cookies">Cookies</a></li>
+        <li><a href="https://www.trysqueez.com/accessibility">Accessibility</a></li>
+        <li><a href="https://www.trysqueez.com/privacy-choices">Your Privacy Choices</a></li></ul></div>
+    </div>
+    <div class="f-base">
+      <p>© 2026 Squeez, Inc. · Tampa, Florida · Trademarks of Squeez, Inc. include Local Luxury™, Perfect Access™, Just Squeez It™, The Velvet Rope™, Offline Access™ and You’re in.™</p>
+      <a href="#main">Back to the top</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var calm = reduce;
+
+  /* ---- headings reveal word by word through a mask ---- */
+  function splitWords(h) {
+    h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
+    var nodes = [].slice.call(h.childNodes), i = 0; h.textContent = '';
+    function add(node) {
+      var w = document.createElement('span'); w.className = 'w'; w.setAttribute('aria-hidden', 'true'); w.style.setProperty('--i', i++);
+      var inner = document.createElement('i'); inner.appendChild(node); w.appendChild(inner); h.appendChild(w); h.appendChild(document.createTextNode(' '));
+    }
+    nodes.forEach(function (n) {
+      if (n.nodeType === 3) n.textContent.split(/\s+/).filter(Boolean).forEach(function (t) { add(document.createTextNode(t)); });
+      else if (n.nodeName === 'BR') h.appendChild(n); else add(n);
+    });
+  }
+  document.querySelectorAll('[data-split]').forEach(splitWords);
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .15, rootMargin: '0px 0px -5% 0px' });
+  document.querySelectorAll('[data-split], .rv').forEach(function (el) { io.observe(el); });
+
+  /* ---- scroll-driven: the story steps and the beliefs light up as they cross the middle ---- */
+  var steps = [].slice.call(document.querySelectorAll('.step')), bel = [].slice.call(document.querySelectorAll('.belief')), tick = false, lastStep = -1;
+  var sNum = $('sNum'), sProg = $('sProg');
+  function lit(els, focus, spread) {
+    var vh = innerHeight, best = 0, bd = 9;
+    els.forEach(function (b, i) {
+      var r = b.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - vh * focus) / (vh * spread);
+      b.style.setProperty('--a', Math.max(0, Math.min(1, 1 - d)).toFixed(3)); if (d < bd) { bd = d; best = i; }
+    });
+    return best;
+  }
+  function onScroll() {
+    tick = false;
+    if (!reduce) { var k = lit(steps, .5, .34); lit(bel, .55, .34);
+      if (k !== lastStep) { lastStep = k; sNum.textContent = '0' + (k + 1); sProg.style.strokeDashoffset = String(804 - 804 * (k + 1) / 4); } }
+  }
+  addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  addEventListener('resize', onScroll); onScroll();
+
+  /* ---- floating navbar: the <li> list is the single source of truth ---- */
+  (function () {
+    var fnav = $('fnav'), list = $('fnList'), navEl = $('fnNav'), ind = $('fnInd'), more = $('fnMore'), pop = $('fnPop'),
+        sheet = $('fnSheet'), burger = $('fnBurger'), prog = $('fnProg'), popUl = pop.querySelector('ul');
+    var widths = [], active = null, sheetUl = null, lastY = scrollY, tick2 = false, building = false;
+
+    function clone(li) { var l = document.createElement('li'); l.appendChild(li.firstElementChild.cloneNode(true)); return l; }
+    function items() { return [].slice.call(list.children); }
+
+    function build() {                                  /* sheet + overflow menu come from the list */
+      building = true;
+      if (sheetUl) sheetUl.remove();
+      sheetUl = document.createElement('ul'); items().forEach(function (li) { sheetUl.appendChild(clone(li)); });
+      sheet.insertBefore(sheetUl, sheet.firstChild);
+      building = false; measure(); layout(); paintActive();
+    }
+    function measure() { var its = items(); its.forEach(function (li) { li.classList.remove('is-over'); }); widths = its.map(function (li) { return li.offsetWidth; }); }
+
+    function layout() {                                 /* priority+: what does not fit goes into "More" */
+      var its = items(); if (!navEl.offsetParent || !its.length) return;
+      its.forEach(function (li) { li.classList.remove('is-over'); });
+      if (!widths.length || widths.length !== its.length || widths.some(function (w) { return !w; })) measure();
+      var gap = 2, total = widths.reduce(function (a, w) { return a + w + gap; }, -gap), fit = its.length;
+      more.hidden = true;
+      if (total > navEl.clientWidth) {
+        more.hidden = false; var avail = navEl.clientWidth, acc = 0; fit = 0;
+        for (var i = 0; i < its.length; i++) { acc += widths[i] + (i ? gap : 0); if (acc > avail) break; fit = i + 1; }
+        if (fit < 1) fit = 1;
+      }
+      its.forEach(function (li, i) { li.classList.toggle('is-over', i >= fit); });
+      popUl.textContent = ''; for (var j = fit; j < its.length; j++) popUl.appendChild(clone(its[j]));
+      more.hidden = fit >= its.length; if (more.hidden) closeAll();
+      paintActive();
+    }
+
+    function paintActive() {                            /* mark the current chapter everywhere, slide the indicator */
+      fnav.querySelectorAll('a[data-sec]').forEach(function (a) { var on = a.dataset.sec === active; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); });
+      var a = list.querySelector('a.on'), li = a && a.parentNode;
+      if (a && li && !li.classList.contains('is-over')) {
+        var ar = a.getBoundingClientRect(), nr = navEl.getBoundingClientRect(); ind.style.width = ar.width + 'px'; ind.style.transform = 'translateX(' + (ar.left - nr.left) + 'px)'; ind.style.opacity = '1';
+      } else ind.style.opacity = '0';
+      more.classList.toggle('has-active', !!(a && li && li.classList.contains('is-over')));
+    }
+
+    function isOpen() { return pop.classList.contains('open') || sheet.classList.contains('open'); }
+    function closeAll(focusBack) {
+      pop.classList.remove('open'); sheet.classList.remove('open');
+      more.setAttribute('aria-expanded', 'false'); burger.setAttribute('aria-expanded', 'false');
+      if (focusBack) (document.activeElement && fnav.contains(document.activeElement) ? document.activeElement : more).blur();
+    }
+    more.addEventListener('click', function (e) { e.stopPropagation(); var o = !pop.classList.contains('open'); closeAll(); pop.classList.toggle('open', o); more.setAttribute('aria-expanded', String(o)); });
+    burger.addEventListener('click', function (e) { e.stopPropagation(); var o = !sheet.classList.contains('open'); closeAll(); sheet.classList.toggle('open', o); burger.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('click', function (e) { if (isOpen() && !e.target.closest('.fn-pop, .fn-sheet, .fn-more, .fn-burger')) closeAll(); });
+    fnav.addEventListener('click', function (e) { if (e.target.closest('.fn-pop a, .fn-sheet a')) closeAll(); });
+    addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) { var wasMore = pop.classList.contains('open'); closeAll(); (wasMore ? more : burger).focus(); } });
+
+    /* which chapter is on screen: the last section whose top has passed 40% of the viewport (works after jumps and reloads too) */
+    var SECS = ['what', 'who', 'live', 'believe'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+    function whichSection() {
+      var line = innerHeight * .4, cur = null, talk = document.getElementById('talk');
+      SECS.forEach(function (el) { if (el.getBoundingClientRect().top <= line) cur = el.id; });
+      if (talk && talk.getBoundingClientRect().top <= line) cur = null;      /* the partner block has no nav item */
+      if (cur !== active) { active = cur; paintActive(); }
+    }
+
+    /* compact on scroll, hide going down, return going up, thin progress line */
+    function onScroll2() {
+      tick2 = false; var y = scrollY, d = y - lastY, h = document.documentElement.scrollHeight - innerHeight;
+      fnav.classList.toggle('is-compact', y > 40);
+      whichSection();
+      fnav.style.setProperty('--sp', h > 0 ? Math.min(1, y / h).toFixed(4) : 0);
+      if (!reduce) {
+        if (y < 160 || d < -6 || isOpen() || fnav.contains(document.activeElement)) fnav.classList.remove('is-hidden');
+        else if (d > 8) fnav.classList.add('is-hidden');
+      }
+      lastY = y;
+    }
+    prog.parentNode.addEventListener('focusin', function () { fnav.classList.remove('is-hidden'); });
+    addEventListener('pointermove', function (e) { if (e.clientY < 90 && e.pointerType === 'mouse') fnav.classList.remove('is-hidden'); }, { passive: true });   /* mouse near the top edge brings it back */
+    addEventListener('scroll', function () { if (!tick2) { tick2 = true; requestAnimationFrame(onScroll2); } }, { passive: true });
+    fnav.style.setProperty('--sp', 0);
+
+    /* scale: re-layout whenever the width changes or items are added or removed */
+    new ResizeObserver(function () { layout(); }).observe(navEl);
+    new MutationObserver(function () { if (!building) build(); }).observe(list, { childList: true });
+    addEventListener('resize', function () { if (innerWidth > 860) sheet.classList.remove('open'); layout(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); layout(); });
+    build(); whichSection();
+    window.SqueezNav = { refresh: build };
+  })();
+
+  /* ---- button ripples ---- */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.btn'); if (!b || reduce) return;
+    var r = b.getBoundingClientRect(), s = Math.max(r.width, r.height) * 2.2, d = document.createElement('span');
+    d.className = 'rip'; d.style.cssText = 'width:' + s + 'px;height:' + s + 'px;left:' + (e.clientX - r.left - s / 2) + 'px;top:' + (e.clientY - r.top - s / 2) + 'px';
+    b.appendChild(d); setTimeout(function () { d.remove(); }, 850);
+  });
+
+  /* ---- hero scene: the golf ball is struck when the member uses points, and drops in as "You're in." lands ---- */
+  var Scene = (function () {
+    var svg = document.querySelector('#heroScene svg');
+    var NOOP = { fly: function () {}, reset: function () {}, clone: function () {} };
+    if (!svg) return NOOP;
+    var ball = svg.querySelector('#ball'), trail = [].slice.call(svg.querySelectorAll('#trail circle'));
+    var P0 = { x: 62, y: 245 }, P1 = { x: 190, y: 36 }, P2 = { x: 318, y: 266 }, HOLE = { x: 322, y: 274 }, raf = 0;
+    function pt(t) { var u = 1 - t; return { x: u * u * P0.x + 2 * u * t * P1.x + t * t * P2.x, y: u * u * P0.y + 2 * u * t * P1.y + t * t * P2.y }; }
+    function place(x, y, sc, rot) { ball.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ') rotate(' + (rot || 0).toFixed(0) + ') scale(' + sc.toFixed(2) + ')'); }
+    function setTrail(t) {
+      trail.forEach(function (c, i) {
+        var p = pt(Math.max(0, t - (i + 1) * .05)); c.setAttribute('cx', p.x.toFixed(1)); c.setAttribute('cy', p.y.toFixed(1));
+        c.style.opacity = (t > .03 && t < 1) ? String(Math.max(0, .55 - i * .11)) : '0';
+      });
+    }
+    function land() {
+      svg.classList.add('landed', 'cheer'); setTrail(1);
+      if (reduce) { ball.style.opacity = '0'; return; }
+      var t0 = performance.now();
+      (function sink(now) {
+        var k = Math.min((now - t0) / 260, 1);
+        place(P2.x + (HOLE.x - P2.x) * k, P2.y + (HOLE.y - P2.y) * k, 1 - .85 * k, 0); ball.style.opacity = String(1 - k);
+        if (k < 1) raf = requestAnimationFrame(sink);
+      })(t0);
+      setTimeout(function () { svg.classList.remove('cheer'); }, 1800);
+    }
+    function fly(ms) {
+      cancelAnimationFrame(raf); svg.classList.remove('landed');
+      if (reduce) { land(); return; }
+      var t0 = performance.now();
+      (function step(now) {
+        var k = Math.min((now - t0) / ms, 1), p = pt(k); place(p.x, p.y, 1, k * 560); setTrail(k);
+        if (k < 1) raf = requestAnimationFrame(step); else land();
+      })(t0);
+    }
+    function reset() {
+      cancelAnimationFrame(raf); svg.classList.remove('landed', 'cheer'); place(P0.x, P0.y, 1, 0); setTrail(0); ball.style.opacity = '1';
+      if (!reduce && ball.animate) ball.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 600, easing: 'ease-out' });
+    }
+    /* the closing section shows the same scene (no ball), so the page needs no second picture */
+    function clone() {
+      var dst = document.getElementById('ctaScene'); if (!dst || dst.firstChild) return;
+      var c = svg.cloneNode(true);
+      c.querySelectorAll('#ball, #trail, #burst, .pts, .traj, rect[width="6"]').forEach(function (n) { n.remove(); });
+      dst.appendChild(c);
+    }
+    return { fly: fly, reset: reset, clone: clone };
+  })();
+  Scene.clone();
+
+  /* ---- the member moment: points become an experience ("You're in.") ---- */
+  var mEl = $('moment'), mBtnEl = $('mBtn'), SAMPLES = [
+    { meta: 'Saturday, 8:10 AM, 4 players', pts: 12500 },
+    { meta: 'Sunday, 7:40 AM, 2 players', pts: 6800 },
+    { meta: 'Saturday, 11:20 AM, 3 players', pts: 9300 }
+  ], mi = 0, mt = [];
+  function later(fn, ms) { mt.push(setTimeout(fn, ms)); }
+  function clearAll() { mt.forEach(clearTimeout); mt = []; }
+  function countTo(el, n) {
+    if (reduce) { el.textContent = n.toLocaleString('en-US'); return; }
+    var t0 = performance.now();
+    (function s(t) { var k = Math.min((t - t0) / 900, 1), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(n * e).toLocaleString('en-US'); if (k < 1) requestAnimationFrame(s); })(t0);
+  }
+  function show() {
+    Scene.reset();
+    var s = SAMPLES[mi % SAMPLES.length];
+    mEl.classList.remove('is-working', 'is-done'); $('mMeta').textContent = s.meta; $('mDone').textContent = s.meta + '. Confirmed.';
+    mBtnEl.disabled = false; mBtnEl.textContent = 'Use my points'; countTo($('mPts'), s.pts);
+    mEl.querySelector('.m-done').setAttribute('aria-hidden', 'true');
+  }
+  function work() {
+    if (mEl.classList.contains('is-working') || mEl.classList.contains('is-done')) return;
+    clearAll(); mEl.classList.add('is-working'); mBtnEl.disabled = true; mBtnEl.textContent = 'Confirming…'; Scene.fly(1300);
+    later(done, reduce ? 200 : 1350);
+  }
+  function done() {
+    mEl.classList.remove('is-working'); mEl.classList.add('is-done'); mEl.querySelector('.m-done').removeAttribute('aria-hidden');
+    $('mLive').textContent = 'You’re in. ' + SAMPLES[mi % SAMPLES.length].meta + '. Confirmed.';
+    if (!calm) later(next, 4800);
+  }
+  function next() { clearAll(); mi++; show(); if (!calm) later(work, 3000); }
+  mBtnEl.addEventListener('click', work);
+  $('mAgain').addEventListener('click', next);
+  show(); if (!calm) later(work, 3800);
+
+  /* ---- who it's for: tabs with a sliding indicator ---- */
+  var tabs = [].slice.call(document.querySelectorAll('.tab')), panels = [].slice.call(document.querySelectorAll('.tp')), ind = $('ind');
+  var KEYS = tabs.map(function (t) { return t.dataset.k; }), tIdx = 0, tTimer = 0, resumeT = 0;
+  function moveInd() { var t = tabs[tIdx]; ind.style.width = t.offsetWidth + 'px'; ind.style.transform = 'translateX(' + t.offsetLeft + 'px)'; }
+  function setTab(i, focus) {
+    tIdx = i;
+    tabs.forEach(function (t, j) { var on = j === i; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
+    panels.forEach(function (p, j) { var on = j === i; p.hidden = !on; p.classList.toggle('on', on); });
+    moveInd(); if (focus) tabs[i].focus();
+    var tl = $('tablist'), t = tabs[i]; if (tl.scrollWidth > tl.clientWidth) tl.scrollTo({ left: t.offsetLeft - 16, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function stopTabs() { clearInterval(tTimer); tTimer = 0; }
+  function startTabs() { stopTabs(); if (calm) return; tTimer = setInterval(function () { setTab((tIdx + 1) % tabs.length); }, 6500); }
+  function userTab(i, focus) { stopTabs(); clearTimeout(resumeT); setTab(i, focus); resumeT = setTimeout(startTabs, 14000); }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { userTab(i); });
+    t.addEventListener('keydown', function (e) {
+      var n = e.key === 'ArrowRight' ? (i + 1) % tabs.length : e.key === 'ArrowLeft' ? (i + tabs.length - 1) % tabs.length : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+      if (n > -1) { e.preventDefault(); userTab(n, true); }
+    });
+  });
+  addEventListener('resize', moveInd);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveInd);
+  setTab(0); moveInd();
+  new IntersectionObserver(function (es) { if (es[0].isIntersecting) { if (!tTimer && !resumeT) startTabs(); } else stopTabs(); }, { threshold: .4 }).observe($('who'));
+
+  /* ---- where it's live: the panels expand ---- */
+  var xps = [].slice.call(document.querySelectorAll('.xp'));
+  function expand(i) { xps.forEach(function (x, j) { x.setAttribute('aria-expanded', String(j === i)); }); }
+  xps.forEach(function (x, i) {
+    x.addEventListener('click', function () { expand(i); });
+    x.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') expand(i); });
+    x.addEventListener('focus', function () { expand(i); });
+  });
+
+  /* ---- hooks the mascot uses ---- */
+  function setCalm(on) {
+    calm = on; document.documentElement.classList.toggle('calm', on);
+    if (on) { clearAll(); stopTabs(); show(); } else { next(); startTabs(); }
+  }
+  if (reduce) document.documentElement.classList.add('calm');
+  window.SqueezPage = {
+    reduce: reduce, isCalm: function () { return calm; }, setCalm: setCalm,
+    restart: function () { clearAll(); mi = 0; show(); if (!calm) later(work, 1400); },
+    redeem: function () { if (mEl.classList.contains('is-done')) return 'done'; work(); return 'started'; },
+    audience: function (k) { var i = KEYS.indexOf(k); userTab(i < 0 ? 0 : i); }
+  };
+})();
+</script>
+<script src="assets/mascot/mascot.js"></script>
+<script src="assets/mascot/skills/squeez.js"></script>
+<script>
+  Mascot.init({
+    name: 'Squizzle',
+    tagline: 'Your Squeez guide.',
+    greeting: 'Hi, I am {name}. I can show you how a member gets in, explain who Squeez is for, take you on a tour, or start a partnership conversation. Where would you like to begin?',
+    chips: ['How does a member get in?', 'Who is Squeez for?', 'Golf and dining', 'Give me a tour', 'Explore a partnership'],
+    tips: ['Curious how points become a tee time?', 'Ask me who Squeez is for.', 'I can give you a quick tour.'],
+    motion: { isOn: function () { return !SqueezPage.isCalm(); }, set: function (on) { SqueezPage.setCalm(!on); } },
+    host: window.SqueezPage
+  });
+</script>
+</body>
+</html>

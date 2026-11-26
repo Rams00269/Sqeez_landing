@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Squeez · Where loyalty, access and experiences come together</title>
+<meta name="description" content="Squeez connects loyalty programs with sought-after experiences, giving members more meaningful ways to use their points while creating new revenue opportunities for experience partners.">
+<meta name="theme-color" content="#121744">
+<meta property="og:title" content="Squeez · Where loyalty, access and experiences come together">
+<meta property="og:description" content="Two words every loyalty member wants to hear: You’re in.™">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/hero-poster.jpg" fetchpriority="high">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="assets/mascot/mascot.css">
+<style>
+:root{
+  --navy:#121744; --navy-deep:#0B1035; --navy-2:#1C2260;
+  --ivory:#FBF9F4; --sand:#F4EEE3; --line:#CFC7B6;
+  --gold:#D6B46E; --gold-hi:#F0DDA8; --bronze:#8C6B24; --plum:#423C63;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1); --out:cubic-bezier(.16,1,.3,1);
+  --header:76px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:var(--header);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:var(--sans);font-size:1.0625rem;line-height:1.65;color:var(--plum);background:var(--ivory);-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+a,button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{width:min(1200px,100% - 48px);margin-inline:auto}
+.skip{position:absolute;left:12px;top:-60px;background:var(--gold);color:var(--navy);padding:10px 16px;border-radius:6px;font-weight:600;z-index:100;transition:top .2s}
+.skip:focus{top:12px}
+.eyebrow{font-size:.84rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze)}
+.on-navy .eyebrow,.eyebrow.gold{color:var(--gold)}
+.serif{font-family:var(--serif)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:var(--gold);color:var(--navy);font:inherit;font-weight:600;font-size:.95rem;line-height:1;padding:14px 22px;border-radius:6px;text-decoration:none;border:0;cursor:pointer;transition:background .25s,transform .5s var(--out),box-shadow .4s;position:relative;overflow:hidden}
+.btn:hover{background:#E4CB8F;transform:translateY(-2px);box-shadow:0 10px 24px rgba(11,16,53,.25)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn[disabled]{cursor:default;opacity:.85}
+.rip{position:absolute;border-radius:50%;pointer-events:none;background:rgba(18,23,68,.18);transform:scale(0);animation:rip .8s var(--out) forwards}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+.link{font-weight:600;color:var(--bronze);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px;transition:color .2s}
+.link:hover{color:var(--navy)}
+.on-navy .link{color:var(--gold)} .on-navy .link:hover{color:var(--ivory)}
+
+/* ---------- header ---------- */
+.site-header{position:sticky;top:0;z-index:50;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.1)}
+.bar{display:flex;align-items:center;gap:28px;height:var(--header)}
+.logo{display:block;flex:none}
+.logo img{width:78px;height:36px}
+.nav{display:flex;gap:30px;margin-right:auto;margin-left:10px}
+.nav a{color:#fff;text-decoration:none;font-size:1rem;background:linear-gradient(var(--gold),var(--gold)) 0 100%/0 1px no-repeat;padding-bottom:3px;transition:background-size .4s var(--out)}
+.nav a:hover{background-size:100% 1px}
+.bar .btn{padding:11px 16px;font-size:.9rem}
+.menu-btn{background:none;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:6px;padding:11px 18px;font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s}
+.menu-btn:hover{background:rgba(255,255,255,.08)}
+@media(min-width:1081px){.menu-btn{display:none}}
+@media(max-width:1080px){.nav{display:none}.bar{justify-content:space-between}.bar .btn{margin-left:auto}}
+@media(max-width:560px){.bar .btn{display:none}.bar{gap:12px}}
+.menu{position:fixed;inset:0;z-index:80;background:var(--navy-deep);color:var(--ivory);display:flex;flex-direction:column;padding:0 24px 32px;opacity:0;visibility:hidden;transform:translateY(-12px);transition:opacity .4s var(--ease),transform .6s var(--out),visibility 0s .4s;overflow-y:auto}
+.menu.open{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.menu-top{display:flex;justify-content:space-between;align-items:center;height:var(--header)}
+.menu nav{display:grid;gap:4px;margin-top:20px}
+.menu nav a{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,7vw,2.6rem);text-decoration:none;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.menu .btn{margin-top:28px;align-self:flex-start}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--navy-deep);color:var(--ivory);overflow:hidden;isolation:isolate}
+.hero-media{position:absolute;inset:-5% 0;z-index:-2;will-change:transform}
+.hero-img{width:100%;height:100%;object-fit:cover;object-position:62% 45%;transform-origin:70% 50%;animation:kb 28s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.1) translate(-1.2%,-1%)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(11,16,53,.94) 0,rgba(11,16,53,.74) 40%,rgba(11,16,53,.28) 100%),linear-gradient(0deg,rgba(11,16,53,.65),transparent 45%)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(28px,5vw,72px);align-items:end;padding-block:clamp(56px,9vw,112px) clamp(48px,7vw,88px);min-height:min(84svh,840px)}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.35rem,5.4vw,4.5rem);line-height:1.1;letter-spacing:-.012em;color:var(--ivory);margin-top:18px;max-width:15.5em}
+.sheen{font-style:italic;font-weight:300;color:var(--gold);padding:0 .14em;margin:0 -.14em}
+@supports (background-clip:text) or (-webkit-background-clip:text){
+  .sheen,.m-yes strong{background-image:linear-gradient(100deg,var(--gold) 0,var(--gold) 38%,var(--gold-hi) 50%,var(--gold) 62%,var(--gold) 100%);background-size:250% 100%;background-repeat:repeat-x;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:sheen 7s ease-in-out 2.2s infinite}
+}
+@keyframes sheen{0%{background-position:100% 0}55%,100%{background-position:0% 0}}
+.tm{font-size:.32em;vertical-align:top;position:relative;top:.55em;margin-left:.08em;color:var(--gold);font-style:normal;-webkit-text-fill-color:var(--gold);letter-spacing:0}
+.hero-copy p{max-width:36em;color:rgba(251,249,244,.88);font-size:clamp(1.02rem,1.3vw,1.18rem);margin-top:22px}
+.hero-copy p.eyebrow{margin-top:0;color:var(--gold);font-size:.84rem}
+.hero-copy p+p{margin-top:14px}
+.hero .btn{margin-top:30px}
+
+/* the member moment: points become an experience */
+.moment{width:100%;max-width:410px;justify-self:end;background:rgba(11,16,53,.66);border:1px solid rgba(214,180,110,.38);border-radius:12px;padding:26px 26px 22px;color:var(--ivory);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 34px 70px rgba(0,0,0,.4)}
+.moment .eyebrow{color:var(--gold)}
+.m-title{font-family:var(--serif);font-weight:400;font-size:1.75rem;line-height:1.2;margin-top:8px;color:var(--ivory)}
+.m-meta{color:rgba(251,249,244,.8);margin-top:2px;font-size:.98rem}
+.m-stage{position:relative;min-height:158px;margin-top:18px;border-top:1px solid rgba(251,249,244,.16)}
+.m-layer{position:absolute;inset:18px 0 0;transition:opacity .6s var(--ease),transform .8s var(--out)}
+.m-done{opacity:0;transform:translateY(10px);pointer-events:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start}
+.moment.is-done .m-ask{opacity:0;transform:translateY(-10px);pointer-events:none}
+.moment.is-done .m-done{opacity:1;transform:none;pointer-events:auto}
+.m-points{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.m-points span{color:rgba(251,249,244,.78);font-size:.95rem}
+.m-points b{font-family:var(--serif);font-weight:400;font-size:2rem;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.m-ask .btn{width:100%}
+.m-bar{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--gold-hi)}
+.moment.is-working .m-bar{width:100%;transition:width 1.3s linear}
+.m-yes{display:flex;align-items:center;gap:14px}
+.m-check{width:44px;height:44px;flex:none}
+.m-check circle,.m-check path{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:120;stroke-dashoffset:120}
+.moment.is-done .m-check circle{animation:draw .9s var(--ease) forwards}
+.moment.is-done .m-check path{animation:draw .6s var(--ease) .55s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.m-yes strong{font-family:var(--serif);font-style:italic;font-weight:300;font-size:2.5rem;line-height:1.1;color:var(--gold);padding:0 .14em;margin:0 -.14em}
+.m-yes sup{font-size:.4em;vertical-align:top;position:relative;top:.1em;font-style:normal;-webkit-text-fill-color:var(--gold)}
+.m-done p{margin-top:12px;color:rgba(251,249,244,.85);font-size:.98rem}
+.m-again{margin-top:10px;background:none;border:0;color:var(--gold);font:inherit;font-weight:600;font-size:.9rem;padding:6px 0;cursor:pointer;border-bottom:1px solid transparent}
+.m-again:hover{border-color:var(--gold)}
+.m-note{margin-top:14px;font-size:.78rem;color:rgba(251,249,244,.55)}
+
+/* ---------- what we are ---------- */
+.what{position:relative;background:var(--navy);color:var(--ivory);padding-block:clamp(72px,11vw,150px);overflow:hidden;isolation:isolate}
+.what::before{content:"";position:absolute;width:70vw;height:70vw;max-width:900px;max-height:900px;left:-15%;top:-30%;background:radial-gradient(circle,rgba(214,180,110,.16),transparent 62%);z-index:-1;animation:glow 16s ease-in-out infinite alternate}
+@keyframes glow{from{transform:translate(0,0) scale(1)}to{transform:translate(12%,18%) scale(1.15)}}
+h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.1rem,5vw,4rem);line-height:1.1;letter-spacing:-.012em;color:var(--navy);margin-top:16px}
+.on-navy h2{color:var(--ivory)}
+h2 em{font-style:italic;color:var(--bronze)}
+.on-navy h2 em{color:var(--gold)}
+.what h2{font-size:clamp(2.4rem,6.4vw,5.4rem);max-width:12em}
+.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:clamp(40px,7vw,96px);align-items:end}
+.what-rule{height:1px;background:linear-gradient(90deg,var(--gold),rgba(214,180,110,0));transform-origin:0 50%}
+.what-do{grid-column:2}
+.what-do p:not(.eyebrow){font-size:clamp(1.05rem,1.5vw,1.25rem);max-width:28em;margin-top:12px;color:rgba(251,249,244,.82)}
+.what-do strong{display:block;margin-top:10px;font-weight:600;color:var(--ivory)}
+
+/* ---------- who it's for ---------- */
+.who{padding-block:clamp(64px,9vw,128px);background:var(--ivory)}
+.who-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:clamp(28px,6vw,96px);align-items:center;margin-top:12px}
+.venn{width:100%;max-width:520px;height:auto;margin-inline:auto;overflow:visible}
+.v-set{cursor:pointer;outline:none}
+.v-set circle{fill:rgba(214,180,110,.14);stroke:var(--line);stroke-width:1.2;transition:fill .6s var(--ease),stroke .6s var(--ease),stroke-width .4s}
+.v-set.soon circle{stroke-dasharray:4 5;fill:rgba(214,180,110,.07)}
+.v-set.on circle{fill:rgba(214,180,110,.34);stroke:var(--bronze);stroke-width:1.8}
+.v-set:focus-visible circle{stroke:var(--navy);stroke-width:2.4}
+.v-set text{font-family:var(--serif);font-size:17px;fill:var(--navy);text-anchor:middle;pointer-events:none}
+.v-set .v-soon{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;fill:var(--bronze);text-transform:uppercase}
+.v-a{animation:vA 11s ease-in-out infinite alternate}.v-b{animation:vB 13s ease-in-out infinite alternate}.v-c{animation:vC 12s ease-in-out infinite alternate}
+@keyframes vA{to{transform:translate(-7px,-5px)}}@keyframes vB{to{transform:translate(7px,-6px)}}@keyframes vC{to{transform:translate(0,8px)}}
+.v-core{fill:var(--navy)}
+.v-ring{fill:none;stroke:var(--gold);stroke-width:1;opacity:.7;transform-origin:240px 200px;animation:ring 4.5s ease-out infinite}
+@keyframes ring{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.7);opacity:0}}
+.who-panel{min-height:230px;position:relative}
+.who-view{display:none}
+.who-view.on{display:block;animation:fadeUp .8s var(--out)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.who-view p{font-size:clamp(1.05rem,1.5vw,1.2rem);margin-bottom:14px;max-width:26em}
+.who-view .serif-line{font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2rem);font-weight:300;color:var(--navy);line-height:1.25;margin-bottom:16px}
+.who-links{display:flex;gap:26px;flex-wrap:wrap;margin-top:22px}
+.who-hint{margin-top:26px;font-size:.88rem;color:rgba(66,60,99,.75)}
+
+/* ---------- where it's live ---------- */
+.live{padding-block:clamp(56px,8vw,110px);background:var(--ivory);border-top:1px solid var(--line)}
+.live-head{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end}
+.live-head>p{font-size:clamp(1.05rem,1.4vw,1.2rem);max-width:20em;justify-self:end;color:var(--plum)}
+.more::after{content:"…";display:inline-block;animation:dots 2.4s ease-in-out infinite}
+@keyframes dots{0%,100%{opacity:.3}50%{opacity:1}}
+.places{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,32px);margin-top:clamp(32px,5vw,56px)}
+.ph{position:relative;overflow:hidden;border-radius:10px;aspect-ratio:4/3;background:var(--sand)}
+.ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.6s var(--out);will-change:transform;animation:drift 22s ease-in-out infinite alternate}
+.place:nth-child(2) .ph img{animation-duration:26s;animation-direction:alternate-reverse}
+@keyframes drift{from{object-position:48% 50%;transform:scale(1.06)}to{object-position:54% 46%;transform:scale(1.13)}}
+.place figcaption{margin-top:18px}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze)}
+.tag i{width:7px;height:7px;border-radius:50%;background:var(--bronze)}
+.tag.is-live i{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(140,107,36,.5)}60%{box-shadow:0 0 0 8px rgba(140,107,36,0)}}
+.place h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3vw,2.3rem);color:var(--navy);line-height:1.15;margin-top:6px}
+.place p{margin-top:4px}
+
+/* ---------- what we believe ---------- */
+.believe{background:var(--sand);padding-block:clamp(64px,9vw,128px)}
+.believe-grid{display:grid;grid-template-columns:minmax(0,.4fr) minmax(0,1fr);gap:48px;align-items:start}
+.beliefs{display:grid;gap:clamp(18px,3vw,34px)}
+.belief{font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,4.2vw,3.4rem);line-height:1.15;letter-spacing:-.012em;color:var(--navy);opacity:calc(.3 + var(--a,1) * .7);transition:opacity .3s linear;max-width:15em}
+
+/* ---------- partner ---------- */
+.cta{position:relative;background:var(--navy-deep);color:var(--ivory);text-align:center;overflow:hidden;isolation:isolate;padding-top:clamp(72px,11vw,150px)}
+.cta .wrap{padding-bottom:clamp(180px,32vw,430px)}
+.cta h2{margin-inline:auto;max-width:11em;font-size:clamp(2.4rem,6vw,4.8rem)}
+.cta .btn{margin-top:32px}
+.cta-media{position:absolute;inset:auto 0 -8% 0;height:62%;z-index:-1;will-change:transform}
+.cta-media img{width:100%;height:100%;object-fit:cover;object-position:50% 70%;animation:kb 30s ease-in-out infinite alternate}
+.cta::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,var(--navy-deep) 0,var(--navy-deep) 36%,rgba(11,16,53,.55) 62%,rgba(11,16,53,.15) 100%)}
+
+/* ---------- footer ---------- */
+footer{background:var(--navy);color:rgba(251,249,244,.82);padding-block:clamp(40px,6vw,72px) 28px}
+.f-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.f-grid img{width:78px;height:36px}
+.f-tag{margin-top:16px;max-width:22em;font-size:.98rem}
+footer h4{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:var(--gold);margin-bottom:14px}
+footer ul{list-style:none;padding:0;display:grid;gap:8px}
+footer ul a{text-decoration:none;font-size:.98rem}
+footer ul a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.f-base{margin-top:clamp(32px,5vw,56px);padding-top:22px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.84rem;color:rgba(251,249,244,.62)}
+.f-base p{max-width:62em}
+.f-base a{color:rgba(251,249,244,.82)}
+
+/* ---------- entrance motion (only for people who allow motion) ---------- */
+@media(prefers-reduced-motion:no-preference){
+  .js .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.08em .16em .22em;margin:-.08em -.16em -.22em}
+  .js .w>i{display:inline-block;font-style:inherit;transform:translateY(112%);transition:transform 1.25s var(--out);transition-delay:calc(min(var(--i),12) * 70ms)}
+  .js .in .w>i{transform:none}
+  .js .rv{opacity:0;transform:translateY(26px);transition:opacity 1s var(--ease),transform 1.3s var(--out);transition-delay:var(--d,0ms)}
+  .js .rv.in{opacity:1;transform:none}
+  .js .what-rule{transform:scaleX(0);transition:transform 1.8s var(--out) .2s}
+  .js .what-rule.in{transform:scaleX(1)}
+  .js .ph{clip-path:inset(0 0 100% 0);transition:clip-path 1.6s var(--out) .15s}
+  .js .place.in .ph{clip-path:inset(0 0 0 0)}
+}
+.calm *,.calm *::before,.calm *::after{animation-play-state:paused!important}
+
+/* ---------- responsive ---------- */
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;align-items:start;min-height:0}
+  .moment{justify-self:stretch;max-width:none}
+  .what-grid{grid-template-columns:1fr}.what-do{grid-column:1}
+  .who-grid{grid-template-columns:1fr}
+  .live-head{grid-template-columns:1fr}.live-head>p{justify-self:start}
+  .believe-grid{grid-template-columns:1fr;gap:24px}
+  .f-grid{grid-template-columns:1fr 1fr}.f-grid>div:first-child{grid-column:1/-1}
+  .hero-img{animation:none}
+}
+@media(max-width:640px){
+  .wrap{width:min(1200px,100% - 36px)}
+  .places{grid-template-columns:1fr}
+  .moment{padding:22px 18px 18px}
+  .m-yes strong{font-size:2.1rem}
+  .hero .btn,.cta .btn{width:100%}
+  .who-links{gap:18px}
+  .f-grid{grid-template-columns:1fr}
+}
+@media(hover:none){.btn:hover{transform:none;box-shadow:none}}
+@media(max-height:480px) and (orientation:landscape){.hero-grid{min-height:0}}
+
+/* mascot, dressed for this brand */
+.mx{
+  --mx-body:#E9D08C; --mx-body-shade:#C9A24B; --mx-body-hi:#FFF6D6; --mx-leaf:#5C7A5A; --mx-ink:#121744; --mx-cheek:#E8A89A;
+  --mx-paper:#FBF9F4; --mx-card:#FFFFFF; --mx-muted:#423C63;
+  --mx-head:#121744; --mx-head-2:#1C2260; --mx-head-text:#FBF9F4; --mx-head-muted:#B9BCD9;
+  --mx-accent:#423C63; --mx-accent-text:#FBF9F4; --mx-chip-hover:#D6B46E; --mx-shadow:#0B1035;
+  --mx-display:"Newsreader",Georgia,serif; --mx-bw:2px; --mx-r:18px; --mx-sh-x:0px; --mx-sh-y:16px; --mx-sh-blur:30px; --mx-sh-alpha:.4;
+}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="logo" href="https://www.trysqueez.com/" aria-label="Squeez home"><img src="assets/img/wordmark-white.svg" width="78" height="36" alt="Squeez"></a>
+    <nav class="nav" aria-label="Main">
+      <a href="https://www.trysqueez.com/loyalty-programs">For loyalty programs</a>
+      <a href="https://www.trysqueez.com/experience-partners">For experience partners</a>
+      <a href="https://www.trysqueez.com/press">Press &amp; media</a>
+      <a href="https://www.trysqueez.com/company">Company</a>
+      <a href="https://www.trysqueez.com/local-luxury">Local Luxury™</a>
+    </nav>
+    <a class="btn" href="https://www.trysqueez.com/contact">Explore a partnership</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </div>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" inert>
+  <div class="menu-top">
+    <a class="logo" href="https://www.trysqueez.com/" aria-label="Squeez home"><img src="assets/img/wordmark-white.svg" width="78" height="36" alt="Squeez"></a>
+    <button class="menu-btn" id="menuClose" type="button">Close</button>
+  </div>
+  <nav aria-label="Menu">
+    <a href="https://www.trysqueez.com/loyalty-programs">For loyalty programs</a>
+    <a href="https://www.trysqueez.com/experience-partners">For experience partners</a>
+    <a href="https://www.trysqueez.com/press">Press &amp; media</a>
+    <a href="https://www.trysqueez.com/company">Company</a>
+    <a href="https://www.trysqueez.com/local-luxury">Local Luxury™</a>
+  </nav>
+  <a class="btn" href="https://www.trysqueez.com/contact">Explore a partnership</a>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero on-navy" id="top">
+  <div class="hero-media" data-par=".1"><img class="hero-img" src="assets/img/hero-poster.jpg" width="1920" height="1080" alt="" fetchpriority="high" decoding="async"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Squeez</p>
+      <h1 data-split>Two words every loyalty member wants to hear: <em class="sheen">You’re in.</em><sup class="tm">™</sup></h1>
+      <p class="rv" style="--d:500ms">Squeez connects loyalty programs with sought-after experiences, giving members more meaningful ways to use their points while creating new revenue opportunities for experience partners.</p>
+      <p class="rv" style="--d:650ms">From golf and dining to what’s next, we’re making loyalty more rewarding and access more attainable.</p>
+      <a class="btn rv" style="--d:800ms" href="https://www.trysqueez.com/contact">Explore a partnership</a>
+    </div>
+
+    <aside class="moment rv" id="moment" style="--d:900ms" aria-label="A sample redemption">
+      <p class="eyebrow">Sample redemption</p>
+      <p class="m-title">Weekend tee time</p>
+      <p class="m-meta" id="mMeta">Saturday, 8:10 AM, 4 players</p>
+      <div class="m-stage">
+        <div class="m-layer m-ask">
+          <div class="m-points"><span>Pay with points</span><b id="mPts">12,500</b></div>
+          <button class="btn" id="mBtn" type="button">Use my points</button>
+          <span class="m-bar" aria-hidden="true"></span>
+        </div>
+        <div class="m-layer m-done" aria-hidden="true">
+          <div class="m-yes">
+            <svg class="m-check" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19"/><path d="M13 23l6 6 12-13"/></svg>
+            <strong>You’re in.<sup>™</sup></strong>
+          </div>
+          <p id="mDone">Saturday, 8:10 AM, 4 players. Confirmed.</p>
+          <button class="m-again" id="mAgain" type="button">See another</button>
+        </div>
+      </div>
+      <p class="m-note">Illustration. Times and points are samples.</p>
+      <div id="mLive" role="status" aria-live="polite" style="position:absolute;left:-9999px"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- WHAT WE ARE -->
+<section class="what on-navy" id="what">
+  <div class="wrap">
+    <p class="eyebrow rv">What we are</p>
+    <h2 data-split>A new way in.<br><em>Where loyalty becomes an experience.</em></h2>
+    <div class="what-grid">
+      <div class="what-rule" style="grid-column:1/-1"></div>
+      <div class="what-do rv">
+        <p class="eyebrow">What we do</p>
+        <p>Loyalty members are looking for access to experiences.<strong>Squeez helps loyalty brands unlock access to experiences.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="who" id="who">
+  <div class="wrap">
+    <p class="eyebrow rv">Who it’s for</p>
+    <div class="who-grid">
+      <svg class="venn rv" viewBox="0 0 480 440" role="group" aria-label="Who Squeez is for: loyalty programs and brands, experience partners, and strategic partners and investors (coming soon)">
+        <g class="v-a"><g class="v-set" id="vA" role="button" tabindex="0" aria-pressed="false" aria-label="Loyalty programs and brands"><circle cx="180" cy="160" r="128"/><text x="132" y="128">Loyalty programs</text><text x="132" y="150">&amp; brands</text></g></g>
+        <g class="v-b"><g class="v-set" id="vB" role="button" tabindex="0" aria-pressed="false" aria-label="Experience partners"><circle cx="300" cy="160" r="128"/><text x="350" y="128">Experience</text><text x="350" y="150">partners</text></g></g>
+        <g class="v-c"><g class="v-set soon" id="vC" role="button" tabindex="0" aria-pressed="false" aria-label="Strategic partners and investors, coming soon"><circle cx="240" cy="290" r="128"/><text x="240" y="338">Strategic partners</text><text x="240" y="360">&amp; investors</text><text class="v-soon" x="240" y="384">Coming soon</text></g></g>
+        <circle class="v-ring" cx="240" cy="200" r="46"/>
+        <circle class="v-core" cx="240" cy="200" r="46"/>
+        <image href="assets/img/wordmark-white.svg" x="209" y="185" width="62" height="29" aria-hidden="true"/>
+      </svg>
+
+      <div class="who-panel rv" style="--d:200ms" aria-live="polite">
+        <div class="who-view on" data-for="all">
+          <p class="serif-line">Squeez connects loyalty points to bookable experiences.</p>
+          <p>Brands bring more relevance and value to their members.</p>
+          <p>Operators unlock new reach and revenue.</p>
+          <div class="who-links">
+            <a class="link" href="https://www.trysqueez.com/loyalty-programs">For loyalty programs →</a>
+            <a class="link" href="https://www.trysqueez.com/experience-partners">For experience partners →</a>
+          </div>
+        </div>
+        <div class="who-view" data-for="loyalty">
+          <p class="serif-line">Brands bring more relevance and value to their members.</p>
+          <p>Squeez connects loyalty points to bookable experiences.</p>
+          <div class="who-links"><a class="link" href="https://www.trysqueez.com/loyalty-programs">For loyalty programs →</a></div>
+        </div>
+        <div class="who-view" data-for="experience">
+          <p class="serif-line">Operators unlock new reach and revenue.</p>
+          <p>Squeez connects loyalty points to bookable experiences.</p>
+          <div class="who-links"><a class="link" href="https://www.trysqueez.com/experience-partners">For experience partners →</a></div>
+        </div>
+        <div class="who-view" data-for="strategic">
+          <p class="serif-line">Strategic partners and investors. Coming soon.</p>
+          <p>If this is you, we would like to hear from you.</p>
+          <div class="who-links"><a class="link" href="https://www.trysqueez.com/contact">Explore a partnership →</a></div>
+        </div>
+        <p class="who-hint">Select a circle to see how each fits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE IT'S LIVE -->
+<section class="live" id="live">
+  <div class="wrap">
+    <div class="live-head">
+      <div><p class="eyebrow rv">Where it’s live</p><h2 data-split>Where access becomes the experience.</h2></div>
+      <p class="rv">Golf first.<br>Dining coming soon.<br>More to follow<span class="more" aria-hidden="true"></span></p>
+    </div>
+    <div class="places">
+      <figure class="place rv">
+        <div class="ph"><img src="assets/img/golf.webp" width="1600" height="1067" loading="lazy" decoding="async" alt="A tee box in morning mist, with a large oak draped in moss and a golf bag standing on the grass."></div>
+        <figcaption><span class="tag is-live"><i></i>Live</span><h3>Golf</h3><p>The weekend tee time, secured with points.</p></figcaption>
+      </figure>
+      <figure class="place rv" style="--d:150ms">
+        <div class="ph"><img src="assets/img/dining.webp" width="1600" height="1067" loading="lazy" decoding="async" alt="A window table set for two, with a candle and two glasses of wine, looking out over a bay at dusk."></div>
+        <figcaption><span class="tag"><i></i>Coming soon</span><h3>Dining</h3><p>The tables that look fully booked online.</p></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE BELIEVE -->
+<section class="believe" id="believe">
+  <div class="wrap believe-grid">
+    <p class="eyebrow rv">What we believe</p>
+    <div class="beliefs">
+      <h3 class="belief">Loyalty should feel like being known.</h3>
+      <h3 class="belief">Belonging should open doors.</h3>
+      <h3 class="belief">Every point earned should become a moment worth telling.</h3>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER -->
+<section class="cta on-navy" id="talk">
+  <div class="wrap">
+    <p class="eyebrow rv">Partner with Squeez</p>
+    <h2 data-split>Let’s create something rewarding.</h2>
+    <a class="btn rv" style="--d:300ms" href="https://www.trysqueez.com/contact">Explore a partnership</a>
+  </div>
+  <div class="cta-media" data-par=".08"><img src="assets/img/clubhouse-dusk.webp" width="1600" height="900" loading="lazy" decoding="async" alt="A golf clubhouse glowing at dusk, framed by palm trees."></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div><img src="assets/img/wordmark-white.svg" width="78" height="36" alt="Squeez"><p class="f-tag">Where loyalty, access and experiences come together.</p></div>
+      <div><h4>Explore</h4><ul>
+        <li><a href="https://www.trysqueez.com/">Home</a></li>
+        <li><a href="https://www.trysqueez.com/loyalty-programs">For loyalty programs</a></li>
+        <li><a href="https://www.trysqueez.com/experience-partners">For experience partners</a></li>
+        <li><a href="https://www.trysqueez.com/press">Press &amp; media</a></li>
+        <li><a href="https://www.trysqueez.com/company">Company</a></li>
+        <li><a href="https://www.trysqueez.com/local-luxury">Local Luxury™</a></li>
+        <li><a href="https://www.trysqueez.com/contact">Contact</a></li>
+        <li><a href="https://www.trysqueez.com/contact">Explore a partnership</a></li>
+        <li><a href="https://www.linkedin.com/company/trysqueez/" rel="noopener">LinkedIn</a></li></ul></div>
+      <div><h4>Legal</h4><ul>
+        <li><a href="https://www.trysqueez.com/terms">Terms of Service</a></li>
+        <li><a href="https://www.trysqueez.com/privacy">Privacy Policy</a></li>
+        <li><a href="https://www.trysqueez.com/cookies">Cookies</a></li>
+        <li><a href="https://www.trysqueez.com/accessibility">Accessibility</a></li>
+        <li><a href="https://www.trysqueez.com/privacy-choices">Your Privacy Choices</a></li></ul></div>
+    </div>
+    <div class="f-base">
+      <p>© 2026 Squeez, Inc. · Tampa, Florida · Trademarks of Squeez, Inc. include Local Luxury™, Perfect Access™, Just Squeez It™, The Velvet Rope™, Offline Access™ and You’re in.™</p>
+      <a href="#main">Back to the top</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var wide = matchMedia('(min-width:961px)');
+  var calm = reduce;
+
+  /* ---- headings reveal word by word through a mask ---- */
+  function splitWords(h) {
+    h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
+    var nodes = [].slice.call(h.childNodes), i = 0; h.textContent = '';
+    function add(node) {
+      var w = document.createElement('span'); w.className = 'w'; w.setAttribute('aria-hidden', 'true'); w.style.setProperty('--i', i++);
+      var inner = document.createElement('i'); inner.appendChild(node); w.appendChild(inner); h.appendChild(w); h.appendChild(document.createTextNode(' '));
+    }
+    nodes.forEach(function (n) {
+      if (n.nodeType === 3) n.textContent.split(/\s+/).filter(Boolean).forEach(function (t) { add(document.createTextNode(t)); });
+      else if (n.nodeName === 'BR') h.appendChild(n); else add(n);
+    });
+  }
+  document.querySelectorAll('[data-split]').forEach(splitWords);
+
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .18, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('[data-split], .rv, .what-rule').forEach(function (el) { io.observe(el); });
+
+  /* ---- scroll: parallax on photographs, belief statements light up as they cross the middle ---- */
+  var par = [].slice.call(document.querySelectorAll('[data-par]')), bel = [].slice.call(document.querySelectorAll('.belief')), tick = false;
+  function onScroll() {
+    tick = false; var vh = innerHeight;
+    if (!calm && wide.matches) par.forEach(function (el) {
+      var r = el.getBoundingClientRect(); if (r.bottom < -100 || r.top > vh + 100) return;
+      el.style.transform = 'translate3d(0,' + ((r.top + r.height / 2 - vh / 2) * -parseFloat(el.dataset.par)).toFixed(1) + 'px,0)';
+    });
+    if (!reduce) bel.forEach(function (b) {
+      var r = b.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - vh * .55) / (vh * .36);
+      b.style.setProperty('--a', Math.max(0, Math.min(1, 1 - d)).toFixed(3));
+    });
+  }
+  addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  addEventListener('resize', onScroll); onScroll();
+
+  /* ---- mobile menu ---- */
+  var menu = $('menu'), mBtn = $('menuBtn');
+  function setMenu(open) {
+    menu.classList.toggle('open', open); mBtn.setAttribute('aria-expanded', String(open));
+    if (open) { menu.removeAttribute('inert'); document.body.style.overflow = 'hidden'; $('menuClose').focus(); }
+    else { menu.setAttribute('inert', ''); document.body.style.overflow = ''; mBtn.focus(); }
+  }
+  mBtn.addEventListener('click', function () { setMenu(true); });
+  $('menuClose').addEventListener('click', function () { setMenu(false); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a[href^="#"]')) setMenu(false); });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('open')) setMenu(false); });
+  addEventListener('resize', function () { if (innerWidth > 1080 && menu.classList.contains('open')) setMenu(false); });
+
+  /* ---- button ripples ---- */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.btn'); if (!b || reduce) return;
+    var r = b.getBoundingClientRect(), s = Math.max(r.width, r.height) * 2.2, d = document.createElement('span');
+    d.className = 'rip'; d.style.cssText = 'width:' + s + 'px;height:' + s + 'px;left:' + (e.clientX - r.left - s / 2) + 'px;top:' + (e.clientY - r.top - s / 2) + 'px';
+    b.appendChild(d); setTimeout(function () { d.remove(); }, 850);
+  });
+
+  /* ---- the member moment: points become an experience ("You're in.") ---- */
+  var mEl = $('moment'), mBtnEl = $('mBtn'), SAMPLES = [
+    { meta: 'Saturday, 8:10 AM, 4 players', pts: 12500 },
+    { meta: 'Sunday, 7:40 AM, 2 players', pts: 6800 },
+    { meta: 'Saturday, 11:20 AM, 3 players', pts: 9300 }
+  ], mi = 0, mt = [];
+  function later(fn, ms) { mt.push(setTimeout(fn, ms)); }
+  function clearAll() { mt.forEach(clearTimeout); mt = []; }
+  function countTo(el, n) {
+    if (reduce) { el.textContent = n.toLocaleString('en-US'); return; }
+    var t0 = performance.now();
+    (function s(t) { var k = Math.min((t - t0) / 900, 1), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(n * e).toLocaleString('en-US'); if (k < 1) requestAnimationFrame(s); })(t0);
+  }
+  function show() {
+    var s = SAMPLES[mi % SAMPLES.length];
+    mEl.classList.remove('is-working', 'is-done'); $('mMeta').textContent = s.meta; $('mDone').textContent = s.meta + '. Confirmed.';
+    mBtnEl.disabled = false; mBtnEl.textContent = 'Use my points'; countTo($('mPts'), s.pts);
+    mEl.querySelector('.m-done').setAttribute('aria-hidden', 'true');
+  }
+  function work() {
+    if (mEl.classList.contains('is-working') || mEl.classList.contains('is-done')) return;
+    clearAll(); mEl.classList.add('is-working'); mBtnEl.disabled = true; mBtnEl.textContent = 'Confirming…';
+    later(done, reduce ? 200 : 1350);
+  }
+  function done() {
+    mEl.classList.remove('is-working'); mEl.classList.add('is-done'); mEl.querySelector('.m-done').removeAttribute('aria-hidden');
+    $('mLive').textContent = 'You’re in. ' + SAMPLES[mi % SAMPLES.length].meta + '. Confirmed.';
+    if (!calm) later(next, 4800);
+  }
+  function next() { clearAll(); mi++; show(); if (!calm) later(work, 3000); }
+  mBtnEl.addEventListener('click', work);
+  $('mAgain').addEventListener('click', next);
+  show(); if (!calm) later(work, 3600);
+
+  /* ---- who it's for: the three circles ---- */
+  var V = { loyalty: $('vA'), experience: $('vB'), strategic: $('vC') }, views = [].slice.call(document.querySelectorAll('.who-view'));
+  var ORDER = ['loyalty', 'experience', 'strategic', null], oi = 0, vTimer = 0, resumeT = 0;
+  function setAud(k) {
+    Object.keys(V).forEach(function (key) { var on = key === k; V[key].classList.toggle('on', on); V[key].setAttribute('aria-pressed', String(on)); });
+    views.forEach(function (v) { v.classList.toggle('on', v.getAttribute('data-for') === (k || 'all')); });
+  }
+  function stopCycle() { clearInterval(vTimer); vTimer = 0; }
+  function startCycle() { stopCycle(); if (calm) return; vTimer = setInterval(function () { oi = (oi + 1) % ORDER.length; setAud(ORDER[oi]); }, 4600); }
+  function userPick(k) { stopCycle(); clearTimeout(resumeT); setAud(k); resumeT = setTimeout(startCycle, 12000); }
+  Object.keys(V).forEach(function (key) {
+    var n = V[key];
+    var hovered = false;
+    function activate() { if (hovered) { hovered = false; userPick(key); } else userPick(n.classList.contains('on') ? null : key); }
+    n.addEventListener('click', activate);
+    n.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+    n.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { hovered = true; userPick(key); } });
+    n.addEventListener('pointerleave', function () { hovered = false; });
+  });
+  new IntersectionObserver(function (es) { if (es[0].isIntersecting) { if (!vTimer) startCycle(); } else stopCycle(); }, { threshold: .4 }).observe($('who'));
+
+  /* ---- hooks the mascot uses ---- */
+  function setCalm(on) {
+    calm = on; document.documentElement.classList.toggle('calm', on);
+    if (on) { clearAll(); stopCycle(); show(); } else { next(); startCycle(); }
+  }
+  if (reduce) document.documentElement.classList.add('calm');
+  window.SqueezPage = {
+    reduce: reduce, isCalm: function () { return calm; }, setCalm: setCalm,
+    restart: function () { clearAll(); mi = 0; show(); if (!calm) later(work, 1400); },
+    redeem: function () { if (mEl.classList.contains('is-done')) return 'done'; work(); return 'started'; },
+    audience: function (k) { userPick(k || null); }
+  };
+})();
+</script>
+<script src="assets/mascot/mascot.js"></script>
+<script src="assets/mascot/skills/squeez.js"></script>
+<script>
+  Mascot.init({
+    name: 'Squizzle',
+    tagline: 'Your Squeez guide.',
+    greeting: 'Hi, I am {name}. I can show you how a member gets in, explain who Squeez is for, take you on a tour, or start a partnership conversation. Where would you like to begin?',
+    chips: ['How does a member get in?', 'Who is Squeez for?', 'Golf and dining', 'Give me a tour', 'Explore a partnership'],
+    tips: ['Curious how points become a tee time?', 'Ask me who Squeez is for.', 'I can give you a quick tour.'],
+    motion: { isOn: function () { return !SqueezPage.isCalm(); }, set: function (on) { SqueezPage.setCalm(!on); } },
+    host: window.SqueezPage
+  });
+</script>
+</body>
+</html>
