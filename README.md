@@ -3,7 +3,7 @@
 Landing page for Squeez: *Where loyalty, access and experiences come together.*
 
 - `index.html` is the whole page (plain HTML, CSS and JS, no build step).
-- `assets/img/` holds the Squeez logo (`wordmark-coral.svg`, the original shape recoloured; `wordmark-white.svg` is the untouched original) and the photography.
+- `assets/img/` holds the Squeez logo (`wordmark-coral.svg`, the original shape recoloured; `wordmark-white.svg` is the untouched original) and just two photographs (`golf.webp`, `dining.webp`). Everything else is animated SVG/CSS: the hero golf scene (the ball is struck when the sample member uses points and drops in as "You're in." lands), the three "Who it's for" scenes, and the closing scene.
 - `assets/mascot/` is Squizzle, the lemon guide. A reusable module: see `assets/mascot/README.md`.
 
 ## Branches
