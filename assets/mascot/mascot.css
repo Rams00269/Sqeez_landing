@@ -2,7 +2,7 @@
    Theme it by overriding the --mx-* tokens on .mx (or on :root). Size it with --mx-size, --mx-w and --mx-h. */
 
 .mx{
-  --mx-size:clamp(58px,5.2vw,72px); --mx-w:340px; --mx-h:470px; --mx-gap:12px;
+  --mx-size:clamp(80px,6.8vw,100px); --mx-w:340px; --mx-h:470px; --mx-gap:12px;
   --mx-body:#F4C430; --mx-body-shade:#D9A400; --mx-body-hi:#FFF3B0; --mx-leaf:#3F8F5A; --mx-ink:#17211E;
   --mx-cheek:#F29C8A; --mx-tongue:#E86A5A;
   --mx-paper:#ECEFE9; --mx-card:#fff; --mx-muted:#4F5E58;
@@ -97,11 +97,11 @@
 .mx-input:focus-visible{outline:3px solid var(--mx-accent);outline-offset:2px}
 .mx-form button{background:var(--mx-head);color:var(--mx-head-text);border:0;border-radius:999px;padding:0 16px;font-weight:700;font-size:.9rem;cursor:pointer}
 .mx-form button:hover{background:var(--mx-head-2)}
-@media(max-width:480px){.mx{--mx-size:54px;--mx-w:296px;--mx-h:400px}.mx-tag{display:none}}
+@media(max-width:480px){.mx{--mx-size:76px;--mx-w:296px;--mx-h:400px}.mx-tag{display:none}}
 /* touch devices: bigger tap targets, without making the desktop version bigger */
 @media(pointer:coarse){.mx-chip{min-height:38px;padding:6px 13px}.mx-close{width:40px;height:40px}.mx-tools button{min-height:36px}.mx-form button{min-height:44px;padding:0 18px}.mx-input{min-height:44px}.mx-fab{min-width:56px}}
 /* short landscape screens: let the chat use the whole height */
-@media(max-height:480px){.mx{--mx-size:50px}.mx-morph{height:calc(100dvh - var(--mx-size) - 46px)}.mx-chips{max-height:64px}}
+@media(max-height:480px){.mx{--mx-size:62px}.mx-morph{height:calc(100dvh - var(--mx-size) - 46px)}.mx-chips{max-height:64px}}
 
 /* helper the host can use to draw attention to an element */
 .mx-hl{outline:4px dashed currentColor;outline-offset:12px;animation:mx-hl 2s ease-out forwards!important}
