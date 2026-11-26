@@ -8,7 +8,7 @@
   --mx-paper:#ECEFE9; --mx-card:#fff; --mx-muted:#4F5E58;
   --mx-head:#10302A; --mx-head-2:#1A433B; --mx-head-text:#E6EDE8; --mx-head-muted:#A9BDB5;
   --mx-accent:#2E57D9; --mx-accent-text:#fff; --mx-shadow:#10302A; --mx-chip-hover:#F4C430;
-  --mx-ease:cubic-bezier(.16,1,.3,1);
+  --mx-ease:cubic-bezier(.16,1,.3,1); --mx-bw:3px; --mx-r:20px; --mx-display:inherit;
   position:fixed; right:calc(clamp(10px,1.6vw,20px) + env(safe-area-inset-right,0px)); bottom:calc(clamp(10px,1.6vw,20px) + env(safe-area-inset-bottom,0px)); z-index:9000;
   -webkit-tap-highlight-color:transparent;
   font-family:inherit; font-size:1rem; line-height:1.4; color:var(--mx-ink);
@@ -58,18 +58,18 @@
 .mx-drop{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--mx-body);border:2.5px solid var(--mx-ink);pointer-events:none;z-index:1}
 
 /* ----- speech bubble nudge ----- */
-.mx-bubble{position:absolute;right:8px;bottom:calc(100% + 8px);width:max-content;max-width:min(220px,66vw);background:#fff;color:var(--mx-ink);border:2.5px solid var(--mx-ink);border-radius:14px 14px 4px 14px;padding:8px 12px;font-size:.88rem;font-weight:650;line-height:1.3;text-align:left;cursor:pointer;opacity:0;transform:translateY(10px) scale(.88);transform-origin:100% 100%;pointer-events:none;transition:opacity .3s,transform .5s var(--mx-ease);box-shadow:5px 6px 0 rgba(16,48,42,.3)}
+.mx-bubble{position:absolute;right:8px;bottom:calc(100% + 8px);width:max-content;max-width:min(220px,66vw);background:#fff;color:var(--mx-ink);border:2.5px solid var(--mx-ink);border-radius:14px 14px 4px 14px;padding:8px 12px;font-size:.88rem;font-weight:650;line-height:1.3;text-align:left;cursor:pointer;opacity:0;transform:translateY(10px) scale(.88);transform-origin:100% 100%;pointer-events:none;transition:opacity .3s,transform .5s var(--mx-ease);box-shadow:0 10px 24px rgba(11,16,53,.25)}
 .mx--left .mx-bubble{right:auto;left:8px;border-radius:16px 16px 16px 4px;transform-origin:0 100%}
 .mx-bubble.mx-show{opacity:1;transform:none;pointer-events:auto}
 
 /* ----- the chat: a blob that pours out of the lemon (shape and clip are driven by a spring in mascot.js) ----- */
 .mx-morph{position:absolute;right:0;bottom:calc(100% + var(--mx-gap));width:min(var(--mx-w),calc(100vw - 24px));height:min(var(--mx-h),calc(100vh - var(--mx-size) - 56px));height:min(var(--mx-h),calc(100dvh - var(--mx-size) - 56px));visibility:hidden;z-index:1}
 .mx--left .mx-morph{right:auto;left:0}
-.mx-blob{position:absolute;border:3px solid var(--mx-ink);background:var(--mx-body);opacity:0;will-change:left,top,width,height}
-.mx-panel{position:absolute;inset:3px;display:flex;flex-direction:column;overflow:hidden;border-radius:17px 17px 3px 17px;opacity:0;will-change:transform,opacity,clip-path}
-.mx--left .mx-panel{border-radius:17px 17px 17px 3px}
+.mx-blob{position:absolute;border:var(--mx-bw) solid var(--mx-ink);background:var(--mx-body);opacity:0;will-change:left,top,width,height}
+.mx-panel{position:absolute;inset:var(--mx-bw);display:flex;flex-direction:column;overflow:hidden;border-radius:calc(var(--mx-r) - var(--mx-bw)) calc(var(--mx-r) - var(--mx-bw)) 4px calc(var(--mx-r) - var(--mx-bw));opacity:0;will-change:transform,opacity,clip-path}
+.mx--left .mx-panel{border-radius:calc(var(--mx-r) - var(--mx-bw)) calc(var(--mx-r) - var(--mx-bw)) calc(var(--mx-r) - var(--mx-bw)) 4px}
 .mx-head{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--mx-head);color:var(--mx-head-text);padding:10px 14px}
-.mx-title{display:block;font-size:1.08rem;font-weight:780;letter-spacing:-.02em;line-height:1.1}
+.mx-title{display:block;font-family:var(--mx-display);font-size:1.2rem;font-weight:500;letter-spacing:-.01em;line-height:1.1}
 .mx-tag{display:block;font-size:.78rem;color:var(--mx-head-muted);line-height:1.25}
 .mx-tools{display:flex;gap:8px;align-items:center;flex:none}
 .mx-tools button{font-size:.78rem;font-weight:650;color:var(--mx-head-text);background:transparent;border:1.5px solid var(--mx-head-muted);border-radius:999px;padding:4px 10px;cursor:pointer;transition:background .15s}

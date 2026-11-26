@@ -129,7 +129,7 @@
   function mixColor(a, b, t){ return 'rgb(' + a.map(function (v, i) { return Math.round(lerp(v, b[i], t)); }).join(',') + ')'; }
 
   function render(){
-    var r = S.r, m = S.m, left = S.cfg.side === 'left', R0 = S.cfg.radius, tail = 6;
+    var r = S.r, m = S.m, left = S.cfg.side === 'left', R0 = m.R0, bw = m.bw, tail = 6;
     var W = r.morph.clientWidth, H = r.morph.clientHeight, fw = r.fab.offsetWidth, fh = r.fab.offsetHeight, size = Math.min(fw, fh) * .5;
     var cx = left ? fw / 2 : W - fw / 2, cy = H + 14 + fh / 2;                 /* the lemon's centre, in the morph's own space */
     var L = lerp(cx - size / 2, 0, m.sx.x), Rt = lerp(cx + size / 2, W, m.sx.x), T = lerp(cy - size / 2, 0, m.sy.x), B = lerp(cy + size / 2, H, m.sy.x);
@@ -138,10 +138,10 @@
     bs.left = px(L); bs.top = px(T); bs.width = px(Math.max(Rt - L, size)); bs.height = px(Math.max(B - T, size));
     bs.borderRadius = (left ? [big, big, big, small] : [big, big, small, big]).map(px).join(' ');
     bs.background = mixColor(m.from, m.to, c01((p - .12) / .5)); bs.opacity = c01(p * 12);
-    r.morph.style.filter = 'drop-shadow(' + px((left ? -9 : 9) * pr) + ' ' + px(11 * pr) + ' 0 ' + m.shadow + ')';
-    var op = c01((p - .5) / .4), ps = r.panel.style, rr = Math.max(4, lerp(size / 2, R0 - 3, pr));
+    r.morph.style.filter = 'drop-shadow(' + px(m.shx * (left ? -1 : 1) * pr) + ' ' + px(m.shy * pr) + ' ' + px(m.shb * pr) + ' ' + m.shadow + ')';
+    var op = c01((p - .5) / .4), ps = r.panel.style, rr = Math.max(4, lerp(size / 2, R0 - bw, pr));
     ps.opacity = op; ps.transform = 'translateY(' + px(16 * (1 - op)) + ')'; ps.pointerEvents = op > .9 ? 'auto' : 'none';
-    ps.clipPath = 'inset(' + [Math.max(0, T - 3), Math.max(0, W - Rt - 3), Math.max(0, H - B - 3), Math.max(0, L - 3)].map(px).join(' ') +
+    ps.clipPath = 'inset(' + [Math.max(0, T - bw), Math.max(0, W - Rt - bw), Math.max(0, H - B - bw), Math.max(0, L - bw)].map(px).join(' ') +
                   ' round ' + (left ? [rr, rr, rr, 4] : [rr, rr, 4, rr]).map(px).join(' ') + ')';
   }
   function tick(t){
@@ -299,11 +299,13 @@
       r.fab.setAttribute('aria-controls', uid + '-p'); r.panel.id = uid + '-p';
       document.body.appendChild(root);
 
+      var cs = getComputedStyle(root), num = function (n, d) { var v = parseFloat(cs.getPropertyValue(n)); return isNaN(v) ? d : v; };
+      var shCol = colorOf(root, '--mx-shadow', [16, 48, 42]), shadowCss = 'rgba(' + shCol.join(',') + ',' + num('--mx-sh-alpha', 1) + ')';
       S = { cfg: cfg, root: root, r: r, open: false, turn: 0, flow: null, queue: Promise.resolve(), override: null, tracking: { x: 0, y: 0 }, greeted: false,
             history: [], skills: pending.skills.slice(), tools: Object.assign({}, pending.tools), t: {}, off: [],
             m: { sx: new Spring(210, 21), sy: new Spring(170, 16), raf: 0, last: 0, goal: 0,
                  from: colorOf(root, '--mx-body', [244, 196, 48]), to: colorOf(root, '--mx-paper', [236, 239, 233]),
-                 shadow: (getComputedStyle(root).getPropertyValue('--mx-shadow') || '#10302A').trim() } };
+                 shadow: shadowCss, bw: num('--mx-bw', 3), R0: num('--mx-r', cfg.radius), shx: num('--mx-sh-x', 9), shy: num('--mx-sh-y', 11), shb: num('--mx-sh-blur', 0) } };
       pending.kb.forEach(function (list) { API.knowledge(list); });
 
       /* built-in tools every skill can rely on */
