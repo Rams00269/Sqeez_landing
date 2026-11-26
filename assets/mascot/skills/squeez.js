@@ -30,10 +30,31 @@
   M.tool('restartMoment', function () { page.restart(); });
   M.tool('audience', function (a) { page.audience(a.key); });       /* { key: 'loyalty' | 'experience' | 'strategic' | null } */
 
-  var NAV = [
-    [/\b(top|hero|start of|beginning)\b/, 'top'], [/\b(what we are|new way)\b/, 'what'], [/\b(who|venn)\b/, 'who'],
-    [/\b(live|golf|dining|where)\b/, 'live'], [/\b(believe|belief|values)\b/, 'believe'], [/\b(contact|partner|talk|bottom|end|footer)\b/, 'talk']
-  ];
+  /* The page map (assets/page-map.json) is the one list of sections; the server reads the same file. The built-ins above are only a fallback. */
+  var NAV = [];
+  function useMap(map) {
+    SECTIONS = {}; NAV = [];
+    map.sections.forEach(function (x) {
+      SECTIONS[x.key] = { sel: x.sel, label: x.label };
+      if (x.aka && x.aka.length) NAV.push([new RegExp('\\b(' + x.aka.join('|') + ')\\b'), x.key]);
+      if (!document.querySelector(x.sel) && window.console) console.warn('page-map: no element for ' + x.sel);
+    });
+    page.map = map;
+  }
+  NAV = [[/\b(top|hero|start of|beginning)\b/, 'top'], [/\b(what we are|new way)\b/, 'what'], [/\b(try it|rules|dial|sliders)\b/, 'rules'], [/\b(who|venn)\b/, 'who'],
+    [/\b(live|golf|dining|where)\b/, 'live'], [/\b(believe|belief|values)\b/, 'believe'], [/\b(contact|partner|talk|bottom|end|footer)\b/, 'talk']];
+  fetch('assets/page-map.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (m) { if (m && m.sections) useMap(m); }).catch(function () {});
+
+  /* where the visitor is: sent with every open question, so the model can talk about what is in front of them */
+  page.context = function () {
+    var line = innerHeight * .4, cur = 'top';
+    Object.keys(SECTIONS).forEach(function (k) { var n = document.querySelector(SECTIONS[k].sel); if (n && n.getBoundingClientRect().top <= line) cur = k; });
+    var c = { section: cur };
+    if (page.moment) c.moment = page.moment();
+    if (page.tab) c.tab = page.tab();
+    if (page.rules) c.rules = page.rules();
+    return c;
+  };
 
   /* ------------------------------------------------------------ skills: what the mascot UNDERSTANDS (higher priority runs first) */
   function parseRules(l) {

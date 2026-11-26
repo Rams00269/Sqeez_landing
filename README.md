@@ -49,3 +49,9 @@ Copy, links and imagery come from the public site (trysqueez.com). The "sample r
 
 Abuse protection on `/api/chat`: same-origin only (add other sites via `SQUIZZLE_ORIGINS`, comma separated), 20 requests per IP per 10 minutes (best effort per instance), small payloads, user turns only from the client, 300 token replies.
 Also set a monthly spend limit on the Anthropic key. For a hard rate limit, use Vercel's WAF rate limiting.
+
+## The page map (how the guide knows what to point at)
+
+`assets/page-map.json` is the guide's map of the page: every section with what is in it, what to demo there, which tool drives it, and sample questions. `api/chat.js` builds the model's prompt and tool list from it, and the browser reads the same file to jump to sections. The browser also sends where the visitor is (current section, member moment, audience tab, dial values) with each open question. Only known keys and numbers are accepted on the server, never free text.
+
+To add a section or demo: add the element to `index.html`, add an entry to the map, then run `node scripts/check-map.cjs`. It fails if the map points at something that is not on the page, or the page has a nav item the map does not know.

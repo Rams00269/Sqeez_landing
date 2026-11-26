@@ -1,0 +1,67 @@
+{
+  "_about": "The guide's map of this page. ONE file read by both sides: api/chat.js builds the model's prompt and tools from it, and the browser uses it to jump to sections. To teach the guide a new section or demo, add an entry here (and the matching id in index.html). Run: node scripts/check-map.cjs",
+  "company": {
+    "what": "Squeez connects loyalty programs with sought-after experiences, so members get more meaningful ways to use their points and experience partners get new revenue.",
+    "live": "Golf is live. Dining is coming soon.",
+    "tagline": "Where loyalty, access and experiences come together.",
+    "contact": "https://www.trysqueez.com/contact",
+    "based": "Tampa, Florida"
+  },
+  "audiences": [
+    { "key": "loyalty", "label": "Loyalty programs and brands", "says": "Brands bring more relevance and value to their members. Squeez connects loyalty points to bookable experiences.", "link": "https://www.trysqueez.com/loyalty-programs" },
+    { "key": "experience", "label": "Experience partners", "says": "Operators unlock new reach and revenue.", "link": "https://www.trysqueez.com/experience-partners" },
+    { "key": "strategic", "label": "Strategic partners and investors", "says": "Coming soon. If this is you, the team would like to hear from you.", "link": "https://www.trysqueez.com/contact" }
+  ],
+  "rulesDial": { "min": 0, "max": 40, "unit": "dollars per player, sample amounts", "defaults": { "floor": 8, "auto": 20, "offer": 12 } },
+  "sections": [
+    {
+      "key": "top", "sel": "#top", "label": "the top", "aka": ["top", "hero", "start of", "beginning"],
+      "summary": "The opening. A sample redemption card shows a member using points for a weekend tee time.",
+      "demo": "The member moment: tapping Use my points confirms the booking with the words You're in.",
+      "actions": [{ "tool": "redeem", "when": "the visitor wants to see how a member gets in" }, { "tool": "restartMoment", "when": "they want to see it again" }],
+      "ask": ["How does a member get in?", "Show me the moment"]
+    },
+    {
+      "key": "what", "sel": "#what", "label": "What we are", "aka": ["what we are", "new way"],
+      "summary": "A four-step story: members want access to experiences; Squeez helps loyalty brands unlock it; Squeez connects loyalty points to bookable experiences; the moment, You're in.",
+      "demo": "Scrolling steps the story forward one beat at a time.",
+      "actions": [],
+      "ask": ["What is Squeez?"]
+    },
+    {
+      "key": "rules", "sel": "#rules", "label": "Try it", "aka": ["try it", "rules", "dial", "sliders", "control panel"],
+      "summary": "An interactive control panel for a partner's own rules. Three sliders: the floor (below it a guest offer goes to the waitlist), the auto-approve line (at or above it the offer is approved automatically), and a sample guest offer. Between the two, the offer waits for the partner to decide.",
+      "demo": "Set the sliders and read the verdict. Offers below the floor are waitlisted; at or above the auto-approve line they are approved; in between they wait in the partner's queue. The auto-approve line is never shown to guests.",
+      "actions": [{ "tool": "setRules", "when": "the visitor gives numbers, or wants to try a scenario. Amounts are dollars per player, 0 to 40, floor never above auto-approve" }],
+      "ask": ["Set floor to 15, auto-approve at 30", "Guest offers 35"]
+    },
+    {
+      "key": "who", "sel": "#who", "label": "Who it’s for", "aka": ["who", "venn", "audience", "audiences"],
+      "summary": "Three tabs, one per audience: loyalty programs and brands; experience partners; strategic partners and investors (coming soon).",
+      "demo": "Opening a tab shows that audience's message and illustration.",
+      "actions": [{ "tool": "audience", "when": "the visitor says which kind of organization they are, or asks about one audience" }],
+      "ask": ["Who is Squeez for?", "I run a golf club"]
+    },
+    {
+      "key": "live", "sel": "#live", "label": "Where it’s live", "aka": ["live", "golf", "dining", "where"],
+      "summary": "Two panels. Golf is live: the weekend tee time, secured with points. Dining is coming soon: the tables that look fully booked online. More to follow.",
+      "demo": "Hovering or focusing a panel expands it.",
+      "actions": [],
+      "ask": ["What is live today?"]
+    },
+    {
+      "key": "believe", "sel": "#believe", "label": "What we believe", "aka": ["believe", "belief", "values"],
+      "summary": "Three beliefs: loyalty should feel like being known; belonging should open doors; every point earned should become a moment worth telling.",
+      "demo": "",
+      "actions": [],
+      "ask": ["What do you believe?"]
+    },
+    {
+      "key": "talk", "sel": "#talk", "label": "Partner with Squeez", "aka": ["contact", "partner", "talk", "bottom", "end", "footer"],
+      "summary": "The partnership call to action, linking to the contact page.",
+      "demo": "",
+      "actions": [],
+      "ask": ["Explore a partnership"]
+    }
+  ]
+}

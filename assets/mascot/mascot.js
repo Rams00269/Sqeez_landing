@@ -350,13 +350,15 @@
     brains: {
       /* Nothing said inside a flow, and no email address or phone number, leaves the browser. */
       /* POST { message, history, tools, page } to your server. Reply with { reply, chips?, actions?: [{ tool, args }] }. */
+      /* opts.context: a function returning where the visitor is (section, demo state). Numbers and short keys only. */
       http: function (url, opts) {
         opts = opts || {};
+        function ctxNow(o) { try { return o.context ? o.context() : undefined; } catch (e) { return undefined; } }
         return async function (ctx) {
           var ctl = new AbortController(), t = setTimeout(function () { ctl.abort(); }, opts.timeout || 12000);
           try {
             var res = await fetch(url, { method: 'POST', signal: ctl.signal, headers: Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {}),
-              body: JSON.stringify({ message: scrub(ctx.text), history: ctx.history.filter(function (h) { return !h.priv; }).slice(-10).map(function (h) { return { role: h.role, text: scrub(h.text) }; }), tools: Object.keys(S.tools), page: global.location.pathname }) });
+              body: JSON.stringify({ message: scrub(ctx.text), history: ctx.history.filter(function (h) { return !h.priv; }).slice(-10).map(function (h) { return { role: h.role, text: scrub(h.text) }; }), tools: Object.keys(S.tools), page: global.location.pathname, context: ctxNow(opts) }) });
             return res.ok ? await res.json() : null;
           } catch (e) { return null; } finally { clearTimeout(t); }
         };

@@ -4,22 +4,47 @@
 
 const MODEL = process.env.SQUIZZLE_MODEL || 'claude-haiku-5-5';
 
+const MAP = require('../assets/page-map.json');      /* the same file the browser reads: one source of truth for what is on the page */
+const KEYS = MAP.sections.map(x => x.key), AUD = MAP.audiences.map(x => x.key), R = MAP.rulesDial;
+
+function pageGuide() {
+  return MAP.sections.map(x => `- ${x.key} (${x.label}): ${x.summary}` + (x.demo ? ` Demo: ${x.demo}` : '') +
+    (x.actions.length ? ` Tools: ${x.actions.map(a => `${a.tool} when ${a.when}`).join('; ')}.` : '')).join('\n') +
+    '\nAudiences (tabs in who): ' + MAP.audiences.map(a => `${a.key} = ${a.label}`).join('; ') + '.';
+}
+
 const SYSTEM = `You are Squizzle, the on-page guide for Squeez (trysqueez.com).
-Facts you may use, and nothing beyond them:
-- Squeez connects loyalty programs with sought-after experiences, so members get more meaningful ways to use their points and experience partners get new revenue.
-- Golf is live. Dining is coming soon.
-- Three audiences: loyalty programs and brands; experience partners (venues like golf clubs); strategic partners and investors (coming soon).
-- Tagline: "Where loyalty, access and experiences come together."
-- To partner: https://www.trysqueez.com/contact . You cannot send messages or book anything yourself.
-Rules: be warm, plain and brief (under 60 words, no lists unless asked). If you do not know something (pricing, dates, integrations, numbers), say so and point to the contact page. Never invent partners, figures or promises.
-Use tools when they help the visitor: goto to show a section, redeem or restartMoment to run the member demo, audience to open an audience tab. Say what you are doing in one short line.`;
+About Squeez, and nothing beyond it:
+- ${MAP.company.what}
+- ${MAP.company.live} Tagline: "${MAP.company.tagline}" Based in ${MAP.company.based}.
+- To partner: ${MAP.company.contact} . You cannot send messages or book anything yourself.
+
+THIS PAGE, section by section (use these keys with the goto tool):
+${pageGuide()}
+
+How to guide:
+- When a question is answered by a section or a demo, show it: call goto for that section, then the demo tool if one fits, and say in one short line what the visitor is looking at.
+- The visitor's current position is given under WHERE THE VISITOR IS. Do not send them to a section they are already on; talk about what is in front of them instead.
+- Be warm, plain and brief (under 60 words, no lists unless asked). If you do not know something (pricing, dates, integrations, numbers), say so and point to the contact page. Never invent partners, figures or promises.`;
 
 const TOOLS = [
-  { name: 'goto', description: 'Scroll the page to a section.', input_schema: { type: 'object', properties: { key: { type: 'string', enum: ['top', 'what', 'who', 'live', 'believe', 'talk'] } }, required: ['key'] } },
+  { name: 'goto', description: 'Scroll the page to a section and highlight it.', input_schema: { type: 'object', properties: { key: { type: 'string', enum: KEYS } }, required: ['key'] } },
   { name: 'redeem', description: 'Run the sample member moment: the member taps Use my points.', input_schema: { type: 'object', properties: {} } },
   { name: 'restartMoment', description: 'Reset the member moment demo.', input_schema: { type: 'object', properties: {} } },
-  { name: 'audience', description: 'Open one of the Who it is for tabs.', input_schema: { type: 'object', properties: { key: { type: 'string', enum: ['loyalty', 'experience', 'strategic'] } }, required: ['key'] } }
+  { name: 'audience', description: 'Open one of the Who it is for tabs.', input_schema: { type: 'object', properties: { key: { type: 'string', enum: AUD } }, required: ['key'] } },
+  { name: 'setRules', description: `Set the rules demo sliders. Whole dollars per player, ${R.min} to ${R.max}. Floor must not exceed auto.`, input_schema: { type: 'object', properties: { floor: { type: 'integer', minimum: R.min, maximum: R.max }, auto: { type: 'integer', minimum: R.min, maximum: R.max }, offer: { type: 'integer', minimum: R.min, maximum: R.max } }, required: ['floor', 'auto', 'offer'] } }
 ];
+
+/* What the browser tells us about the visitor's position. Only keys and numbers we recognise get through: never free text. */
+function whereLine(c) {
+  c = c && typeof c === 'object' ? c : {};
+  const sec = MAP.sections.find(x => x.key === c.section), n = v => Math.max(R.min, Math.min(R.max, Math.round(Number(v)))), out = [];
+  if (sec) out.push(`viewing ${sec.key} (${sec.label})`);
+  if (c.moment === 'ask' || c.moment === 'done') out.push(`the member moment is ${c.moment === 'done' ? 'confirmed' : 'waiting for Use my points'}`);
+  if (AUD.includes(c.tab)) out.push(`the open audience tab is ${c.tab}`);
+  const r = c.rules; if (r && [r.f, r.a, r.o].every(v => Number.isFinite(Number(v)))) out.push(`the dial is at floor $${n(r.f)}, auto-approve $${n(r.a)}, sample offer $${n(r.o)}`);
+  return out.length ? '\n\nWHERE THE VISITOR IS: ' + out.join('; ') + '.' : '';
+}
 
 function toMessages(history, message) {
   const out = [];
@@ -67,7 +92,7 @@ module.exports = async function handler(req, res) {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: MODEL, max_tokens: 300, system: SYSTEM, tools: TOOLS, messages: toMessages(body.history, message) })
+      body: JSON.stringify({ model: MODEL, max_tokens: 300, system: SYSTEM + whereLine(body.context), tools: TOOLS, messages: toMessages(body.history, message) })
     });
     if (!r.ok) { res.statusCode = 502; return res.end(JSON.stringify({ error: 'upstream ' + r.status })); }
     const data = await r.json();

@@ -5,6 +5,7 @@ The site root is always the newest version. New work gets a new number; old ones
 
 | Tag | What it is |
 |---|---|
+| v2.6 | The guide knows the page: one page map (sections, demos, controls) read by the server and the browser; the guide is told where the visitor is |
 | v2.5 | Lemon removed from the code; the guide is the Squeez logo badge |
 | v2.4 | The rules demo from v1.0 rebuilt in the current design; nav follows its list; Squizzle can set the sliders |
 | v2.3 | Creative design in brand colours, Squeez logo as the guide, Claude brain for open questions |

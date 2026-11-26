@@ -996,7 +996,9 @@ footer ul a:hover{color:var(--coral);text-decoration:underline;text-underline-of
     reduce: reduce, isCalm: function () { return calm; }, setCalm: setCalm,
     restart: function () { clearAll(); mi = 0; show(); if (!calm) later(work, 1400); },
     redeem: function () { if (mEl.classList.contains('is-done')) return 'done'; work(); return 'started'; },
-    audience: function (k) { var i = KEYS.indexOf(k); userTab(i < 0 ? 0 : i); }
+    audience: function (k) { var i = KEYS.indexOf(k); userTab(i < 0 ? 0 : i); },
+    moment: function () { return mEl.classList.contains('is-done') ? 'done' : 'ask'; },
+    tab: function () { return KEYS[tIdx]; }
   };
 })();
 </script>
@@ -1050,7 +1052,7 @@ footer ul a:hover{color:var(--coral);text-decoration:underline;text-underline-of
   Mascot.init({
     logo: 'assets/img/wordmark-gold.svg',
     notice: 'Open questions are answered by an AI service. Partnership details you type here are never sent to it.',
-    brain: Mascot.brains.http('/api/chat', { timeout: 15000 }),   /* open questions go to the model (server-side key); rules and demos stay local */
+    brain: Mascot.brains.http('/api/chat', { timeout: 15000, context: function () { return SqueezPage.context(); } }),   /* open questions go to the model (server-side key); rules and demos stay local */
     name: 'Squizzle',
     tagline: 'Your Squeez guide.',
     greeting: 'Hi, I am {name}. I can show you how a member gets in, explain who Squeez is for, take you on a tour, or start a partnership conversation. Where would you like to begin?',
