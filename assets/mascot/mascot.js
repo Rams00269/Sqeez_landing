@@ -19,7 +19,7 @@
     name: 'Buddy',
     tagline: 'Your guide. I can help you here.',
     greeting: 'Hi, I am {name}. What would you like to do?',
-    placeholder: 'Ask me, or tell me what to do',
+    placeholder: 'Ask me anything',
     fallback: 'I did not catch that. Try one of these.',
     chips: [],                // quick-reply buttons shown after a reply
     tips: [],                 // short nudges shown above the lemon while the chat is closed
@@ -28,7 +28,7 @@
     motion: null,             // { isOn(): boolean, set(on: boolean) }  -> shows a "Pause motion" button
     brain: null,              // async (ctx) => { reply, chips?, actions?: [{tool, args}] } | null   (used when no skill matches)
     cancelRe: /^(cancel|stop|never ?mind|exit|quit)/,
-    radius: 24,               // chat corner radius in px
+    radius: 20,               // chat corner radius in px
     host: null,               // anything you want skills to reach through ctx.host
     onEvent: null             // (name, data) => void, for analytics: open, close, message, skill, tool, fallback
   };

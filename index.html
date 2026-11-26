@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F4C430">
 <title>Squeez - fill the tee times you would lose</title>
 <meta name="description" content="Squeez lets guests name a price for tee times, tables and treatments that would otherwise go empty. You approve each one, or your rules do.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -278,6 +279,55 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .mq-track span:nth-child(n+6){display:none}
   .track div{width:auto}
 }
+
+/* ---------- phones, tablets, touch ---------- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,summary{touch-action:manipulation}
+body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+@media(max-width:900px){
+  :root{--h:clamp(2.9rem,13vw,8rem)}               /* the headline must always fit its line, down to 320px wide */
+  .hero-bg::before,.final::before{animation:none}  /* a full-screen repaint every frame is too heavy for phones */
+  .hero{padding-block:8px 48px}
+  .sheet{box-shadow:8px 10px 0 rgba(16,48,42,.22)}
+  .dial,.where dl>div{box-shadow:none}
+  section{padding-block:clamp(48px,11vw,80px)}
+  .steps::before{left:1.45rem}
+}
+@media(max-width:600px){
+  .btn.big{padding:16px 28px;font-size:1.1rem}
+  .cta{gap:18px}
+  .lede{font-size:1.1rem}
+  .sheet{padding:18px 12px 20px}
+  .row{grid-template-columns:3rem 1fr}
+  .offer-in{padding:12px}
+  .sheet-foot{flex-direction:column;align-items:flex-start;gap:4px}
+  .track{height:56px}
+  .final h2{font-size:clamp(2.6rem,14vw,4.5rem)}
+  .around li{padding:20px 4px}
+}
+@media(max-width:380px){
+  .nav{padding-block:14px}
+  .logo{font-size:1.5rem}
+  .nav-links .btn{padding:10px 16px;font-size:.92rem}
+  .where dl>div{padding:20px 18px 24px}
+}
+/* short landscape phones */
+@media(max-height:480px) and (orientation:landscape){
+  .hero{min-height:0}
+  .sheet-wrap{position:relative;top:auto;right:auto;width:min(540px,100%);margin-top:32px}
+}
+/* touch screens have no hover: never leave a card stuck in its hover state after a tap */
+@media(hover:none){
+  .where dl>div:hover{color:inherit;transform:none}
+  .where dl>div:hover::before{transform:translateY(101%)}
+  .where dl>div:hover dd{color:var(--on-spruce-muted)}
+  .js .where dl>div.in:hover{transform:none}
+  .around li:hover{color:inherit}
+  .around li:hover::before{transform:scaleY(0)}
+  .around li:hover span{color:var(--muted)}
+  .fl.ball:hover{scale:1}
+  .field input[type=range]{height:40px}
+}
 </style>
 <link rel="stylesheet" href="assets/mascot/mascot.css">
 </head>
@@ -471,12 +521,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   requestAnimationFrame(function(){ requestAnimationFrame(function(){ hero.classList.add('go'); }); });
 
   /* scroll: progress bar, dimple drift, timeline draw */
-  var prog = $('progress'), steps = $('steps'), heroBg = document.querySelector('.hero-bg'), ticking = false;
+  var wide = matchMedia('(min-width:901px)'), prog = $('progress'), steps = $('steps'), heroBg = document.querySelector('.hero-bg'), ticking = false;
   function onScroll(){
     ticking = false;
     var max = document.documentElement.scrollHeight - innerHeight;
     prog.style.setProperty('--sp', max > 0 ? scrollY / max : 0);
-    if (!reduce) heroBg.style.setProperty('--py', (scrollY * -.25) + 'px');
+    if (!reduce && wide.matches) heroBg.style.setProperty('--py', (scrollY * -.25) + 'px');
     var r = steps.getBoundingClientRect();
     var p = (innerHeight * .65 - r.top) / r.height;
     steps.style.setProperty('--prog', Math.max(0, Math.min(1, p)));
