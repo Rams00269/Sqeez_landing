@@ -79,7 +79,7 @@
       } },
 
     { id: 'partnership', priority: 75,
-      match: /partner(ship)?\b|contact|get started|talk to|reach out|invest|sign ?up|work with you|join/,
+      match: /partnership|become a partner|be a partner|partner with|contact|get started|talk to|reach out|\binvest(ing)?\b|sign ?up|work with you|\bjoin\b/,
       run: async function (ctx) {
         var step = 0, d = {};
         ctx.setFlow(async function (c) {
@@ -96,21 +96,21 @@
         await ctx.say('I would be glad to. Three quick questions, then I will point you to the right place. What should I call you?');
       } },
 
-    { id: 'audience-loyalty', priority: 70, match: /loyalty (program|programme|brand)s?|for brands|airline|hotel group/,
+    { id: 'audience-loyalty', priority: 78, match: /loyalty (program|programme|brand)s?|for brands|airline|hotel group/,
       run: async function (ctx) {
         await ctx.tool('goto', { key: 'who' }); await ctx.tool('audience', { key: 'loyalty' });
         await ctx.say('For loyalty programs and brands: Squeez connects loyalty points to bookable experiences, so brands bring more relevance and value to their members.', { link: { label: 'For loyalty programs', href: SITE + '/loyalty-programs' } });
         ctx.chips(['For experience partners', 'Golf and dining', 'Explore a partnership']);
       } },
 
-    { id: 'audience-experience', priority: 69, match: /experience partners?|operator|venue|course|club\b|restaurant|for partners/,
+    { id: 'audience-experience', priority: 77, match: /experience partners?|operator|venue|course|club\b|restaurant|for partners/,
       run: async function (ctx) {
         await ctx.tool('goto', { key: 'who' }); await ctx.tool('audience', { key: 'experience' });
         await ctx.say('For experience partners: operators unlock new reach and revenue, with loyalty members who are looking for access to experiences like yours.', { link: { label: 'For experience partners', href: SITE + '/experience-partners' } });
         ctx.chips(['For loyalty programs', 'Golf and dining', 'Explore a partnership']);
       } },
 
-    { id: 'audience-strategic', priority: 68, match: /strategic|investor/,
+    { id: 'audience-strategic', priority: 76, match: /strategic|investor/,
       run: async function (ctx) {
         await ctx.tool('goto', { key: 'who' }); await ctx.tool('audience', { key: 'strategic' });
         await ctx.say('Strategic partners and investors are coming soon on the site. If that is you, I can start a conversation.');
@@ -120,7 +120,7 @@
     { id: 'who-for', priority: 66, match: /who (is|are)\b.*\b(for|squeez)|who it.?s for|who.*for\b|audience/,
       run: async function (ctx) {
         await ctx.tool('goto', { key: 'who' });
-        await ctx.say('Squeez is for loyalty programs and brands, and for experience partners. Strategic partners and investors are coming soon. Select a circle on the page, or ask me about any of them.');
+        await ctx.say('Squeez is for loyalty programs and brands, and for experience partners. Strategic partners and investors are coming soon. Pick a tab on the page, or ask me about any of them.');
         ctx.chips(['Loyalty programs', 'Experience partners', 'Explore a partnership']);
       } },
 
