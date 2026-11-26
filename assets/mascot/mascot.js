@@ -194,7 +194,7 @@
   /* ---------------------------------------------------------------- chat plumbing */
   function scrollMsgs(){ S.r.msgs.scrollTop = S.r.msgs.scrollHeight; }
   function remember(role, text, priv){ S.history.push({ role: role, text: text, priv: priv != null ? priv : (!!S.flow || !!S.privTurn) });   /* priv: said inside a flow (names, emails), never sent to a brain */ if (S.history.length > 24) S.history.shift(); }
-  function userMsg(t){ S.privTurn = !!S.flow; S.r.msgs.appendChild(el('div', 'mx-msg mx-user', t)); scrollMsgs(); remember('user', t); }   /* a turn that answers a flow stays private, including the reply to it */
+  function userMsg(t){ S.r.msgs.appendChild(el('div', 'mx-msg mx-user', t)); scrollMsgs(); remember('user', t); }   /* a turn that answers a flow stays private, including the reply to it */
   function act(t){
     var a = el('div', 'mx-msg mx-act'); a.appendChild(el('i', 'mx-act-dia')); a.appendChild(document.createTextNode(t));
     S.r.msgs.appendChild(a); scrollMsgs();
@@ -253,6 +253,8 @@
   }
   async function handle(text){
     var ctx = makeCtx(text); emit('message', { text: text });
+    S.privTurn = !!S.flow;                                       /* decided now, when the turn runs, not when it was queued */
+    if (S.privTurn) for (var k = S.history.length - 1; k >= 0; k--) if (S.history[k].role === 'user' && S.history[k].text === text){ S.history[k].priv = true; break; }
     if (S.flow){
       if (S.cfg.cancelRe.test(ctx.lower)){ S.flow = null; await say('No problem. I dropped that. Anything else?'); chips(S.cfg.chips); return; }
       return S.flow(ctx);

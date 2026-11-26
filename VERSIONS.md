@@ -5,6 +5,7 @@ The site root is always the newest version. New work gets a new number; old ones
 
 | Tag | What it is |
 |---|---|
+| v2.4 | The rules demo from v1.0 rebuilt in the current design; nav follows its list; Squizzle can set the sliders |
 | v2.3 | Creative design in brand colours, Squeez logo as the guide, Claude brain for open questions |
 | v2.2 | Brand palette and type on the creative design |
 | v2.1 | Animated scenes replace photos |

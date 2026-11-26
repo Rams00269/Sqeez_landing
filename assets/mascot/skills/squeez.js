@@ -14,6 +14,7 @@
     who:     { sel: '#who',     label: 'Who it’s for' },
     live:    { sel: '#live',    label: 'Where it’s live' },
     believe: { sel: '#believe', label: 'What we believe' },
+    rules:   { sel: '#rules',   label: 'Try it' },
     talk:    { sel: '#talk',    label: 'Partner with Squeez' }
   };
   M.tool('goto', async function (a, ctx) {                       /* { key } */
@@ -25,6 +26,7 @@
     await ctx.sleep(1000);
   });
   M.tool('redeem', function () { return page.redeem(); });          /* the member moment: "Use my points" */
+  M.tool('setRules', function (a) { return page.setRules(a.floor, a.auto, a.offer); });       /* { floor, auto, offer } */
   M.tool('restartMoment', function () { page.restart(); });
   M.tool('audience', function (a) { page.audience(a.key); });       /* { key: 'loyalty' | 'experience' | 'strategic' | null } */
 
@@ -34,7 +36,42 @@
   ];
 
   /* ------------------------------------------------------------ skills: what the mascot UNDERSTANDS (higher priority runs first) */
+  function parseRules(l) {
+    var p = { f: null, a: null, o: null }, m;
+    if ((m = l.match(/(?:floor|minimum|min)\D{0,18}?(\d{1,3})/))) p.f = +m[1];
+    if ((m = l.match(/(?:auto[- ]?approv\w*|automatic\w*|auto)\D{0,18}?(\d{1,3})/))) p.a = +m[1];
+    if ((m = l.match(/(?:guest offers?|offers?|bids?|offering)\D{0,12}?(\d{1,3})/))) p.o = +m[1];
+    return p;
+  }
   var SKILLS = [
+    { id: 'rules', priority: 95,                                                    /* v2.4: "set floor to 15", "guest offers 30" */
+      match: function (ctx) { var p = parseRules(ctx.lower); return p.f != null || p.a != null || p.o != null; },
+      run: async function (ctx) {
+        var p = parseRules(ctx.lower);
+        await ctx.tool('goto', { key: 'rules' });
+        var c = page.rules(), notes = [];
+        var cl = function (v) { if (v > 40) { notes.push('The dial stops at $40.'); return 40; } return v; };
+        var f = cl(p.f == null ? c.f : p.f), a = cl(p.a == null ? c.a : p.a), o = cl(p.o == null ? c.o : p.o);
+        if (f > a) {
+          if (p.a == null) { a = f; notes.push('I moved auto-approve up to match your floor.'); }
+          else if (p.f == null) { f = a; notes.push('I moved your floor down to match auto-approve.'); }
+          else { a = f; notes.push('Auto-approve cannot sit below the floor, so I made them equal.'); }
+        }
+        var parts = [];
+        if (f !== c.f) parts.push('floor $' + f); if (a !== c.a) parts.push('auto-approve $' + a); if (o !== c.o) parts.push('guest offer $' + o);
+        ctx.act(parts.length ? 'Set ' + parts.join(', ') : 'Left the sliders as they were');
+        await ctx.tool('setRules', { floor: f, auto: a, offer: o });
+        await ctx.say(page.verdict() + (notes.length ? ' ' + notes.join(' ') : ''), { mood: 'happy' });
+        ctx.chips(['Set floor to 5', 'Guest offers 35', 'Auto-approve at 12', 'Give me a tour']);
+      } },
+
+    { id: 'rules-intro', priority: 60, match: /(my own rules|the dial|slider|try .*rules|try it)/,
+      run: async function (ctx) {
+        await ctx.tool('goto', { key: 'rules' }); await ctx.tool('setRules', { floor: 10, auto: 24, offer: 17 });
+        await ctx.say('This is the control panel. Tell me numbers and I will move the sliders, for example: set floor to 15, auto-approve at 30, guest offers 20.');
+        ctx.chips(['Set floor to 15', 'Auto-approve at 30', 'Guest offers 8']);
+      } },
+
     { id: 'stop', priority: 100, match: /^(stop|cancel|end|quit)( the)? tour|stop talking|^stop$|^enough$/,
       run: async function (ctx) { await ctx.say('Stopped. What next?', { fast: true }); ctx.chips(ctx.defaults); } },
 
